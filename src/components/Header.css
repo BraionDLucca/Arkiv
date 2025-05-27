@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-section{
+    display: flex;
+    align-items: center;
+}
+
+#profile-pic {
+    margin-left: 10px;
+}
+
+.left-section{
+    display: flex;
+    align-items: center;
+}
+
+.search-bar {
+    float: right;
+    position: relative;
+    width: 500px;
+    border-radius: 50px;
+    margin-left: 10px;
+}
+
+.search-bar input {
+    font-size: 1em;
+    background-color: #ebebeb;
+    border: 3px solid #ebebeb;
+    border-radius: 50px;
+    padding: 20px;
+    height: 55px;
+    width: 100%;
+}
+
+.search-bar input:hover {
+    background-color: #ffffff;
+    transition: 0.2s;
+}
+
+.search-bar img {
+    position: absolute;
+    right: 0;
+    transform: translateX(-7.5px);
+    top: 7.5px;
+    height: 40px;
+}
