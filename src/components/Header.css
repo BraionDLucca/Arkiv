@@ -2,6 +2,19 @@
     box-sizing: border-box;
 }
 
+header{
+    background-color: white;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    
+    margin: 0 auto;
+    padding: 10px;
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
 nav {
     display: flex;
     justify-content: space-between;
@@ -38,11 +51,11 @@ nav {
     padding: 20px;
     height: 55px;
     width: 100%;
+    transition: 0.3s ease;
 }
 
 .search-bar input:hover {
     background-color: #ffffff;
-    transition: 0.2s;
 }
 
 .search-bar img {

@@ -18,36 +18,49 @@ function StudyPlan() {
     }
 
     return <>
+        <div className="study-plan-wrapper">
 
-        <div className="study-plan">
-            <div className="banner">
+            <div className="study-plan">
 
+                <div className="banner">
+
+                {/* Pegar imagem do banco */}
                 <img src="./public/bannerPlaceholder.png" alt="Imagem do plano de estudos"></img>
-            
+
+                <button className="save-button">
+                    <img src="./src/assets/botaoSalvar.svg"></img>
+                </button>
+                
+                </div>
+                
+                <div className="content">
+
+                    {/* Pegar título do banco */}
+                    <p className="title">Introdução à linguagem C - Do básico ao intermediário</p>
+
+                    {/* Pegar tags do banco */}
+                    <div className="tags">
+                        {visibleTags.map((tag, index) => (
+                            <p key={index} className="tag">{tag}</p>
+                        ))}
+
+                        {tags.length > maxTagsToShow && (<button id="show-hide-btn">
+                            <img src="./src/assets/Botao reticencias.svg" onClick={handleShowAllTags}></img>
+                        </button> )}
+
+                    </div>
+                    
+                    {/* Pegar descrição do banco */}
+                    <p className="description">E aí, pessoal! Eu sou o Martin, desenvolvedor full stack e mentor de jovens programadores. Se você quer aprender a programar do zero e construir seus próprios sites, aplicativos ou jogos, esse plano é pra você. Vamos trabalhar com lógica de programação em C e montar projetos reais desde o começo. Vai ter código, vai ter erro, mas também vai ter muita conquista! Bora codar?</p>
+                </div>
+
             </div>
 
-            <div className="tags">
-                    {visibleTags.map((tag, index) => (
-                        <p key={index} className="tag">{tag}</p>
-                    ))}
-
-                {tags.length > maxTagsToShow && (<button id="show-hide-btn">
-                    <img src="./src/assets/Botao reticencias.svg" onClick={handleShowAllTags}></img>
-                </button> )}
-
-            </div>
-            
-            <div className="content">
-                <p className="title">Introdução à linguagem C - Do básico ao intermediário</p>
-                <p className="description">E aí, pessoal! Eu sou o Martin, desenvolvedor full stack e mentor de jovens programadores. Se você quer aprender a programar do zero e construir seus próprios sites, aplicativos ou jogos, esse plano é pra você. Vamos trabalhar com lógica de programação em C e montar projetos reais desde o começo. Vai ter código, vai ter erro, mas também vai ter muita conquista! Bora codar?</p>
-            </div>
-
-        </div>
-
-        <div className="footer">
+            <div className="study-plan-footer">
 
                 <div className="author">
-
+                    
+                    {/* Pegar imagem do autor do banco */}
                     <img src="./public/autorPlaceholder.png" alt="Autor" className="author-item" id="author-avatar"/>
                     <span className="author-item" id="author-name">Martin_Programer</span>
 
@@ -56,16 +69,17 @@ function StudyPlan() {
                 <div className="feedback">
 
                     <img src="./public/estrela.svg" alt="Estrela" className="feedback-item" />
+                    {/* Pegar avaliação do banco */}
                     <span className="feedback-item" id="rating">4,6/5</span>
 
                     <img src="./public/comentario.svg" alt="Comentário" className="feedback-item" />
+                    {/* Pegar número de comentários do banco */}
                     <span className="feedback-item" id="comment-number">14</span>
 
                 </div>
             </div>
-
+        </div>
     </>
-
 }
 
  export default StudyPlan

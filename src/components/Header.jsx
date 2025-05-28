@@ -6,7 +6,7 @@ function Header() {
             <nav>
                 <div className='left-section'>
                 
-                <img src="./public/Logo com fundo.svg" id='logo-with-bg' alt='Logo'></img>
+                <img src="./public/logo1.svg" id='logo-1' alt='Logo'></img>
         
                 <div className='search-bar'>
                     
@@ -25,6 +25,7 @@ function Header() {
                     <img src="./src/assets/Botão Notificações.svg" id="notifications-btn" alt='Botão notificações'></img>
                 </a>
 
+                {/*Pegar imagem de perfil do usuário do banco*/}
                 <a href=''>
                     <img src="./public/Imagem de perfil.svg" alt='Imagem de perfil' id='profile-pic'></img>
                 </a>
