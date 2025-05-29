@@ -1,0 +1,102 @@
+/* Perfil */
+.profile-container {
+    background-color: white;
+}
+
+.cover {
+    background-image: url("public/paisagem.jpg");
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+}
+
+.profile-wrapper {
+    padding: 16px;
+}
+
+.profile-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.profile-img-and-info {
+    display: flex;
+    align-items: center;
+}
+
+.profile-img {
+    height: 100px;
+}
+
+.profile-info {
+    padding-left: 10px;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 600;
+    margin-top: 8px;
+    display: inline;
+}
+
+.profile-date {
+    font-size: 18px;
+    margin: 0;
+    margin-top: 10px;
+    color: gray;
+}
+
+.edit-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    font-family: Rubik;
+    font-size: 18px;
+    font-weight: 600;
+    color: #311271;
+    padding: 10px 15px;
+    border: 3px solid #ebebeb;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.edit-btn:hover {
+    background-color: #ebebeb;
+}
+
+/* Abas */
+.tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    border-bottom: 1px solid #ccc;
+    margin-top: 16px;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.tab-btn:hover {
+    color: #37a8ce;
+}
+
+.tab-btn.active {
+    color: #37a8ce;
+    border-bottom: 2px solid #37a8ce;
+}
+
+/* Conteúdo das Abas */
+
+.hidden {
+    display: none;
+}

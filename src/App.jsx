@@ -2,6 +2,7 @@ import Header from './components/Header.jsx'
 import Home from './pages/Home.jsx'
 import OpenStudyPlan from './pages/OpenStudyPlan.jsx'
 import Footer from './components/Footer.jsx'
+import Profile from './pages/Profile.jsx'
 
 function App() {
 
@@ -10,7 +11,7 @@ function App() {
         <Header />
 
         <div className='container'>
-        <Home />
+        <Profile />
         </div>
         
         <Footer />
