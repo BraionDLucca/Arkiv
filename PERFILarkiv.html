@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil - Arkiv</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body class="bg-white font-sans">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center p-4 shadow-md">
+    <div class="flex items-center space-x-2">
+      <img src="LOGO.jpg" alt="Arkiv" class="w-30 h-12">
+    </div>
+    <div class="flex-grow mx-28">
+      <input type="text" placeholder="Buscando otimizar seus estudos?" class="w-full p-1 rounded-full border border-gray-300">
+    </div>
+    <img src="User1.jpg" alt="Perfil" class="w-25 h-12 rounded-full">
+  </header>
+
+  <!-- Cover -->
+  <section class="w-full h-48 bg-cover bg-cover bg-center" style="background-image: url('paisagem.jpg');"></section>
+
+  <!-- Perfil -->
+  <section class="flex flex-col items-center p-4">
+    <img src="User1.jpg" class="w-25 h-24 rounded-full border-4 border-white -mt-1">
+    <h2 class="text-xl font-semibold mt-2">Kleber Machado</h2>
+    <p class="text-gray-600">Administrador de Banco de Dados<br>Porto Velho - RO</p>
+    <button class="mt-2 px-4 py-1 border border-blue-600 text-blue-600 rounded-full hover:bg-blue-100">Editar</button>
+  </section>
+
+<!-- Abas -->
+  <nav class="flex justify-center space-x-6 border-b mt-4">
+    <button class="tab-button text-blue-600 border-b-2 border-blue-600 pb-2" data-tab="salvos">Salvos</button>
+    <button class="tab-button text-gray-600 pb-2" data-tab="andamento">Em andamento</button>
+    <button class="tab-button text-gray-600 pb-2" data-tab="planos">Meus planos</button>
+  </nav>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    // Deixar a aba "Salvos" ativa por padrão
+    tabButtons.forEach(btn => btn.classList.remove("text-blue-600", "border-b-2", "border-blue-600"));
+    tabContents.forEach(content => content.classList.add("hidden"));
+
+    tabButtons[0].classList.add("text-blue-600", "border-b-2", "border-blue-600");
+    tabContents[0].classList.remove("hidden");
+
+    tabButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        // Troca visual
+        tabButtons.forEach(btn => btn.classList.remove("text-blue-600", "border-b-2", "border-blue-600"));
+        tabContents.forEach(content => content.classList.add("hidden"));
+
+        button.classList.add("text-blue-600", "border-b-2", "border-blue-600");
+        const tabId = button.getAttribute("data-tab");
+        const selectedTab = document.getElementById(tabId);
+        selectedTab.classList.remove("hidden");
+
+        // Tratamento especial para "Meus planos"
+        if (tabId === "planos") {
+          const temPlanos = false; // ou uma condição real caso queira ativar no futuro
+          document.getElementById("mensagem-nenhum-plano").classList.toggle("hidden", temPlanos);
+          document.getElementById("conteudo-planos").classList.toggle("hidden", !temPlanos);
+
+          // Garante que nenhum card apareça na aba “Meus planos”
+          const cursos = selectedTab.querySelectorAll(".curso");
+          cursos.forEach(card => card.classList.add("hidden"));
+        }
+      });
+    });
+  });
+</script>
+  <!-- Conteúdo das Abas -->
+  <section class="mt-6 px-4">
+    
+  <!-- Tags de Filtro -->
+  <section class="flex flex-wrap justify-center gap-2 px-12 mt-6">
+    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100 transition">Arte</span>
+    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100 transition">Programação</span>
+    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100 transition">Ciência</span>
+    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100 transition">Música</span>
+    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100 transition">Desenho</span>
+    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100 transition">Matemática</span>
+    <span class="px-3 py-1 bg-gray-100 rounded-full text-sm hover:bg-blue-100 transition">Básico</span>
+    <button class="text-blue-600 text-sm underline">Filtros</button>
+  </section>
+
+   <div id="salvos" class="tab-content hidden">
+      <p class="text-gray-700">Você possui 5 planos salvos.</p>
+    </div>
+  <div id="andamento" class="tab-content hidden">
+      <p class="text-gray-700">Você está cursando 5 planos ativos.</p>
+    </div>
+  <div id="planos" class="tab-content hidden flex flex-col items-center justify-center min-h-[500px]">
+  <p id="mensagem-nenhum-plano" class="text-gray-500 text-lg mt-36 p-80">Você ainda não criou nenhum plano.</p>
+  <div class="w-full border-t-2 border-grey-500 my-8"></div>
+  Você pode gostar desses planos.</p>
+  <div id="conteudo-planos" class="hidden">
+
+    
+    <!-- Quando houver planos, o conteúdo real pode aparecer aqui -->
+  </div>
+</div>
+    </div>
+  </section>
+
+  <!-- Grade de Cartões de Conteúdo -->
+<main class="p-8">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+
+    <!-- Cartão de Conteúdo 1 -->
+    <div class="max-w-sm mx-auto border rounded-xl shadow-lg overflow-hidden bg-white transition duration-200 ease-in-out transform hover:shadow-2xl hover:scale-105">
+      <img src="demonstrativo.jpg" alt="Imagem do conteúdo" class="w-full h-40 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Introdução à linguagem C - Do básico ao intermediário</h3>
+        <div class="flex flex-wrap gap-1 mt-2 text-xs text-white">
+          <span class="bg-blue-500 px-2 py-1 rounded-full">Programação</span>
+          <span class="bg-purple-500 px-2 py-1 rounded-full">Intermediário</span>
+          <span class="bg-green-500 px-2 py-1 rounded-full">Conteúdo</span>
+        </div>
+        <p class="text-sm text-gray-600 mt-10">E aí, pessoal! Eu sou o Martin, desenvolvedor full stack e mentor de jovens programadores.<br> Se você quer aprender a programar do zero e construir seus próprios sites, aplicativos ou jogos, esse plano é pra você. Vamos trabalhar com lógica de programação em C e montar projetos reais desde o começo.<br> Vai ter código, vai ter erro, mas também vai ter muita conquista! Bora codar?</p>
+        <div class="flex justify-between items-center mt-4 text-gray-500 text-sm">
+          <div class="flex items-center gap-2">
+            <img src="martin.jpg" alt="Perfil" class="w-8 h-8 rounded-full" />
+            <span>@Martin_Programmer</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1">
+              <img src="estrelaIcone.jpg" alt="Avaliação" class="w-5 h-5" />
+              <span>4,6/5</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <img src="comentarioIcone.jpg" alt="Comentários" class="w-5 h-5" />
+              <span>14</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartão 2 - Matemática -->
+    <div class="max-w-sm mx-auto border rounded-xl shadow-lg overflow-hidden bg-white transition duration-200 ease-in-out transform hover:shadow-2xl hover:scale-105">
+      <img src="matemática.jpg" alt="Imagem de Matemática" class="w-full h-40 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Matemática Descomplicada: Álgebra e Geometria</h3>
+        <div class="flex flex-wrap gap-1 mt-2 text-xs text-white">
+          <span class="bg-yellow-500 px-2 py-1 rounded-full">Matemática</span>
+          <span class="bg-red-500 px-2 py-1 rounded-full">Básico</span>
+          <span class="bg-green-500 px-2 py-1 rounded-full">Conteúdo</span>
+        </div>
+        <p class="text-sm text-gray-600 mt-10">Olá, pessoal! Eu sou a Letícia, professora de matemática. Neste plano, você vai aprender (ou revisar) conceitos fundamentais como frações, porcentagem, equações e proporções — tudo com exemplos práticos e visuais. Vamos usar situações reais. Aprender matemática pode (e deve) ser útil, divertido e direto ao ponto. Bora resolver juntos?</p>
+        <div class="flex justify-between items-center mt-10 text-gray-500 text-sm">
+          <div class="flex items-center gap-2">
+            <img src="leticia.jpg" alt="Perfil" class="w-8 h-8 rounded-full" />
+            <span>@Leticia_MatheExpert</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1">
+              <img src="estrelaIcone.jpg" alt="Avaliação" class="w-5 h-5" />
+              <span>4,8/5</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <img src="comentarioIcone.jpg" alt="Comentários" class="w-5 h-5" />
+              <span>23</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartão 3 - Música -->
+    <div class="max-w-sm mx-auto border rounded-xl shadow-lg overflow-hidden bg-white transition duration-200 ease-in-out transform hover:shadow-2xl hover:scale-105">
+      <img src="musica.jpg" alt="Imagem de Música" class="w-full h-40 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Teoria Musical para Iniciantes</h3>
+        <div class="flex flex-wrap gap-1 mt-2 text-xs text-white">
+          <span class="bg-pink-500 px-2 py-1 rounded-full">Música</span>
+          <span class="bg-gray-700 px-2 py-1 rounded-full">Iniciante</span>
+          <span class="bg-green-500 px-2 py-1 rounded-full">Conteúdo</span>
+        </div>
+        <p class="text-sm text-gray-600 mt-10">Fala, galera! Aqui é o André, músico autodidata e professor de violão há 10 anos. Neste curso, você vai aprender a base da teoria musical sem complicações: notas, escalas, acordes e ritmo. Tudo isso aplicado ao violão desde a primeira aula, com músicas conhecidas para treinar o ouvido e os dedos. Se você sempre quis tocar, mas não sabia por onde começar, aqui é o lugar certo.</p>
+        <div class="flex justify-between items-center mt-12 text-gray-500 text-sm">
+          <div class="flex items-center gap-2">
+            <img src="meninaescutandomusica.jpg" alt="Perfil" class="w-8 h-8 rounded-full" />
+            <span>@Luiz_Musical</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1">
+              <img src="estrelaIcone.jpg" alt="Avaliação" class="w-5 h-5" />
+              <span>4,9/5</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <img src="comentarioIcone.jpg" alt="Comentários" class="w-5 h-5" />
+              <span>35</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartão 4 - Python -->
+    <div class="max-w-sm mx-auto border rounded-xl shadow-lg overflow-hidden bg-white transition duration-200 ease-in-out transform hover:shadow-2xl hover:scale-105">
+      <img src="python.jpg" alt="Imagem de Python" class="w-full h-40 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Python na Prática: Automatizando Tarefas</h3>
+        <div class="flex flex-wrap gap-1 mt-2 text-xs text-white">
+          <span class="bg-blue-600 px-2 py-1 rounded-full">Programação</span>
+          <span class="bg-purple-500 px-2 py-1 rounded-full">Intermediário</span>
+          <span class="bg-green-500 px-2 py-1 rounded-full">Conteúdo</span>
+        </div>
+        <p class="text-sm text-gray-600 mt-10">Oi, pessoal! Eu sou o Rafael, cientista de dados e instrutor de programação. Neste conteúdo, vamos mergulhar no mundo da linguagem Python, conhecida por sua simplicidade e poder. Você vai aprender lógica de programação, estrutura de dados básicas, entrada e saída de dados e ainda criar seus primeiros scripts para automação de tarefas repetitivas.</p>
+        <div class="flex justify-between items-center mt-16 text-gray-500 text-sm">
+          <div class="flex items-center gap-2">
+            <img src="userpython.jpg" alt="Perfil" class="w-8 h-8 rounded-full" />
+            <span>@Rafael_19287</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1">
+              <img src="estrelaIcone.jpg" alt="Avaliação" class="w-5 h-5" />
+              <span>4,7/5</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <img src="comentarioIcone.jpg" alt="Comentários" class="w-5 h-5" />
+              <span>18</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cartão 5 - Desenho -->
+    <div class="max-w-sm mx-auto border rounded-xl shadow-lg overflow-hidden bg-white transition duration-200 ease-in-out transform hover:shadow-2xl hover:scale-105">
+      <img src="desenho.jpg" alt="Imagem de Desenho" class="w-full h-40 object-cover">
+      <div class="p-4">
+        <h3 class="text-lg font-semibold">Fundamentos do Desenho Artístico</h3>
+        <div class="flex flex-wrap gap-1 mt-2 text-xs text-white">
+          <span class="bg-red-500 px-2 py-1 rounded-full">Desenho</span>
+          <span class="bg-indigo-500 px-2 py-1 rounded-full">Todos os níveis</span>
+          <span class="bg-green-500 px-2 py-1 rounded-full">Conteúdo</span>
+        </div>
+        <p class="text-sm text-gray-600 mt-10">Olá, artistas! Eu sou o João, ilustrador e designer visual. Neste plano, você vai desenvolver sua habilidade de desenhar do zero, explorando técnicas como formas básicas, proporção, perspectiva e sombreamento. Não importa se você acha que “não sabe desenhar” — com treino e orientação, todo mundo pode criar arte.</p>
+        <div class="flex justify-between items-center mt-20 text-gray-500 text-sm">
+          <div class="flex items-center gap-2">
+            <img src="jimi.jpg" alt="Perfil" class="w-8 h-8 rounded-full" />
+            <span>@Joao_Desenha</span>
+          </div>
+          <div class="flex items-center gap-4">
+            <span class="flex items-center gap-1">
+              <img src="estrelaIcone.jpg" alt="Avaliação" class="w-5 h-5" />
+              <span>4,6/5</span>
+            </span>
+            <span class="flex items-center gap-1">
+              <img src="comentarioIcone.jpg" alt="Comentários" class="w-5 h-5" />
+              <span>12</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+
+  <!-- Rodapé -->
+  <footer class="bg-blue-700 text-white text-sm mt-10 p-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div>
+        <h4 class="font-bold mb-2">Ajuda</h4>
+        <p>Recursos</p>
+        <p>Central de ajuda</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Conta</h4>
+        <p>Meus dados</p>
+        <p>Editar perfil</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Políticas</h4>
+        <p>Termos e condições</p>
+        <p>Política de privacidade</p>
+      </div>
+      <div>
+        <h4 class="font-bold mb-2">Contato</h4>
+        <div class="flex gap-2">
+          <span class="material-icons">email</span>
+          <span class="material-icons">chat</span>
+          <span class="material-icons">phone</span>
+        </div>
+      </div>
+    </div>
+    <p class="text-center mt-4">Sua plataforma colaborativa para compartilhar materiais e planos de estudo.</p>
+  </footer>
+
+</body>
+</html>
