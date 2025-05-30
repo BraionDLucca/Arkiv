@@ -1,85 +1,84 @@
-import { useState } from "react"
-import "./StudyPlan.css"
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./StudyPlan.css";
 
-function StudyPlan() {
+function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
+    
+    const navigate = useNavigate()
 
-    const [showAllTags, setShowAllTags] = useState(false)
-
-    const tags = ['Programação', 'Matemática', 'Computação', 'Lógica','Iniciante', 'Básico', 'Intermediário'];
-
+    const [showAllTags, setShowAllTags] = useState(false);
     const maxTagsToShow = 4;
     
     // Se showAllTags for true, mostra todas as tags. Se falso,
     // mostra até a quantidade especificada em maxTagsToShow.
     const visibleTags = showAllTags ? tags : tags.slice(0, maxTagsToShow);
 
-    const handleShowAllTags = () => {
-        setShowAllTags(!showAllTags)
-    }
+    return (
 
-    return <>
-        <div className="study-plan-wrapper">
+        <div className="study-plan-wrapper" onClick={() => navigate(`/cursos/${plano_id}`)}>
 
             <div className="study-plan">
 
+                {/* Banner do plano de estudos */}
                 <div className="banner">
 
-                {/* Pegar imagem do banco */}
-                <img src="./public/bannerPlaceholder.png" alt="Imagem do plano de estudos"></img>
+                    <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"/>
 
-                <button className="save-button">
-                    <img src="./src/assets/botaoSalvar.svg"></img>
-                </button>
-                
+                    <button className="save-button">
+                        <img src="./src/assets/botaoSalvar.svg" alt="Salvar" />
+                    </button>
+
                 </div>
                 
                 <div className="content">
+                    
+                    {/* Título */}
+                    <p className="title">{title}</p>
 
-                    {/* Pegar título do banco */}
-                    <p className="title">Introdução à linguagem C - Do básico ao intermediário</p>
-
-                    {/* Pegar tags do banco */}
+                    {/* Tags */}
                     <div className="tags">
+
                         {visibleTags.map((tag, index) => (
                             <p key={index} className="tag">{tag}</p>
                         ))}
 
-                        {tags.length > maxTagsToShow && (<button id="show-hide-btn">
-                            <img src="./src/assets/Botao reticencias.svg" onClick={handleShowAllTags}></img>
-                        </button> )}
+                        {tags.length > maxTagsToShow && (
+                            <button id="show-hide-btn" onClick={() => setShowAllTags(!showAllTags)}>
+                                <img src="./src/assets/Botao reticencias.svg" alt="Expandir tags" />
+                            </button>
+                        )}
 
                     </div>
-                    
-                    {/* Pegar descrição do banco */}
-                    <p className="description">E aí, pessoal! Eu sou o Martin, desenvolvedor full stack e mentor de jovens programadores. Se você quer aprender a programar do zero e construir seus próprios sites, aplicativos ou jogos, esse plano é pra você. Vamos trabalhar com lógica de programação em C e montar projetos reais desde o começo. Vai ter código, vai ter erro, mas também vai ter muita conquista! Bora codar?</p>
-                </div>
 
+                    {/* Descrição */}
+                    <p className="description">{description}</p>
+
+                </div>
             </div>
+
+            {/* Rodapé do plano de estudos */}
 
             <div className="study-plan-footer">
 
                 <div className="author">
-                    
-                    {/* Pegar imagem do autor do banco */}
-                    <img src="./public/autorPlaceholder.png" alt="Autor" className="author-item" id="author-avatar"/>
-                    <span className="author-item" id="author-name">Martin_Programer</span>
+
+                    <img src={authorImg} alt="Autor" className="author-item" id="author-avatar" />
+                    <span className="author-item" id="author-name">{authorName}</span>
 
                 </div>
 
                 <div className="feedback">
 
                     <img src="./public/estrela.svg" alt="Estrela" className="feedback-item" />
-                    {/* Pegar avaliação do banco */}
-                    <span className="feedback-item" id="rating">4,6/5</span>
+                    <span className="feedback-item" id="rating">{rating}/5</span>
 
                     <img src="./public/comentario.svg" alt="Comentário" className="feedback-item" />
-                    {/* Pegar número de comentários do banco */}
-                    <span className="feedback-item" id="comment-number">14</span>
-
+                    <span className="feedback-item" id="comment-number">{comments}</span>
+                    
                 </div>
             </div>
         </div>
-    </>
+    );
 }
 
- export default StudyPlan
+export default StudyPlan;

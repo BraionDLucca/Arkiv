@@ -1,9 +1,13 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom";
 import "./Profile.css"
 import StudyPlan from "../components/StudyPlan";
 
 export default function Profile() {
   const [activeTab, setActiveTab] = useState("salvos");
+  
+  const navigate = useNavigate();
+
 
   return (
     <div className="profile-container">
@@ -55,7 +59,7 @@ export default function Profile() {
         {activeTab === "salvos" && (
           <div className="tab-content">
             {/* Carregar planos salvos do usuário */}
-            <p>Você ainda não salvou nenhum plano.</p>
+            <p className="message-empty-page">Você ainda não salvou nenhum plano...</p>
           </div>
         )}
 
@@ -69,7 +73,7 @@ export default function Profile() {
         {activeTab === "meusPlanos" && (
           <div className="tab-content">
             {/* Carregar planos criados pelo usuário */}
-            <p>Você ainda não criou nenhum plano.</p>
+            <p className="message-empty-page">Você ainda não criou nenhum plano...</p>
           </div>
         )}
       </section>

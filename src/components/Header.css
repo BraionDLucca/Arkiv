@@ -21,18 +21,16 @@ nav {
     align-items: center;
 }
 
-.right-section{
-    display: flex;
-    align-items: center;
-}
-
-#profile-pic {
-    margin-left: 10px;
-}
-
 .left-section{
     display: flex;
     align-items: center;
+}
+
+.logo-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 }
 
 .search-bar {
@@ -64,4 +62,31 @@ nav {
     transform: translateX(-7.5px);
     top: 7.5px;
     height: 40px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.right-section{
+    display: flex;
+    align-items: center;
+}
+
+.profile-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.notification-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
 }

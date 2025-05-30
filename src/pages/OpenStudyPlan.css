@@ -1,0 +1,210 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.open-study-banner {
+    width: 100%;
+    height: 515px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+}
+
+.container {
+    padding: 1rem;
+    margin: auto;
+}
+
+.open-study-plan-title {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 60px;
+    margin-bottom: 30px;
+}
+
+.description-and-statistics{
+    display: flex;
+    justify-content: space-between;
+}
+
+.open-study-left-section {
+    padding: 20px;
+    min-width: 800px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.author-date-rating {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.author-date {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    margin-bottom: 1rem;
+    gap: 10px;
+}
+
+.author span{
+    font-size: 18px;
+}
+
+.data-publicacao{
+    color: gray;
+}
+
+.rating {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    font-weight: 500;
+    color: gray;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+
+.tags span {
+    font-size: 14px;
+    border: 2px solid #ebebeb;
+    border-radius: 50px;
+    margin: 0;
+    padding: 10px;
+}
+
+.descricao {
+    margin-top: 30px;
+}
+
+.details-grid {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.estatisticas {
+    float: left;
+    flex: 1;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
+    padding-right: 50px;
+    padding-left: 50px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.estatisticas h3 {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.estatisticas li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    list-style: none;
+}
+
+.estatisticas hr {
+    border-color: #ebebeb
+}
+
+.study-and-save-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.botao-estudo {
+    width: 100%;
+    font-size: 24px;
+    font-weight: bold;
+    background-color: #37A8CE;
+    color: #291271;
+    border: none;
+    padding: 0.6rem 1rem;
+    border: 3px solid #37A8CE;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.botao-estudo:hover {
+    background-color: #ffffff;
+}
+
+.open-study-save-button {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+.visao-geral {
+    margin: auto;
+    text-align: center;
+    max-width: 750px;
+}
+
+.tabela-visao-geral {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.tabela-visao-geral th, .tabela-visao-geral td {
+    padding: 20px;
+    text-align: center;
+}
+
+.tabela-visao-geral tr {
+    transition: 0.3s ease;
+}
+
+.tabela-visao-geral tr:hover {
+    background-color: #ebebeb;
+}
+
+.comments-icon-and-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.comments-title {
+    font-size: 24px;
+    font-weight: 500;
+    margin-top: 60px;
+    margin-bottom: 60px;
+}
+
+.comments {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.comment {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 30px;
+}

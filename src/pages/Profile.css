@@ -12,7 +12,7 @@
 }
 
 .profile-wrapper {
-    padding: 16px;
+    padding-top: 30px;
 }
 
 .profile-section {
@@ -43,6 +43,7 @@
 
 .profile-date {
     font-size: 18px;
+    font-weight: 500;
     margin: 0;
     margin-top: 10px;
     color: gray;
@@ -99,4 +100,12 @@
 
 .hidden {
     display: none;
+}
+
+.message-empty-page {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: auto;
+    padding: 150px;
 }
