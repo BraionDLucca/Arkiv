@@ -3,8 +3,15 @@
 }
 
 .study-plan-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
+    gap: 40px;
+}
+
+.loading {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: auto;
+    padding: 380px;
 }
