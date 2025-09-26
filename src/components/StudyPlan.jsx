@@ -13,24 +13,30 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
     // mostra até a quantidade especificada em maxTagsToShow.
     const visibleTags = showAllTags ? tags : tags.slice(0, maxTagsToShow);
 
+    const handleSaveBtn = (event) => {
+        event.stopPropagation(); // Evita a ação da div pai
+
+        // Aqui entra a lógica de salvar um plano de estudo.
+    }
+
     return (
 
-        <div className="study-plan-wrapper" onClick={() => navigate(`/cursos/${plano_id}`)}>
+        <div className="study-plan-wrapper">
 
             <div className="study-plan">
 
                 {/* Banner do plano de estudos */}
-                <div className="banner">
+                <div className="banner" onClick={() => navigate(`/cursos/${plano_id}`)}>
 
                     <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"/>
 
-                    <button className="save-button">
+                    <button className="save-button" onClick={handleSaveBtn}>
                         <img src="./src/assets/botaoSalvar.svg" alt="Salvar" />
                     </button>
 
                 </div>
                 
-                <div className="content">
+                <div className="content" onClick={() => navigate(`/cursos/${plano_id}`)}>
                     
                     {/* Título */}
                     <p className="title">{title}</p>
