@@ -8,7 +8,7 @@ function Footer() {
 
             <div className="logo-and-phrase">
 
-                <img src="./public/logo2.svg" alt="Logo"></img>
+                <img src="./public/logoFooter.svg" alt="Logo"></img>
 
                 <span>Sua plataforma colaborativa para compartilhar materiais e planos de estudo, conectando quem aprende com quem ensina.</span>
 

@@ -11,7 +11,7 @@ function Header() {
                 <div className='left-section'>
                 
                 <button className='logo-btn' onClick={() => navigate("/")}>
-                    <img src="./public/logo1.svg" id='logo-1' alt='Logo'></img>
+                    <img src="./public/logoHeader.svg" id='logo-1' alt='Logo'></img>
                 </button>
 
                 <div className='search-bar'>
