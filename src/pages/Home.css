@@ -6,7 +6,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 515px));
     justify-content: center;
-    grid-gap: 0px 60px;
+    grid-gap: 60px 60px;
+    margin-top: 60px;
 }
 
 .loading {

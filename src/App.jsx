@@ -4,6 +4,7 @@ import Home from './pages/Home.jsx'
 import OpenStudyPlan from './pages/OpenStudyPlan.jsx'
 import Footer from './components/Footer.jsx'
 import Profile from './pages/Profile.jsx'
+import "./App.css"
 
 function App() {
 

@@ -183,6 +183,10 @@
     background-color: #ebebeb;
 }
 
+.more-title {
+    margin-left: 50px;
+}
+
 .comments-icon-and-title {
     display: flex;
     align-items: center;
