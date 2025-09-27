@@ -16,6 +16,7 @@ export default function RecommendedList() {
             })
             .then((cursos) => {
                 
+                console.log("FEZ O FETCH")
                 setStudyPlans(cursos)
             })
             .catch((error) => console.error("Erro ao buscar planos de estudos:", error));
@@ -34,7 +35,7 @@ export default function RecommendedList() {
     return (
         <>
             <main className="recommended-list-wrapper">
-
+                
                 <button className="arrow-left" onClick={scrollLeft}>
                     <img src="../public/arrowIcon.svg" alt="Seta esquerda"></img>
                 </button>
