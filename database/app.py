@@ -1,167 +1,115 @@
+# app.py - Arquivo principal da API (Controller Refatorado e Seguro) - Rotas de Planos de Estudo
+
 from flask import Flask, jsonify, request
 from flask_mysqldb import MySQL
 from flask_cors import CORS
-import config
+import config 
+
+# Importa os Serviços (lógica de negócio)
+from services import CursoService, PerfilService
+# Importa o novo decorador de segurança JWT
+from utils import jwt_required 
 
 app = Flask(__name__)
 CORS(app)
 
-# Configurações do MySQL
+# Configurações do MySQL (uso centralizado do config.py)
 app.config['MYSQL_HOST'] = config.MYSQL_HOST
 app.config['MYSQL_USER'] = config.MYSQL_USER
 app.config['MYSQL_PASSWORD'] = config.MYSQL_PASSWORD
 app.config['MYSQL_DB'] = config.MYSQL_DB
 mysql = MySQL(app)
 
-# Rota inicial
+# Inicializa as camadas de Serviço APÓS a inicialização do MySQL
+curso_service = CursoService(mysql)
+perfil_service = PerfilService(mysql)
+
+
+# Rota inicial (Verificação de saúde) - Rota Pública
 @app.route('/')
 def home():
-    return "API de Cursos Rodando!"
+    """Rota de saúde da API."""
+    return "API do Arkiv Rodando!"
 
-# Endpoint de cursos com tags
+# --- Rotas de Cursos (Planos de Estudo) ---
+
+# Endpoint de todos os cursos com tags - Rota Pública
 @app.route('/cursos', methods=['GET'])
 def get_cursos():
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT 
-            c.id, 
-            c.titulo, 
-            c.descricao, 
-            c.imagem_url, 
-            u.nome AS autor,
-            GROUP_CONCAT(t.nome) AS tags
-        FROM cursos c
-        JOIN usuarios u ON c.id_autor = u.id
-        LEFT JOIN curso_tags ct ON c.id = ct.id_curso
-        LEFT JOIN tags t ON ct.id_tag = t.id
-        GROUP BY c.id
-    """)
-    data = cur.fetchall()
-    cur.close()
-
-    cursos = []
-    for row in data:
-        cursos.append({
-            'id': row[0],
-            'titulo': row[1],
-            'descricao': row[2],
-            'imagem_url': row[3],
-            'autor': row[4],
-            'tags': row[5].split(',') if row[5] else []
-        })
-
+    """Retorna todos os planos de estudo cadastrados."""
+    cursos = curso_service.get_all_cursos()
     return jsonify(cursos)
 
-# 🔍 Endpoint de curso específico com tags, comentários, nota, modulos
+# 🔍 Endpoint de curso específico detalhado - Rota Pública
 @app.route('/curso/<int:id>', methods=['GET'])
 def get_curso(id):
-    cur = mysql.connection.cursor()
+    """Retorna os detalhes de um plano de estudo específico (tags, módulos, comentários)."""
+    curso = curso_service.get_curso_detalhado(id)
+    if curso:
+        return jsonify(curso)
+    return jsonify({'erro': 'Curso não encontrado'}), 404
 
-    cur.execute("""
-        SELECT c.id, c.titulo, c.descricao, c.imagem_url, u.nome AS autor, c.data_publicacao
-        FROM cursos c
-        JOIN usuarios u ON c.id_autor = u.id
-        WHERE c.id = %s
-    """, (id,))
-    curso_data = cur.fetchone()
+# 🔥 NOVO ENDPOINT: Recomendação de cursos por Tags - Rota Protegida
+@app.route('/recomendacoes', methods=['GET'])
+@jwt_required # <--- Decorador aplicado aqui para exigir o login
+def get_recomendacoes(current_user_id): # <--- Recebe o ID do usuário logado
+    """
+    Retorna planos de estudo recomendados baseados nas tags informadas.
+    O decorador 'jwt_required' garante que o usuário esteja autenticado.
+    """
+    # Lógica de obtenção de tags (se for um filtro via query param)
+    tags_str = request.args.get('tags')
+    
+    # 1. Obtenção das Tags
+    if tags_str:
+        tags = [tag.strip().lower() for tag in tags_str.split(',') if tag.strip()]
+    else:
+        # Futuramente, esta seção usará o 'current_user_id' para buscar tags do histórico
+        tags = []
 
-    if not curso_data:
-        return jsonify({'erro': 'Curso não encontrado'}), 404
+    # 2. Delegação ao Service
+    cursos_recomendados = curso_service.get_cursos_recomendados_by_tags(tags)
+    
+    return jsonify(cursos_recomendados)
 
-    cur.execute("""
-        SELECT t.nome
-        FROM curso_tags ct
-        JOIN tags t ON ct.id_tag = t.id
-        WHERE ct.id_curso = %s
-    """, (id,))
-    tags = [tag[0] for tag in cur.fetchall()]
 
-    cur.execute("""
-        SELECT u.nome, cm.texto, cm.data
-        FROM comentarios cm
-        JOIN usuarios u ON cm.id_usuario = u.id
-        WHERE cm.id_curso = %s
-    """, (id,))
-    comentarios = [{'autor': row[0], 'texto': row[1], 'data': str(row[2])} for row in cur.fetchall()]
+# --- Rotas de Perfil do Usuário ---
+# Todas essas rotas agora exigem autenticação e verificam se o ID na URL corresponde ao ID do token.
 
-    cur.execute("""
-        SELECT AVG(nota)
-        FROM avaliacoes
-        WHERE id_curso = %s
-    """, (id,))
-    nota = cur.fetchone()[0]
-
-    cur.execute("""
-        SELECT titulo
-        FROM modulos
-        WHERE id_curso = %s
-        ORDER BY ordem
-    """, (id,))
-    modulos = [row[0] for row in cur.fetchall()]
-
-    cur.close()
-
-    curso = {
-        'id': curso_data[0],
-        'titulo': curso_data[1],
-        'descricao': curso_data[2],
-        'imagem_url': curso_data[3],
-        'autor': curso_data[4],
-        'data_publicacao': str(curso_data[5]),
-        'tags': tags,
-        'comentarios': comentarios,
-        'nota_media': round(nota, 2) if nota else None,
-        'modulos': modulos
-    }
-
-    return jsonify(curso)
-
-# 🔖 Cursos salvos no perfil
+# 🔖 Cursos salvos no perfil - Rota Protegida
 @app.route('/perfil/<int:usuario_id>/salvos', methods=['GET'])
-def cursos_salvos(usuario_id):
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT c.id, c.titulo, c.descricao
-        FROM cursos_salvos cs
-        JOIN cursos c ON cs.curso_id = c.id
-        WHERE cs.usuario_id = %s
-    """, (usuario_id,))
-    data = cur.fetchall()
-    cur.close()
-
-    cursos = [{'id': row[0], 'titulo': row[1], 'descricao': row[2]} for row in data]
+@jwt_required
+def cursos_salvos(current_user_id, usuario_id): # Recebe o ID do token e o ID da rota
+    """Retorna a lista de planos de estudo salvos pelo usuário."""
+    # Autorização: Garante que o usuário só acesse o próprio perfil
+    if current_user_id != usuario_id:
+        return jsonify({"erro": "Acesso não autorizado a este perfil. IDs de usuário não coincidem."}), 403
+        
+    cursos = perfil_service.get_cursos_salvos(usuario_id)
     return jsonify(cursos)
 
-# 🔥 Cursos em andamento no perfil
+# 🔥 Cursos em andamento no perfil - Rota Protegida
 @app.route('/perfil/<int:usuario_id>/andamento', methods=['GET'])
-def cursos_andamento(usuario_id):
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT c.id, c.titulo, ca.progresso
-        FROM cursos_andamento ca
-        JOIN cursos c ON ca.curso_id = c.id
-        WHERE ca.usuario_id = %s
-    """, (usuario_id,))
-    data = cur.fetchall()
-    cur.close()
+@jwt_required
+def cursos_andamento(current_user_id, usuario_id):
+    """Retorna a lista de planos de estudo em andamento do usuário."""
+    if current_user_id != usuario_id:
+        return jsonify({"erro": "Acesso não autorizado a este perfil. IDs de usuário não coincidem."}), 403
 
-    andamento = [{'id': row[0], 'titulo': row[1], 'progresso': row[2]} for row in data]
+    andamento = perfil_service.get_cursos_andamento(usuario_id)
     return jsonify(andamento)
 
-# 📚 Planos de estudo do usuário
+# 📚 Planos de estudo do usuário - Rota Protegida
 @app.route('/perfil/<int:usuario_id>/planos', methods=['GET'])
-def planos_usuario(usuario_id):
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT id, titulo, descricao, criado_em
-        FROM planos
-        WHERE usuario_id = %s
-    """, (usuario_id,))
-    data = cur.fetchall()
-    cur.close()
+@jwt_required
+def planos_usuario(current_user_id, usuario_id):
+    """Retorna os planos criados por um usuário específico."""
+    if current_user_id != usuario_id:
+        return jsonify({"erro": "Acesso não autorizado a este perfil. IDs de usuário não coincidem."}), 403
 
-    planos = [{'id': row[0], 'titulo': row[1], 'descricao': row[2], 'criado_em': str(row[3])} for row in data]
+    planos = perfil_service.get_planos_usuario(usuario_id)
     return jsonify(planos)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
