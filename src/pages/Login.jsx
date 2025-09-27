@@ -1,7 +1,7 @@
-import "./RegisterLogin.css"
 import { useNavigate } from "react-router-dom"
+import "./RegisterLogin.css"
 
-export default function Register() {
+export default function Login() {
 
     const navigate = useNavigate()
 
@@ -16,11 +16,11 @@ export default function Register() {
                 </div>
             </div>
 
-            {/*Formulários de Cadastro*/}
+            {/*Formulários de Login*/}
             <div className="form-container">
 
                 <form className="reg-form">
-                    <h1>Cadastro</h1>
+                    <h1>Login</h1>
 
                     <div className="reg-form-item">
                         <label>Email</label> <br />
@@ -30,11 +30,6 @@ export default function Register() {
                     <div className="reg-form-item">
                         <label>Senha</label> <br />
                         <input type="password" placeholder="Digite sua senha" /> <br /> <br />
-                    </div>
-
-                    <div className="reg-form-item">
-                        <label>Confirmar Senha</label> <br />
-                        <input type="password" placeholder="Confirme sua senha" /> <br /> <br />
                     </div>
 
                     <button type="submit">Continuar</button>
@@ -50,7 +45,7 @@ export default function Register() {
                     </div>
 
                     <p className="login-text">
-                        Já possui uma conta? <button type="button" className="swap-form-btn" onClick={() => navigate("/login")}>Faça login</button>
+                        Não possui uma conta? <button type="button" className="swap-form-btn" onClick={() => navigate("/register")}>Cadastre-se</button>
                     </p>
 
                 </form>
