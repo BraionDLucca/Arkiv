@@ -6,28 +6,28 @@ function Home() {
   const [studyPlans, setStudyPlans] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/cursos")
+    fetch("http://127.0.0.1:5000/planos/todos")
       .then((res) => {
         if (!res.ok) {
           throw new Error(`Erro na requisição: ${res.status}`);
         }
         return res.json();
       })
-      .then((cursos) => {
-        console.log(cursos)
+      .then((planos) => {
+
         setStudyPlans(
-          cursos.map((curso) => (
+          planos.map((plano) => (
             
-            <StudyPlan
-              plano_id={curso.id}
-              bannerSrc={curso.imagem_url}
-              title={curso.titulo}
-              tags={curso.tags}
-              description={curso.descricao}
+            <StudyPlan key={plano.id}
+              plano_id={plano.id}
+              bannerSrc={plano.imagem_url}
+              title={plano.titulo}
+              tags={plano.tags}
+              description={plano.descricao}
               authorImg="/autorPlaceholder.png"
-              authorName={curso.autor}
-              rating={curso.nota_media}
-              comments="12"
+              authorName={plano.autor}
+              rating={plano.media_avaliacao || 0}
+              comments={plano.total_comentarios?.toString() || "0"}
             />
 
           ))

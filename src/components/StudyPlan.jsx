@@ -27,7 +27,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
             <div className="study-plan">
 
                 {/* Banner do plano de estudos */}
-                <div className="banner" onClick={() => navigate(`/cursos/${plano_id}`)}>
+                <div className="banner" onClick={() => navigate(`/planos/${plano_id}`)}>
 
                     <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"/>
 
@@ -38,7 +38,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
                 </div>
                 
-                <div className="content" onClick={() => navigate(`/cursos/${plano_id}`)}>
+                <div className="content" onClick={() => navigate(`/planos/${plano_id}`)}>
                     
                     {/* Título */}
                     <p className="title">{title}</p>

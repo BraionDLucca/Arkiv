@@ -1,18 +1,18 @@
-from dotenv import load_dotenv
-import os
+from dotenv import dotenv_values
 
-# Carrega as variáveis do arquivo .env (deve estar na raiz do projeto)
-load_dotenv()
+# Carrega config do usuário (auth)
+config_user = dotenv_values("config_user.env")
+DB_USER_HOST = config_user.get("MYSQL_HOST")
+DB_USER_NAME = config_user.get("MYSQL_USER")
+DB_USER_PASS = config_user.get("MYSQL_PASSWORD")
+DB_USER_DB   = config_user.get("MYSQL_DB")
+SECRET_KEY   = config_user.get("SECRET_KEY")
 
-# Configurações do MySQL (DB: USER, conforme o .env)
-MYSQL_HOST = os.getenv('MYSQL_HOST', 'localhost')
-MYSQL_USER = os.getenv('MYSQL_USER', 'root')
-MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD', 'default_password')
-MYSQL_DB = os.getenv('MYSQL_DB', 'USER')
+# Carrega config dos planos (app.py)
+config_planos = dotenv_values("config.env")
+DB_PLANOS_HOST = config_planos.get("MYSQL_HOST")
+DB_PLANOS_NAME = config_planos.get("MYSQL_USER")
+DB_PLANOS_PASS = config_planos.get("MYSQL_PASSWORD")
+DB_PLANOS_DB   = config_planos.get("MYSQL_DB")
 
-# Configuração de Segurança
-SECRET_KEY = os.getenv('SECRET_KEY')
 
-# Garantia de que a chave secreta existe
-if not SECRET_KEY:
-    raise ValueError("SECRET_KEY não encontrada no arquivo .env")

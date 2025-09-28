@@ -1,23 +1,21 @@
 import "./RecommendedList.css"
 import { useState, useEffect, useRef } from "react";
 import StudyPlan from "./StudyPlan";
-import { useParams } from "react-router-dom";
 
 export default function RecommendedList() {
     const [studyPlans, setStudyPlans] = useState([]);
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/cursos")
+        fetch("http://127.0.0.1:5000/planos/todos")
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`Erro na requisição: ${res.status}`);
                 }
                 return res.json();
             })
-            .then((cursos) => {
-                
-                console.log("FEZ O FETCH")
-                setStudyPlans(cursos)
+            .then((planos) => {
+
+                setStudyPlans(planos)
             })
             .catch((error) => console.error("Erro ao buscar planos de estudos:", error));
     }, []); // [] garante que a API será chamada apenas na montagem do componente.
@@ -35,7 +33,7 @@ export default function RecommendedList() {
     return (
         <>
             <main className="recommended-list-wrapper">
-                
+
                 <button className="arrow-left" onClick={scrollLeft}>
                     <img src="../public/arrowIcon.svg" alt="Seta esquerda"></img>
                 </button>
@@ -43,21 +41,21 @@ export default function RecommendedList() {
                 <div className="recommended-list-container" ref={scrollRef}>
                     {studyPlans.length > 0 ? (
 
-                        studyPlans.map((curso) => (
+                        studyPlans.map((plano) => (
 
-                        <StudyPlan key={curso.id}
-                            plano_id={curso.id}
-                            bannerSrc={curso.imagem_url}
-                            title={curso.titulo}
-                            tags={curso.tags}
-                            description={curso.descricao}
-                            authorImg="autorPlaceholder.png"
-                            authorName={curso.autor}
-                            rating={curso.nota_media}
-                            comments="12"
-                        />
+                            <StudyPlan key={plano.id}
+                                plano_id={plano.id}
+                                bannerSrc={plano.imagem_url}
+                                title={plano.titulo}
+                                tags={plano.tags}
+                                description={plano.descricao}
+                                authorImg="/autorPlaceholder.png"
+                                authorName={plano.autor}
+                                rating={plano.media_avaliacao || 0}
+                                comments={plano.total_comentarios?.toString() || "0"}
+                            />
 
-                    ))
+                        ))
 
                     ) : (
                         <p className="loading">Carregando...</p>

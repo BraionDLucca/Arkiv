@@ -1,115 +1,193 @@
-# app.py - Arquivo principal da API (Controller Refatorado e Seguro) - Rotas de Planos de Estudo
-
-from flask import Flask, jsonify, request
-from flask_mysqldb import MySQL
+from flask import Flask, request, jsonify
+from auth import auth_bp
+import mysql.connector
+from mysql.connector import Error
+from config import DB_PLANOS_HOST, DB_PLANOS_NAME, DB_PLANOS_PASS, DB_PLANOS_DB
 from flask_cors import CORS
-import config 
-
-# Importa os Serviços (lógica de negócio)
-from services import CursoService, PerfilService
-# Importa o novo decorador de segurança JWT
-from utils import jwt_required 
 
 app = Flask(__name__)
 CORS(app)
 
-# Configurações do MySQL (uso centralizado do config.py)
-app.config['MYSQL_HOST'] = config.MYSQL_HOST
-app.config['MYSQL_USER'] = config.MYSQL_USER
-app.config['MYSQL_PASSWORD'] = config.MYSQL_PASSWORD
-app.config['MYSQL_DB'] = config.MYSQL_DB
-mysql = MySQL(app)
-
-# Inicializa as camadas de Serviço APÓS a inicialização do MySQL
-curso_service = CursoService(mysql)
-perfil_service = PerfilService(mysql)
+app.register_blueprint(auth_bp, url_prefix="/auth")
 
 
-# Rota inicial (Verificação de saúde) - Rota Pública
-@app.route('/')
+class Database:
+    def __init__(self):
+        try:
+            self.conn = mysql.connector.connect(
+                host=DB_PLANOS_HOST,
+                user=DB_PLANOS_NAME,
+                password=DB_PLANOS_PASS,
+                database=DB_PLANOS_DB
+            )
+            self.cursor = self.conn.cursor(dictionary=True)
+        except Error as e:
+            print("Erro ao conectar ao MySQL:", e)
+            self.conn = None
+            self.cursor = None
+
+    def query(self, sql, params=None):
+        try:
+            if not self.cursor:
+                return []
+            self.cursor.execute(sql, params or ())
+            return self.cursor.fetchall()
+        except Error as e:
+            print("Erro na query:", e)
+            return []
+
+    def close(self):
+        if self.cursor:
+            self.cursor.close()
+        if self.conn:
+            self.conn.close()
+
+
+class PlanoRepository:
+    def __init__(self, db: Database):
+        self.db = db
+
+    def get_plano_by_id(self, plano_id):
+        sql = """
+        SELECT p.*, u.nome AS autor
+        FROM planos p
+        LEFT JOIN usuarios u ON p.id_autor = u.id
+        WHERE p.id = %s
+        """
+        plano = self.db.query(sql, (plano_id,))
+        return plano[0] if plano else None
+
+    def get_planos_by_tags(self, tags):
+        placeholders = ",".join(["%s"] * len(tags))
+        sql = f"""
+        SELECT DISTINCT p.*
+        FROM planos p
+        JOIN plano_tags pt ON p.id = pt.id_plano
+        JOIN tags t ON pt.id_tag = t.id
+        WHERE t.nome IN ({placeholders})
+        """
+        return self.db.query(sql, tags)
+    
+    def get_tags_by_plano_id(self, plano_id):
+        sql = """
+        SELECT t.nome
+        FROM tags t
+        JOIN plano_tags pt ON t.id = pt.id_tag
+        WHERE pt.id_plano = %s
+        """
+        results = self.db.query(sql, (plano_id,))
+        return [tag["nome"] for tag in results]
+    
+    def get_modulos_by_plano_id(self, plano_id):
+        sql = """
+        SELECT id, titulo, ordem
+        FROM modulos
+        WHERE id_plano = %s
+        ORDER BY ordem ASC
+        """
+        return self.db.query(sql, (plano_id,))
+    
+    def get_comentarios_by_plano_id(self, plano_id):
+        sql = """
+        SELECT id, id_usuario, texto, data
+        FROM comentarios
+        WHERE id_plano = %s
+        ORDER BY data DESC
+        """
+        return self.db.query(sql, (plano_id,))
+
+    def get_planos_todos(self):
+        sql = """
+        SELECT 
+        p.id,
+        p.titulo,
+        p.descricao,
+        p.imagem_url,
+        p.data_publicacao,
+        u.nome AS autor,
+        COUNT(DISTINCT c.id) AS total_comentarios,
+        ROUND(AVG(a.nota), 2) AS media_avaliacao
+        FROM planos p
+        LEFT JOIN usuarios u ON p.id_autor = u.id
+        LEFT JOIN comentarios c ON c.id_plano = p.id
+        LEFT JOIN avaliacoes a ON a.id_plano = p.id
+        GROUP BY p.id, p.titulo, p.descricao, p.imagem_url, p.data_publicacao, u.nome
+        """
+        planos = self.db.query(sql)
+
+        # Adiciona as tags de cada plano
+        for plano in planos:
+            plano["tags"] = self.get_tags_by_plano_id(plano["id"])
+
+        return planos
+
+@app.route("/")
 def home():
-    """Rota de saúde da API."""
-    return "API do Arkiv Rodando!"
-
-# --- Rotas de Cursos (Planos de Estudo) ---
-
-# Endpoint de todos os cursos com tags - Rota Pública
-@app.route('/cursos', methods=['GET'])
-def get_cursos():
-    """Retorna todos os planos de estudo cadastrados."""
-    cursos = curso_service.get_all_cursos()
-    return jsonify(cursos)
-
-# 🔍 Endpoint de curso específico detalhado - Rota Pública
-@app.route('/curso/<int:id>', methods=['GET'])
-def get_curso(id):
-    """Retorna os detalhes de um plano de estudo específico (tags, módulos, comentários)."""
-    curso = curso_service.get_curso_detalhado(id)
-    if curso:
-        return jsonify(curso)
-    return jsonify({'erro': 'Curso não encontrado'}), 404
-
-# 🔥 NOVO ENDPOINT: Recomendação de cursos por Tags - Rota Protegida
-@app.route('/recomendacoes', methods=['GET'])
-@jwt_required # <--- Decorador aplicado aqui para exigir o login
-def get_recomendacoes(current_user_id): # <--- Recebe o ID do usuário logado
-    """
-    Retorna planos de estudo recomendados baseados nas tags informadas.
-    O decorador 'jwt_required' garante que o usuário esteja autenticado.
-    """
-    # Lógica de obtenção de tags (se for um filtro via query param)
-    tags_str = request.args.get('tags')
-    
-    # 1. Obtenção das Tags
-    if tags_str:
-        tags = [tag.strip().lower() for tag in tags_str.split(',') if tag.strip()]
-    else:
-        # Futuramente, esta seção usará o 'current_user_id' para buscar tags do histórico
-        tags = []
-
-    # 2. Delegação ao Service
-    cursos_recomendados = curso_service.get_cursos_recomendados_by_tags(tags)
-    
-    return jsonify(cursos_recomendados)
+    return jsonify({
+        "msg": "API rodando! Use /planos, /usuarios, /cursos, /comentarios ou /avaliacoes"
+    })
 
 
-# --- Rotas de Perfil do Usuário ---
-# Todas essas rotas agora exigem autenticação e verificam se o ID na URL corresponde ao ID do token.
+@app.route("/planos/<int:plano_id>", methods=["GET"])
+def get_plano(plano_id):
+    db = Database()
+    repo = PlanoRepository(db)
+    plano = repo.get_plano_by_id(plano_id)
+    if not plano:
+        db.close()
+        return jsonify({"error": "Plano não encontrado"}), 404
 
-# 🔖 Cursos salvos no perfil - Rota Protegida
-@app.route('/perfil/<int:usuario_id>/salvos', methods=['GET'])
-@jwt_required
-def cursos_salvos(current_user_id, usuario_id): # Recebe o ID do token e o ID da rota
-    """Retorna a lista de planos de estudo salvos pelo usuário."""
-    # Autorização: Garante que o usuário só acesse o próprio perfil
-    if current_user_id != usuario_id:
-        return jsonify({"erro": "Acesso não autorizado a este perfil. IDs de usuário não coincidem."}), 403
-        
-    cursos = perfil_service.get_cursos_salvos(usuario_id)
-    return jsonify(cursos)
+    plano["tags"] = repo.get_tags_by_plano_id(plano_id)
+    plano["modulos"] = repo.get_modulos_by_plano_id(plano_id)
+    plano["comentarios"] = repo.get_comentarios_by_plano_id(plano_id)
 
-# 🔥 Cursos em andamento no perfil - Rota Protegida
-@app.route('/perfil/<int:usuario_id>/andamento', methods=['GET'])
-@jwt_required
-def cursos_andamento(current_user_id, usuario_id):
-    """Retorna a lista de planos de estudo em andamento do usuário."""
-    if current_user_id != usuario_id:
-        return jsonify({"erro": "Acesso não autorizado a este perfil. IDs de usuário não coincidem."}), 403
+    db.close()
+    return jsonify(plano)
 
-    andamento = perfil_service.get_cursos_andamento(usuario_id)
-    return jsonify(andamento)
 
-# 📚 Planos de estudo do usuário - Rota Protegida
-@app.route('/perfil/<int:usuario_id>/planos', methods=['GET'])
-@jwt_required
-def planos_usuario(current_user_id, usuario_id):
-    """Retorna os planos criados por um usuário específico."""
-    if current_user_id != usuario_id:
-        return jsonify({"erro": "Acesso não autorizado a este perfil. IDs de usuário não coincidem."}), 403
-
-    planos = perfil_service.get_planos_usuario(usuario_id)
+@app.route("/planos/recomendados", methods=["GET"])
+def get_recomendados():
+    tags = request.args.get("tags")
+    if not tags:
+        return jsonify({"error": "Informe pelo menos uma tag"}), 400
+    tags_list = tags.split(",")
+    db = Database()
+    repo = PlanoRepository(db)
+    planos = repo.get_planos_by_tags(tags_list)
+    db.close()
     return jsonify(planos)
 
 
-if __name__ == '__main__':
+@app.route("/planos/todos", methods=["GET"])
+def planos_todos():
+    db = Database()
+    repo = PlanoRepository(db)
+    planos = repo.get_planos_todos()
+    db.close()
+    return jsonify(planos)
+
+
+def generic_get_all(route, table_name):
+    @app.route(route, methods=["GET"], endpoint=f"get_all_{table_name}")
+    def get_all():
+        db = Database()
+        data = db.query(f"SELECT * FROM {table_name}")
+        db.close()
+        return jsonify(data)
+    return get_all
+
+
+generic_get_all("/usuarios", "usuarios")
+generic_get_all("/cursos", "cursos")
+generic_get_all("/tags", "tags")
+generic_get_all("/curso_tags", "curso_tags")
+generic_get_all("/comentarios", "comentarios")
+generic_get_all("/avaliacoes", "avaliacoes")
+generic_get_all("/modulos", "modulos")
+generic_get_all("/cursos_salvos", "cursos_salvos")
+generic_get_all("/cursos_andamento", "cursos_andamento")
+
+
+if __name__ == "__main__":
+    print("Servidor Flask iniciado!")
     app.run(debug=True)
