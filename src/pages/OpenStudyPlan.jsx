@@ -121,7 +121,7 @@ const OpenStudyPlan = () => {
 
             <h2 className="more-title">Mais como esse:</h2>
 
-            <RecommendedList></RecommendedList>
+            <RecommendedList/>
 
             <section className="comments">
                 <div className="comments-icon-and-title">
