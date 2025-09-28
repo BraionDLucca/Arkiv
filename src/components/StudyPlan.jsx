@@ -9,7 +9,9 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
     const [showAllTags, setShowAllTags] = useState(false);
     const maxTagsToShow = 4;
-    
+
+    if (!tags) tags = [] // Se o array tags não existir, usa um array vazio.
+
     // Se showAllTags for true, mostra todas as tags. Se falso,
     // mostra até a quantidade especificada em maxTagsToShow.
     const visibleTags = showAllTags ? tags : tags.slice(0, maxTagsToShow);

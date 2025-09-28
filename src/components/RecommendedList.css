@@ -37,3 +37,13 @@
 .arrow-right img {
     transform: rotate(180deg);
 }
+
+.more-title {
+    margin-left: 60px;
+}
+
+.no-recommended-text {
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
