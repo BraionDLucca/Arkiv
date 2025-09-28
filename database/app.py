@@ -153,9 +153,34 @@ def get_recomendados():
     tags_list = tags.split(",")
     db = Database()
     repo = PlanoRepository(db)
-    planos = repo.get_planos_by_tags(tags_list)
+    planos_basicos = repo.get_planos_by_tags(tags_list)
+
+    planos_completos = []
+    for plano in planos_basicos:
+        plano_id = plano["id"]
+
+        # Adiciona tags
+        plano["tags"] = repo.get_tags_by_plano_id(plano_id)
+
+        # Adiciona autor
+        autor_info = repo.get_plano_by_id(plano_id)
+        if autor_info:
+            plano["autor"] = autor_info.get("autor")
+
+        # Adiciona avaliação média
+        sql_avaliacao = "SELECT ROUND(AVG(nota), 2) AS media FROM avaliacoes WHERE id_plano = %s"
+        resultado_avaliacao = repo.db.query(sql_avaliacao, (plano_id,))
+        plano["media_avaliacao"] = resultado_avaliacao[0]["media"] if resultado_avaliacao else None
+
+        # Adiciona total de comentários
+        sql_comentarios = "SELECT COUNT(*) AS total FROM comentarios WHERE id_plano = %s"
+        resultado_comentarios = repo.db.query(sql_comentarios, (plano_id,))
+        plano["total_comentarios"] = resultado_comentarios[0]["total"] if resultado_comentarios else 0
+
+        planos_completos.append(plano)
+
     db.close()
-    return jsonify(planos)
+    return jsonify(planos_completos)
 
 
 @app.route("/planos/todos", methods=["GET"])
