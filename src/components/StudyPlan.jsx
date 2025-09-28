@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import saveBtnImg from "../assets/botaoSalvar.svg";
 import "./StudyPlan.css";
 
 function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
@@ -30,8 +31,9 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
                     <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"/>
 
+                    {/* Botão de Salvar */}
                     <button className="save-button" onClick={handleSaveBtn}>
-                        <img src="./src/assets/botaoSalvar.svg" alt="Salvar" />
+                        <img src={saveBtnImg} alt="Salvar" />
                     </button>
 
                 </div>
@@ -75,10 +77,10 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
                 <div className="feedback">
 
-                    <img src="./public/estrela.svg" alt="Estrela" className="feedback-item" />
+                    <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
                     <span className="feedback-item" id="rating">{rating}/5</span>
 
-                    <img src="./public/comentario.svg" alt="Comentário" className="feedback-item" />
+                    <img src="/comentario.svg" alt="Comentário" className="feedback-item" />
                     <span className="feedback-item" id="comment-number">{comments}</span>
                     
                 </div>

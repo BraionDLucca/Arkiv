@@ -22,9 +22,9 @@ function Home() {
               plano_id={curso.id}
               bannerSrc={curso.imagem_url}
               title={curso.titulo}
-              tags={["Básico", "Intermediário"]}
+              tags={curso.tags}
               description={curso.descricao}
-              authorImg="autorPlaceholder.png"
+              authorImg="/autorPlaceholder.png"
               authorName={curso.autor}
               rating={curso.nota_media}
               comments="12"

@@ -6,6 +6,7 @@ import OpenStudyPlan from './pages/OpenStudyPlan.jsx'
 import Profile from './pages/Profile.jsx'
 import Register from "./pages/Register.jsx";
 import Login from "./pages/Login.jsx";
+import "./App.css"
 
 function App() {
     return (
