@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import notifcationBtnImg from "../assets/botaoNotificacoes.svg"
+import searchBtnImg from "../assets/botaoLupa.svg"
 import './Header.css'
 
 function Header() {
@@ -11,7 +13,7 @@ function Header() {
                 <div className='left-section'>
                 
                 <button className='logo-btn' onClick={() => navigate("/")}>
-                    <img src="./public/logoHeader.svg" id='logo-1' alt='Logo'></img>
+                    <img src="/logoHeader.svg" id='logo-1' alt='Logo'></img>
                 </button>
 
                 <div className='search-bar'>
@@ -19,7 +21,7 @@ function Header() {
                     <input type='text' placeholder='Buscando otimizar seus estudos?'></input>
                     
                     <button className='search-btn'>
-                        <img src="./src/assets/Botao lupa.svg" alt='Botão buscar'></img>
+                        <img src={searchBtnImg} alt='Botão buscar'></img>
                     </button>
                 </div>
 
@@ -28,12 +30,12 @@ function Header() {
                 <div className='right-section'>
 
                 <button className='notification-btn'>
-                    <img src="./src/assets/Botão Notificações.svg" alt='Botão notificações'></img>
+                    <img src={notifcationBtnImg} alt='Botão notificações'></img>
                 </button>
 
                 {/*Pegar imagem de perfil do usuário do banco*/}
                 <button className='profile-btn' onClick={() => navigate("/profile")}>
-                    <img src="./public/Imagem de perfil.svg" alt='Imagem de perfil'></img>
+                    <img src="/perfilImg.svg" alt='Imagem de perfil'></img>
                 </button>
 
                 </div>

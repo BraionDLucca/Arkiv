@@ -15,10 +15,10 @@ function Footer() {
             </div>
 
             <div className="socials">
-                    <img src="./public/instagramLogo.svg" alt="Instagram logo"></img>
-                    <img src="./public/whatsappLogo.svg" alt="Whatsapp logo"></img>
-                    <img src="./public/xLogo.svg" alt="X logo"></img>
-                    <img src="./public/facebookLogo.svg" alt="Facebook logo"></img>
+                    <img src="/instagramLogo.svg" alt="Instagram logo"></img>
+                    <img src="/whatsappLogo.svg" alt="Whatsapp logo"></img>
+                    <img src="/xLogo.svg" alt="X logo"></img>
+                    <img src="/facebookLogo.svg" alt="Facebook logo"></img>
             </div>
         </div>
 

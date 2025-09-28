@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
+import RecommendedList from "../components/RecommendedList";
 
 const OpenStudyPlan = () => {
     const { id } = useParams();
@@ -117,6 +118,10 @@ const OpenStudyPlan = () => {
                     ))}
                 </table>
             </div>
+
+            <h2 className="more-title">Mais como esse:</h2>
+
+            <RecommendedList/>
 
             <section className="comments">
                 <div className="comments-icon-and-title">
