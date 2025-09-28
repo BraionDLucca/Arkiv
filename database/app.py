@@ -1,167 +1,193 @@
-from flask import Flask, jsonify, request
-from flask_mysqldb import MySQL
+from flask import Flask, request, jsonify
+from auth import auth_bp
+import mysql.connector
+from mysql.connector import Error
+from config import DB_PLANOS_HOST, DB_PLANOS_NAME, DB_PLANOS_PASS, DB_PLANOS_DB
 from flask_cors import CORS
-import config
 
 app = Flask(__name__)
 CORS(app)
 
-# Configurações do MySQL
-app.config['MYSQL_HOST'] = config.MYSQL_HOST
-app.config['MYSQL_USER'] = config.MYSQL_USER
-app.config['MYSQL_PASSWORD'] = config.MYSQL_PASSWORD
-app.config['MYSQL_DB'] = config.MYSQL_DB
-mysql = MySQL(app)
+app.register_blueprint(auth_bp, url_prefix="/auth")
 
-# Rota inicial
-@app.route('/')
-def home():
-    return "API de Cursos Rodando!"
 
-# Endpoint de cursos com tags
-@app.route('/cursos', methods=['GET'])
-def get_cursos():
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT 
-            c.id, 
-            c.titulo, 
-            c.descricao, 
-            c.imagem_url, 
-            u.nome AS autor,
-            GROUP_CONCAT(t.nome) AS tags
-        FROM cursos c
-        JOIN usuarios u ON c.id_autor = u.id
-        LEFT JOIN curso_tags ct ON c.id = ct.id_curso
-        LEFT JOIN tags t ON ct.id_tag = t.id
-        GROUP BY c.id
-    """)
-    data = cur.fetchall()
-    cur.close()
+class Database:
+    def __init__(self):
+        try:
+            self.conn = mysql.connector.connect(
+                host=DB_PLANOS_HOST,
+                user=DB_PLANOS_NAME,
+                password=DB_PLANOS_PASS,
+                database=DB_PLANOS_DB
+            )
+            self.cursor = self.conn.cursor(dictionary=True)
+        except Error as e:
+            print("Erro ao conectar ao MySQL:", e)
+            self.conn = None
+            self.cursor = None
 
-    cursos = []
-    for row in data:
-        cursos.append({
-            'id': row[0],
-            'titulo': row[1],
-            'descricao': row[2],
-            'imagem_url': row[3],
-            'autor': row[4],
-            'tags': row[5].split(',') if row[5] else []
-        })
+    def query(self, sql, params=None):
+        try:
+            if not self.cursor:
+                return []
+            self.cursor.execute(sql, params or ())
+            return self.cursor.fetchall()
+        except Error as e:
+            print("Erro na query:", e)
+            return []
 
-    return jsonify(cursos)
+    def close(self):
+        if self.cursor:
+            self.cursor.close()
+        if self.conn:
+            self.conn.close()
 
-# 🔍 Endpoint de curso específico com tags, comentários, nota, modulos
-@app.route('/curso/<int:id>', methods=['GET'])
-def get_curso(id):
-    cur = mysql.connection.cursor()
 
-    cur.execute("""
-        SELECT c.id, c.titulo, c.descricao, c.imagem_url, u.nome AS autor, c.data_publicacao
-        FROM cursos c
-        JOIN usuarios u ON c.id_autor = u.id
-        WHERE c.id = %s
-    """, (id,))
-    curso_data = cur.fetchone()
+class PlanoRepository:
+    def __init__(self, db: Database):
+        self.db = db
 
-    if not curso_data:
-        return jsonify({'erro': 'Curso não encontrado'}), 404
+    def get_plano_by_id(self, plano_id):
+        sql = """
+        SELECT p.*, u.nome AS autor
+        FROM planos p
+        LEFT JOIN usuarios u ON p.id_autor = u.id
+        WHERE p.id = %s
+        """
+        plano = self.db.query(sql, (plano_id,))
+        return plano[0] if plano else None
 
-    cur.execute("""
+    def get_planos_by_tags(self, tags):
+        placeholders = ",".join(["%s"] * len(tags))
+        sql = f"""
+        SELECT DISTINCT p.*
+        FROM planos p
+        JOIN plano_tags pt ON p.id = pt.id_plano
+        JOIN tags t ON pt.id_tag = t.id
+        WHERE t.nome IN ({placeholders})
+        """
+        return self.db.query(sql, tags)
+    
+    def get_tags_by_plano_id(self, plano_id):
+        sql = """
         SELECT t.nome
-        FROM curso_tags ct
-        JOIN tags t ON ct.id_tag = t.id
-        WHERE ct.id_curso = %s
-    """, (id,))
-    tags = [tag[0] for tag in cur.fetchall()]
-
-    cur.execute("""
-        SELECT u.nome, cm.texto, cm.data
-        FROM comentarios cm
-        JOIN usuarios u ON cm.id_usuario = u.id
-        WHERE cm.id_curso = %s
-    """, (id,))
-    comentarios = [{'autor': row[0], 'texto': row[1], 'data': str(row[2])} for row in cur.fetchall()]
-
-    cur.execute("""
-        SELECT AVG(nota)
-        FROM avaliacoes
-        WHERE id_curso = %s
-    """, (id,))
-    nota = cur.fetchone()[0]
-
-    cur.execute("""
-        SELECT titulo
+        FROM tags t
+        JOIN plano_tags pt ON t.id = pt.id_tag
+        WHERE pt.id_plano = %s
+        """
+        results = self.db.query(sql, (plano_id,))
+        return [tag["nome"] for tag in results]
+    
+    def get_modulos_by_plano_id(self, plano_id):
+        sql = """
+        SELECT id, titulo, ordem
         FROM modulos
-        WHERE id_curso = %s
-        ORDER BY ordem
-    """, (id,))
-    modulos = [row[0] for row in cur.fetchall()]
+        WHERE id_plano = %s
+        ORDER BY ordem ASC
+        """
+        return self.db.query(sql, (plano_id,))
+    
+    def get_comentarios_by_plano_id(self, plano_id):
+        sql = """
+        SELECT id, id_usuario, texto, data
+        FROM comentarios
+        WHERE id_plano = %s
+        ORDER BY data DESC
+        """
+        return self.db.query(sql, (plano_id,))
 
-    cur.close()
+    def get_planos_todos(self):
+        sql = """
+        SELECT 
+        p.id,
+        p.titulo,
+        p.descricao,
+        p.imagem_url,
+        p.data_publicacao,
+        u.nome AS autor,
+        COUNT(DISTINCT c.id) AS total_comentarios,
+        ROUND(AVG(a.nota), 2) AS media_avaliacao
+        FROM planos p
+        LEFT JOIN usuarios u ON p.id_autor = u.id
+        LEFT JOIN comentarios c ON c.id_plano = p.id
+        LEFT JOIN avaliacoes a ON a.id_plano = p.id
+        GROUP BY p.id, p.titulo, p.descricao, p.imagem_url, p.data_publicacao, u.nome
+        """
+        planos = self.db.query(sql)
 
-    curso = {
-        'id': curso_data[0],
-        'titulo': curso_data[1],
-        'descricao': curso_data[2],
-        'imagem_url': curso_data[3],
-        'autor': curso_data[4],
-        'data_publicacao': str(curso_data[5]),
-        'tags': tags,
-        'comentarios': comentarios,
-        'nota_media': round(nota, 2) if nota else None,
-        'modulos': modulos
-    }
+        # Adiciona as tags de cada plano
+        for plano in planos:
+            plano["tags"] = self.get_tags_by_plano_id(plano["id"])
 
-    return jsonify(curso)
+        return planos
 
-# 🔖 Cursos salvos no perfil
-@app.route('/perfil/<int:usuario_id>/salvos', methods=['GET'])
-def cursos_salvos(usuario_id):
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT c.id, c.titulo, c.descricao
-        FROM cursos_salvos cs
-        JOIN cursos c ON cs.curso_id = c.id
-        WHERE cs.usuario_id = %s
-    """, (usuario_id,))
-    data = cur.fetchall()
-    cur.close()
+@app.route("/")
+def home():
+    return jsonify({
+        "msg": "API rodando! Use /planos, /usuarios, /cursos, /comentarios ou /avaliacoes"
+    })
 
-    cursos = [{'id': row[0], 'titulo': row[1], 'descricao': row[2]} for row in data]
-    return jsonify(cursos)
 
-# 🔥 Cursos em andamento no perfil
-@app.route('/perfil/<int:usuario_id>/andamento', methods=['GET'])
-def cursos_andamento(usuario_id):
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT c.id, c.titulo, ca.progresso
-        FROM cursos_andamento ca
-        JOIN cursos c ON ca.curso_id = c.id
-        WHERE ca.usuario_id = %s
-    """, (usuario_id,))
-    data = cur.fetchall()
-    cur.close()
+@app.route("/planos/<int:plano_id>", methods=["GET"])
+def get_plano(plano_id):
+    db = Database()
+    repo = PlanoRepository(db)
+    plano = repo.get_plano_by_id(plano_id)
+    if not plano:
+        db.close()
+        return jsonify({"error": "Plano não encontrado"}), 404
 
-    andamento = [{'id': row[0], 'titulo': row[1], 'progresso': row[2]} for row in data]
-    return jsonify(andamento)
+    plano["tags"] = repo.get_tags_by_plano_id(plano_id)
+    plano["modulos"] = repo.get_modulos_by_plano_id(plano_id)
+    plano["comentarios"] = repo.get_comentarios_by_plano_id(plano_id)
 
-# 📚 Planos de estudo do usuário
-@app.route('/perfil/<int:usuario_id>/planos', methods=['GET'])
-def planos_usuario(usuario_id):
-    cur = mysql.connection.cursor()
-    cur.execute("""
-        SELECT id, titulo, descricao, criado_em
-        FROM planos
-        WHERE usuario_id = %s
-    """, (usuario_id,))
-    data = cur.fetchall()
-    cur.close()
+    db.close()
+    return jsonify(plano)
 
-    planos = [{'id': row[0], 'titulo': row[1], 'descricao': row[2], 'criado_em': str(row[3])} for row in data]
+
+@app.route("/planos/recomendados", methods=["GET"])
+def get_recomendados():
+    tags = request.args.get("tags")
+    if not tags:
+        return jsonify({"error": "Informe pelo menos uma tag"}), 400
+    tags_list = tags.split(",")
+    db = Database()
+    repo = PlanoRepository(db)
+    planos = repo.get_planos_by_tags(tags_list)
+    db.close()
     return jsonify(planos)
 
-if __name__ == '__main__':
+
+@app.route("/planos/todos", methods=["GET"])
+def planos_todos():
+    db = Database()
+    repo = PlanoRepository(db)
+    planos = repo.get_planos_todos()
+    db.close()
+    return jsonify(planos)
+
+
+def generic_get_all(route, table_name):
+    @app.route(route, methods=["GET"], endpoint=f"get_all_{table_name}")
+    def get_all():
+        db = Database()
+        data = db.query(f"SELECT * FROM {table_name}")
+        db.close()
+        return jsonify(data)
+    return get_all
+
+
+generic_get_all("/usuarios", "usuarios")
+generic_get_all("/cursos", "cursos")
+generic_get_all("/tags", "tags")
+generic_get_all("/curso_tags", "curso_tags")
+generic_get_all("/comentarios", "comentarios")
+generic_get_all("/avaliacoes", "avaliacoes")
+generic_get_all("/modulos", "modulos")
+generic_get_all("/cursos_salvos", "cursos_salvos")
+generic_get_all("/cursos_andamento", "cursos_andamento")
+
+
+if __name__ == "__main__":
+    print("Servidor Flask iniciado!")
     app.run(debug=True)

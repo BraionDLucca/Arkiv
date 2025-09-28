@@ -6,20 +6,20 @@ import RecommendedList from "../components/RecommendedList";
 const OpenStudyPlan = () => {
     const { id } = useParams();
 
-    const [curso, setCurso] = useState(null);
+    const [plano, setPlano] = useState(null);
     const [loading, setLoading] = useState(true);
     const [erro, setErro] = useState(null);
 
     useEffect(() => {
-        fetch(`http://localhost:5000/curso/${id}`)
+        fetch(`http://localhost:5000/planos/${id}`)
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("Erro ao buscar os dados do curso");
+                    throw new Error("Erro ao buscar os dados do plano.");
                 }
                 return response.json();
             })
             .then((data) => {
-                setCurso(data);
+                setPlano(data);
                 setLoading(false);
             })
             .catch((error) => {
@@ -40,12 +40,12 @@ const OpenStudyPlan = () => {
         <div className="container">
 
             <div
-                style={{ backgroundImage: `url(${curso.imagem_url})` }}
+                style={{ backgroundImage: `url(${plano.imagem_url})` }}
                 alt="Banner do Plano"
                 className="open-study-banner"
             />
 
-            <h2 className="open-study-plan-title">{curso.titulo}</h2>
+            <h2 className="open-study-plan-title">{plano.titulo}</h2>
 
             <section className="description-and-statistics">
 
@@ -54,27 +54,27 @@ const OpenStudyPlan = () => {
                     <div className="author-date-rating">
                         <div className="author-date">
                             <img src="/autorPlaceholder.png" alt="Perfil do autor" />
-                            <span>{curso.autor}</span>
+                            <span>{plano.autor}</span>
                             <span>•</span>
-                            <span className="data-publicacao">{curso.data_publicacao}</span>
+                            <span className="data-publicacao">{plano.data_publicacao}</span>
                         </div>
 
                         <div className="rating">
                             <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
                             <span className="rating">
-                                {curso.nota_media ? `${curso.nota_media}/5` : "Sem avaliações"}
+                                {plano.nota_media ? `${plano.nota_media}/5` : "Sem avaliações"}
                             </span>
                         </div>
                     </div>
 
                     <div className="tags">
-                        {curso.tags.map((tag, index) => (
+                        {plano.tags.map((tag, index) => (
                             <span key={index}>{tag}</span>
                         ))}
                     </div>
 
                     <div className="descricao">
-                        <p>{curso.descricao}</p>
+                        <p>{plano.descricao}</p>
                     </div>
 
                 </div>
@@ -108,32 +108,45 @@ const OpenStudyPlan = () => {
 
             <div className="visao-geral">
                 <table className="tabela-visao-geral">
-                    <tr><td></td><td><h3>Visão Geral</h3></td><td></td></tr>
-                    {curso.modulos.map((modulo, index) => (
-                        <tr key={index}>
-                            <td>Módulo {index + 1}</td>
-                            <td>{modulo}</td>
-                            <td>Capítulos</td>
+
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td><h3>Visão Geral</h3></td>
+                            <td></td>
                         </tr>
-                    ))}
+                    </thead>
+
+                    <tbody>
+
+                        {plano.modulos.map((modulo, index) => (
+                            <tr key={index}>
+                                <td>Módulo {index + 1}</td>
+                                <td>{modulo.titulo}</td>
+                                <td>Capítulos</td>
+                            </tr>
+                        ))}
+
+                    </tbody>
+
                 </table>
             </div>
 
             <h2 className="more-title">Mais como esse:</h2>
 
-            <RecommendedList/>
+            <RecommendedList />
 
             <section className="comments">
                 <div className="comments-icon-and-title">
                     <img src="/comentariosIcon.svg" alt="" />
-                    <span className="comments-title">{curso.comentarios.length} Comentário(s)</span>
+                    <span className="comments-title">{plano.comentarios.length} Comentário(s)</span>
                 </div>
 
-                {curso.comentarios.length === 0 && (
+                {plano.comentarios.length === 0 && (
                     <p>Seja o primeiro a comentar!</p>
                 )}
 
-                {curso.comentarios.map((c, index) => (
+                {plano.comentarios.map((c, index) => (
                     <div key={index} className="comment">
                         <strong>{c.autor}</strong>
                         <p>{c.texto}</p>
