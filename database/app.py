@@ -6,7 +6,7 @@ from config import DB_PLANOS_HOST, DB_PLANOS_NAME, DB_PLANOS_PASS, DB_PLANOS_DB
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins=["http://localhost:5173"]) 
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
 

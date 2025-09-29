@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from flask_cors import cross_origin
 import mysql.connector
 import bcrypt
 import jwt
@@ -7,7 +8,7 @@ from config import DB_USER_HOST, DB_USER_NAME, DB_USER_PASS, DB_USER_DB, SECRET_
 
 auth_bp = Blueprint("auth", __name__)
 
-
+# ---------------------- Banco ----------------------
 class Database:
     def __init__(self):
         self.conn = mysql.connector.connect(
@@ -31,73 +32,58 @@ class Database:
         self.cursor.close()
         self.conn.close()
 
-
+# ---------------------- Repositório ----------------------
 class UsuarioRepository:
     def __init__(self, db: Database):
         self.db = db
 
-    def criar_usuario(self, username, senha_hash):
-        sql = "INSERT INTO usuarios (nome, password_hash) VALUES (%s, %s)"
-        return self.db.execute(sql, (username, senha_hash))
+    def criar_usuario(self, email, senha_hash):
+        sql = "INSERT INTO usuarios (email, password_hash) VALUES (%s, %s)"
+        return self.db.execute(sql, (email, senha_hash))
 
-    def criar_cadastro(self, usuario_id, nome_completo, email, telefone=None, data_nascimento=None):
-        sql = """
-            INSERT INTO cadastros (usuario_id, nome_completo, email, telefone, data_nascimento)
-            VALUES (%s, %s, %s, %s, %s)
-        """
-        self.db.execute(sql, (usuario_id, nome_completo, email, telefone, data_nascimento))
-
-    def buscar_por_username(self, username):
-        sql = "SELECT id, password_hash FROM usuarios WHERE nome=%s"
-        result = self.db.query(sql, (username,))
+    def buscar_por_email(self, email):
+        sql = "SELECT id, password_hash FROM usuarios WHERE email=%s"
+        result = self.db.query(sql, (email,))
         return result[0] if result else None
 
-    def buscar_cadastro(self, usuario_id):
-        sql = """
-            SELECT nome_completo, email, telefone, data_nascimento, data_criacao
-            FROM cadastros
-            WHERE usuario_id = %s
-        """
-        result = self.db.query(sql, (usuario_id,))
-        return result[0] if result else None
-
-
+# ---------------------- Serviço ----------------------
 class AuthService:
     def __init__(self, repo: UsuarioRepository):
         self.repo = repo
         self.secret_key = SECRET_KEY
 
     def register(self, data):
-        username = data["username"]
-        senha = data["senha"]
-        nome_completo = data["nome_completo"]
-        email = data["email"]
-        telefone = data.get("telefone")
-        data_nascimento = data.get("data_nascimento")
+        # Campos obrigatórios
+        try:
+            email = data["email"]
+            senha = data["senha"]
+        except KeyError as e:
+            raise ValueError(f"Campo obrigatório ausente: {e.args[0]}")
 
         senha_hash = bcrypt.hashpw(senha.encode(), bcrypt.gensalt()).decode()
-        usuario_id = self.repo.criar_usuario(username, senha_hash)
-        self.repo.criar_cadastro(usuario_id, nome_completo, email, telefone, data_nascimento)
+        usuario_id = self.repo.criar_usuario(email, senha_hash)
         return {"msg": "Usuário cadastrado com sucesso!", "usuario_id": usuario_id}
 
-    def login(self, username, senha):
-        user = self.repo.buscar_por_username(username)
+    def login(self, email, senha):
+        user = self.repo.buscar_por_email(email)
         if user and bcrypt.checkpw(senha.encode(), user['password_hash'].encode()):
             usuario_id = user['id']
-            cadastro = self.repo.buscar_cadastro(usuario_id)
             token = jwt.encode({
                 "user_id": usuario_id,
                 "exp": datetime.utcnow() + timedelta(hours=1)
             }, self.secret_key, algorithm="HS256")
-            return {"token": token, "cadastro": cadastro}
+            return {"token": token}
         return None
 
+# ---------------------- Helpers ----------------------
 def get_auth_service():
     db = Database()
     repo = UsuarioRepository(db)
     return AuthService(repo), db
 
+# ---------------------- Rotas ----------------------
 @auth_bp.route('/register', methods=['POST'])
+@cross_origin()  # permite requests de qualquer origem
 def register():
     data = request.json
     service, db = get_auth_service()
@@ -110,16 +96,14 @@ def register():
         db.close()
 
 @auth_bp.route('/login', methods=['POST'])
+@cross_origin()  # permite requests de qualquer origem
 def login():
     data = request.json
     service, db = get_auth_service()
     try:
-        result = service.login(data['username'], data['senha'])
+        result = service.login(data['email'], data['senha'])
         if result:
             return jsonify(result)
         return jsonify({"erro": "Usuário ou senha incorretos"}), 401
     finally:
         db.close()
-
-
-

@@ -1,7 +1,6 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "./Profile.css"
-import StudyPlan from "../components/StudyPlan";
 
 export default function Profile() {
   const [activeTab, setActiveTab] = useState("salvos");
@@ -21,7 +20,7 @@ export default function Profile() {
         <div className="profile-section">
 
           <div className="profile-img-and-info">
-            <img src="./public/Imagem de perfil.svg" className="profile-img" alt="Perfil"/>
+            <img src="/perfilImg.svg" className="profile-img" alt="Perfil"/>
 
             <div className="profile-info">
 
@@ -66,7 +65,7 @@ export default function Profile() {
         {activeTab === "andamento" && (
           <div className="tab-content">
             {/* Carregar planos do usuário em andamento */}
-            <p>Você está cursando 5 planos ativos.</p>
+            <p className="message-empty-page">Você não possui planos em andamento...</p>
           </div>
         )}
 

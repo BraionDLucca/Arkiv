@@ -34,7 +34,7 @@ function Header() {
                 </button>
 
                 {/*Pegar imagem de perfil do usuário do banco*/}
-                <button className='profile-btn' onClick={() => navigate("/profile")}>
+                <button className='profile-btn' onClick={() => navigate("/register")}>
                     <img src="/perfilImg.svg" alt='Imagem de perfil'></img>
                 </button>
 
