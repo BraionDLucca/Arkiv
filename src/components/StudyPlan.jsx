@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import saveBtnImg from "../assets/botaoSalvar.svg";
 import "./StudyPlan.css";
 
 function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
@@ -8,29 +9,38 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
     const [showAllTags, setShowAllTags] = useState(false);
     const maxTagsToShow = 4;
-    
+
+    if (!tags) tags = [] // Se o array tags não existir, usa um array vazio.
+
     // Se showAllTags for true, mostra todas as tags. Se falso,
     // mostra até a quantidade especificada em maxTagsToShow.
     const visibleTags = showAllTags ? tags : tags.slice(0, maxTagsToShow);
 
+    const handleSaveBtn = (event) => {
+        event.stopPropagation(); // Evita a ação da div pai
+
+        // Aqui entra a lógica de salvar um plano de estudo.
+    }
+
     return (
 
-        <div className="study-plan-wrapper" onClick={() => navigate(`/cursos/${plano_id}`)}>
+        <div className="study-plan-wrapper">
 
             <div className="study-plan">
 
                 {/* Banner do plano de estudos */}
-                <div className="banner">
+                <div className="banner" onClick={() => navigate(`/planos/${plano_id}`)}>
 
                     <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"/>
 
-                    <button className="save-button">
-                        <img src="./src/assets/botaoSalvar.svg" alt="Salvar" />
+                    {/* Botão de Salvar */}
+                    <button className="save-button" onClick={handleSaveBtn}>
+                        <img src={saveBtnImg} alt="Salvar" />
                     </button>
 
                 </div>
                 
-                <div className="content">
+                <div className="content" onClick={() => navigate(`/planos/${plano_id}`)}>
                     
                     {/* Título */}
                     <p className="title">{title}</p>
@@ -69,10 +79,10 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
                 <div className="feedback">
 
-                    <img src="./public/estrela.svg" alt="Estrela" className="feedback-item" />
+                    <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
                     <span className="feedback-item" id="rating">{rating}/5</span>
 
-                    <img src="./public/comentario.svg" alt="Comentário" className="feedback-item" />
+                    <img src="/comentario.svg" alt="Comentário" className="feedback-item" />
                     <span className="feedback-item" id="comment-number">{comments}</span>
                     
                 </div>

@@ -74,6 +74,7 @@ nav {
 .right-section{
     display: flex;
     align-items: center;
+    margin-left: 10px;
 }
 
 .profile-btn {

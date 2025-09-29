@@ -2,10 +2,12 @@
     box-sizing: border-box;
 }
 
-.study-plan-container {
+.study-plan-container { /* A grade que acomoda os planos de estudo da tela inicial */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(460px, 1fr));
-    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 515px));
+    justify-content: center;
+    grid-gap: 60px 60px;
+    margin-top: 60px;
 }
 
 .loading {
