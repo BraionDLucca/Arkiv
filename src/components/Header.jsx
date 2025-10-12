@@ -9,37 +9,34 @@ function Header() {
 
     return <>
         <header>
-            <nav>
-                <div className='left-section'>
-                
+
                 <button className='logo-btn' onClick={() => navigate("/")}>
                     <img src="/logoHeader.svg" id='logo-1' alt='Logo'></img>
                 </button>
 
                 <div className='search-bar'>
-                    
+
                     <input type='text' placeholder='Buscando otimizar seus estudos?'></input>
-                    
+
                     <button className='search-btn'>
                         <img src={searchBtnImg} alt='Botão buscar'></img>
                     </button>
                 </div>
 
-                </div>
+            
 
-                <div className='right-section'>
+            <div className='right-section'>
 
-                <button className='notification-btn'>
-                    <img src={notifcationBtnImg} alt='Botão notificações'></img>
+                <button className='register-btn' name="registrar" onClick={() => navigate("/register")}>
+                    Registre-se
                 </button>
 
-                {/*Pegar imagem de perfil do usuário do banco*/}
-                <button className='profile-btn' onClick={() => navigate("/register")}>
-                    <img src="/perfilImg.svg" alt='Imagem de perfil'></img>
+                <button className='login-btn' name="logar" onClick={() => navigate("/login")}>
+                    Login
                 </button>
 
-                </div>
-            </nav>
+            </div>
+
         </header>
     </>
 }

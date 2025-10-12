@@ -7,7 +7,7 @@
     width: 100%;
     padding: 30px;
     margin: 0 auto;
-    margin-top: 60px;
+    margin-top: auto;
     padding-left: 100px;
     padding-right: 100px;
 }
@@ -41,7 +41,6 @@
 
 .footer .helpful-links {
     display: flex;
-    align-items: center;
     justify-content: space-between;
 
     margin-top: 30px;
@@ -63,4 +62,12 @@
 .footer .helpful-links .title{
     font-size: 20px;
     font-weight: 600;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+
+    .footer {
+        padding: 30px;
+    }
 }

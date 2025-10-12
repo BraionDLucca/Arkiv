@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
+import OpenStudyPlanSkeleton from "../components/Skeletons/OpenStudyPlanSkeleton";
 
 const OpenStudyPlan = () => {
     const { id } = useParams();
 
     const [plano, setPlano] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(true)
     const [erro, setErro] = useState(null);
 
     useEffect(() => {
@@ -20,24 +21,22 @@ const OpenStudyPlan = () => {
             })
             .then((data) => {
                 setPlano(data);
-                setLoading(false);
+                setIsLoading(false);
             })
             .catch((error) => {
                 setErro(error.message);
-                setLoading(false);
+                setIsLoading(false);
             });
     }, [id]);
 
-    if (loading) {
-        return <p>Carregando...</p>;
-    }
-
     if (erro) {
-        return <p>{erro}</p>;
+        console.log(erro);
+        
     }
 
-    return (
-        <div className="container">
+    return isLoading ? <OpenStudyPlanSkeleton /> : (
+        
+        <div className="open-study-plan-container">
 
             <div
                 style={{ backgroundImage: `url(${plano.imagem_url})` }}
@@ -52,18 +51,23 @@ const OpenStudyPlan = () => {
                 <div className="open-study-left-section">
 
                     <div className="author-date-rating">
+
                         <div className="author-date">
+
                             <img src="/autorPlaceholder.png" alt="Perfil do autor" />
                             <span>{plano.autor}</span>
                             <span>•</span>
                             <span className="data-publicacao">{plano.data_publicacao}</span>
+
                         </div>
 
                         <div className="rating">
+
                             <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
                             <span className="rating">
                                 {plano.nota_media ? `${plano.nota_media}/5` : "Sem avaliações"}
                             </span>
+
                         </div>
                     </div>
 
@@ -79,20 +83,30 @@ const OpenStudyPlan = () => {
 
                 </div>
 
-                <div className="details-grid">
+                <section className="details-grid">
 
                     <div className="estatisticas">
+
                         <h3>Estatísticas do plano:</h3>
-                        <ul>
-                            <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
-                            <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
-                            <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
-                            <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+
+                        <div className="stats-lists">
+                            <ul className="stats-first-list">
+                                <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
+                                <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
+                                <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
+                                <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+
+                            </ul>
+
                             <hr />
-                            <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
-                            <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
-                            <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram o Plano</li>
-                        </ul>
+
+                            <ul className="stats-second-list">
+                                <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
+                                <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
+                                <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram</li>
+                            </ul>
+
+                        </div>
                     </div>
 
                     <div className="study-and-save-buttons">
@@ -102,7 +116,9 @@ const OpenStudyPlan = () => {
                         </button>
                     </div>
 
-                </div>
+                </section>
+
+
 
             </section>
 
@@ -131,8 +147,8 @@ const OpenStudyPlan = () => {
 
                 </table>
             </div>
-                        
-            <RecommendedList tags={plano.tags} plano_id={plano.id}/>
+
+            <RecommendedList tags={plano.tags} plano_id={plano.id} />
 
             <section className="comments">
                 <div className="comments-icon-and-title">

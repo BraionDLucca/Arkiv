@@ -1,0 +1,29 @@
+@font-face {
+    src: url(/fonts/Rubik-VariableFont_wght.ttf);
+    font-family: Rubik;
+}
+
+body {
+  margin: 0;
+  background-color: #F5F7F9;
+}
+
+:root {
+  font-family: Rubik;
+  font-weight: 400;
+}
+  
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  flex: 1; /* faz o conteúdo ocupar o espaço restante */
+}

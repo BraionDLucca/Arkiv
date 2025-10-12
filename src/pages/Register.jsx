@@ -68,7 +68,9 @@ export default function Register() {
 
             <div className="circle-wrapper">
                 <div className="circle">
-                    <img src="./public/registerPageLogo.svg" alt="Logo" />
+
+                    <object type="image/svg+xml" data="/arkiv-animated.svg" className="arkiv-animated"></object>
+                    
                 </div>
             </div>
 
