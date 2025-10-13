@@ -1,6 +1,6 @@
 @font-face {
-    src: url(/fonts/Rubik-VariableFont_wght.ttf);
-    font-family: Rubik;
+  src: url(/fonts/Rubik-VariableFont_wght.ttf);
+  font-family: Rubik;
 }
 
 body {
@@ -12,10 +12,12 @@ body {
   font-family: Rubik;
   font-weight: 400;
 }
-  
-html, body {
+
+html,
+body {
   height: 100%;
   margin: 0;
+  font-size: 16px;
 }
 
 #root {
@@ -25,5 +27,15 @@ html, body {
 }
 
 main {
-  flex: 1; /* faz o conteúdo ocupar o espaço restante */
+  flex: 1;
+  /* faz o conteúdo ocupar o espaço restante */
+}
+
+@media (max-width: 650px) {
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    font-size: 15px;
+  }
 }

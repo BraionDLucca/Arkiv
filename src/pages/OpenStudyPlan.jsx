@@ -10,6 +10,8 @@ const OpenStudyPlan = () => {
     const [plano, setPlano] = useState(null);
     const [isLoading, setIsLoading] = useState(true)
     const [erro, setErro] = useState(null);
+    const [isMobile, setIsMobile] = useState()
+
 
     useEffect(() => {
         fetch(`http://localhost:5000/planos/${id}`)
@@ -30,12 +32,28 @@ const OpenStudyPlan = () => {
     }, [id]);
 
     if (erro) {
-        console.log(erro);
-        
+
+        console.error(erro);
     }
 
+    /* Checa por uma resolução específica para usar renderização condicional */
+    const mediaQuery = window.matchMedia('(max-width: 650px)');
+
+    function handleChange(e) {
+
+        if (e.matches) {
+            setIsMobile(true)
+
+        } else {
+            setIsMobile(false)
+        }
+    }
+
+    mediaQuery.addEventListener('change', handleChange);
+
+
     return isLoading ? <OpenStudyPlanSkeleton /> : (
-        
+
         <div className="open-study-plan-container">
 
             <div
@@ -83,42 +101,54 @@ const OpenStudyPlan = () => {
 
                 </div>
 
-                <section className="details-grid">
+                {isMobile ?
 
-                    <div className="estatisticas">
+                    <ul className="estatisticas stats-lists stats-second-list">
 
-                        <h3>Estatísticas do plano:</h3>
+                        <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
+                        <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
+                        <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram</li>
 
-                        <div className="stats-lists">
-                            <ul className="stats-first-list">
-                                <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
-                                <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
-                                <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
-                                <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+                    </ul>
 
-                            </ul>
+                    :
 
-                            <hr />
+                    <section className="details-grid">
 
-                            <ul className="stats-second-list">
-                                <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
-                                <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
-                                <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram</li>
-                            </ul>
+                        <div className="estatisticas">
 
+                            <h3>Estatísticas do plano:</h3>
+
+                            <div className="stats-lists">
+                                <ul className="stats-first-list">
+                                    <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
+                                    <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
+                                    <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
+                                    <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+
+                                </ul>
+
+                                <hr />
+
+                                <ul className="stats-second-list">
+                                    <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
+                                    <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
+                                    <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram</li>
+                                </ul>
+
+                            </div>
                         </div>
-                    </div>
 
-                    <div className="study-and-save-buttons">
-                        <button className="botao-estudo">Iniciar estudos</button>
-                        <button className="open-study-save-button">
-                            <img src="/src/assets/botaoSalvar.svg" alt="Salvar" />
-                        </button>
-                    </div>
+                        <div className="study-and-save-buttons">
+                            <button className="botao-estudo">Iniciar estudos</button>
+                            <button className="open-study-save-button">
+                                <img src="/src/assets/botaoSalvar.svg" alt="Salvar" />
+                            </button>
+                        </div>
 
-                </section>
+                    </section>
 
-
+                }
 
             </section>
 
@@ -147,6 +177,19 @@ const OpenStudyPlan = () => {
 
                 </table>
             </div>
+
+            {isMobile ?
+
+                <ul className="estatisticas stats-first-list">
+
+                    <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
+                    <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
+                    <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
+                    <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+
+                </ul>
+
+        : null }
 
             <RecommendedList tags={plano.tags} plano_id={plano.id} />
 

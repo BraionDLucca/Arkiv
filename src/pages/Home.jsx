@@ -28,7 +28,7 @@ function Home() {
                 bannerSrc={plano.imagem_url}
                 title={plano.titulo}
                 tags={plano.tags}
-                description={plano.descricao}
+                description={plano.descricao.split(' ').slice(0, 10).join(' ') + "..."}
                 authorImg="/autorPlaceholder.png"
                 authorName={plano.autor}
                 rating={plano.media_avaliacao || 0}

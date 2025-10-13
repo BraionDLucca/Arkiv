@@ -12,14 +12,6 @@
     justify-self: center;
 }
 
-.loading {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 500;
-    margin: auto;
-    padding: 380px;
-}
-
 /* Tablet */
 @media (max-width: 768px) {
 

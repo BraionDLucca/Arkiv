@@ -2,58 +2,57 @@ import "./Footer.css"
 
 function Footer() {
     return <>
-    <div className="footer">
+        <div className="footer">
 
-        <div className="top-section">
-
-            <div className="logo-and-phrase">
+            <div className="top-section">
 
                 <img src="/logoFooter.svg" alt="Logo"></img>
 
-                <span>Sua plataforma colaborativa para compartilhar materiais e planos de estudo, conectando quem aprende com quem ensina.</span>
+                <p>Sua plataforma colaborativa para compartilhar materiais e planos de estudo, conectando quem aprende com quem ensina.</p>
 
-            </div>
-
-            <div className="socials">
+                <div className="socials">
                     <img src="/instagramLogo.svg" alt="Instagram logo"></img>
                     <img src="/whatsappLogo.svg" alt="Whatsapp logo"></img>
                     <img src="/xLogo.svg" alt="X logo"></img>
                     <img src="/facebookLogo.svg" alt="Facebook logo"></img>
+                </div>
             </div>
+
+            <div className="helpful-links">
+
+                <div className="helpful-links-text">
+
+                    <p className="title">Ajuda</p>
+                    <a href="">Contate-nos</a>
+                    <a href="">Sobre nós</a>
+                    <a href="">Suporte</a>
+                </div>
+
+                <div className="helpful-links-text">
+
+                    <p className="title">Recursos</p>
+                    <a href="">Planos de estudo</a>
+                    <a href="">Feedback</a>
+                    <a href="">Novidades</a>
+                </div>
+
+                <div className="helpful-links-text">
+
+                    <p className="title">Conta</p>
+                    <a href="">Criar conta</a>
+                    <a href="">Entrar na conta</a>
+                    <a href="">Sair da conta</a>
+                </div>
+
+                <div className="helpful-links-text">
+                    <p className="title">Políticas</p>
+                    <a href="">Termos e condições</a>
+                    <a href="">Política de privacidade</a>
+                    <a href="">Política de cookies</a>
+                </div>
+            </div>
+
         </div>
-
-        <div className="helpful-links">
-
-            <div className="helpful-links-text">
-                <p className="title">Ajuda</p>
-                <p>Contate-nos</p>
-                <p>Sobre nós</p>
-                <p>Suporte</p>
-            </div>
-
-            <div className="helpful-links-text">
-                <p className="title">Recursos</p>
-                <p>Planos de estudo</p>
-                <p>Feedback</p>
-                <p>Novidades</p>
-            </div>
-
-            <div className="helpful-links-text">
-                <p className="title">Conta</p>
-                <p>Criar conta</p>
-                <p>Entrar na conta</p>
-                <p>Sair da conta</p>
-            </div>
-
-            <div className="helpful-links-text">
-                <p className="title">Políticas</p>
-                <p>Termos e condições</p>
-                <p>Política de privacidade</p>
-                <p>Política de cookies</p>
-            </div>
-        </div>
-        
-    </div>
     </>
 }
 

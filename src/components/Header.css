@@ -12,10 +12,9 @@ header {
     position: sticky;
     top: 0;
     z-index: 1;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-
+    box-shadow: 0px 2px 4px rgb(167, 167, 167);
     margin: 0 auto;
-    padding: 1rem 3rem 1rem 3rem;
+    padding: 0.75rem 6rem 0.75rem 6rem;
 }
 
 .logo-btn {
@@ -96,7 +95,14 @@ header {
     background-color: #ffffff;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 1400px) {
+
+    header {
+        padding: 0.75rem 3rem 0.75rem 3rem;
+    }
+}
+
+@media (max-width: 860px) {
 
     header {
         gap: 0rem;

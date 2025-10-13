@@ -112,11 +112,4 @@
     .estatisticas-skeleton {
         width: 100%;
     }
-
-    .stats-lists {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
 }

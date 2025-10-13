@@ -7,7 +7,8 @@
 
 /* Garante que todos os planos na lista sejam do mesmo tamanho */
 .recommended-list-wrapper .study-plan-wrapper {
-    max-width: 495px;
+    min-width: 50%;
+    align-items: stretch;
 }
 
 .recommended-list-container {
@@ -15,13 +16,13 @@
     gap: 3rem;
     overflow: auto;
     white-space: nowrap;
-    scrollbar-width: none;
-    width: 90%;
+    width: 100%;
     padding: 1rem;
 }
 
-.arrow-right, .arrow-left {
-    display: flex;
+.arrow-right,
+.arrow-left {
+    display: none;
     align-items: center;
     justify-content: center;
     height: 3rem;
@@ -35,17 +36,6 @@
     padding: 0;
     cursor: pointer;
 }
-.arrow-right img, .arrow-left img {
-    width: 40px;
-}
-
-.arrow-right img {
-    transform: rotate(180deg);
-}
-
-.more-title {
-    margin-left: 60px;
-}
 
 .no-recommended-text {
     text-align: center;
@@ -53,13 +43,16 @@
     margin-bottom: 100px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 1800px) {
 
-    .recommended-list-container {
-        width: 80%;
+    .recommended-list-wrapper .study-plan-wrapper {
+        min-width: 30%;
     }
-    
-    .more-title {
-    margin-left: 65px;
 }
+
+@media (max-width: 860px) {
+
+    .recommended-list-wrapper .study-plan-wrapper {
+        min-width: 80%;
+    }
 }

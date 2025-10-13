@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import saveBtnImg from "../assets/botaoSalvar.svg";
+import expandBtnImg from "../assets/Botao reticencias.svg"
 import "./StudyPlan.css";
 
 function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
@@ -8,7 +9,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
     const navigate = useNavigate()
 
     const [showAllTags, setShowAllTags] = useState(false);
-    const maxTagsToShow = 4;
+    const maxTagsToShow = 3;
 
     if (!tags) tags = [] // Se o array tags não existir, usa um array vazio.
 
@@ -53,8 +54,11 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                         ))}
 
                         {tags.length > maxTagsToShow && (
-                            <button id="show-hide-btn" onClick={() => setShowAllTags(!showAllTags)}>
-                                <img src="./src/assets/Botao reticencias.svg" alt="Expandir tags" />
+                            <button id="show-hide-btn" onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            setShowAllTags(!showAllTags)}}>
+
+                                <img src={expandBtnImg} alt="Expandir tags" />
                             </button>
                         )}
 

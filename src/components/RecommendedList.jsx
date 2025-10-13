@@ -47,9 +47,6 @@ export default function RecommendedList({ tags, plano_id }) {
                 <h2 className="more-title">Mais como este:</h2>
 
                 <div className="recommended-list-wrapper">
-                    <button className="arrow-left" onClick={scrollLeft}>
-                        <img src="../public/arrowIcon.svg" alt="Seta esquerda"></img>
-                    </button>
 
                     <div className="recommended-list-container" ref={scrollRef}>
                         {studyPlans.length > 0 ? (
@@ -61,7 +58,7 @@ export default function RecommendedList({ tags, plano_id }) {
                                     bannerSrc={plano.imagem_url}
                                     title={plano.titulo}
                                     tags={plano.tags}
-                                    description={plano.descricao}
+                                    description={plano.descricao.split(' ').slice(0, 6).join(' ') + "..."}
                                     authorImg="/autorPlaceholder.png"
                                     authorName={plano.autor}
                                     rating={plano.media_avaliacao || 0}
@@ -74,10 +71,6 @@ export default function RecommendedList({ tags, plano_id }) {
                             <p className="loading">Carregando...</p>
                         )}
                     </div>
-
-                    <button className="arrow-right" onClick={scrollRight}>
-                        <img src="../public/arrowIcon.svg" alt="Seta direita"></img>
-                    </button>
                 </div>
             </main>
         </>

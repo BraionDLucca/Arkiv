@@ -10,3 +10,10 @@
     padding: 0px 3rem 0px 3rem;
   }
 }
+
+@media (max-width: 650px) {
+
+  .container {
+    padding: 0px 1.5rem 0px 1.5rem;
+  }
+}
