@@ -1,19 +1,18 @@
 .container {
   width: 100%;
-  margin: 0px auto 0px auto;
-  padding: 0px 14rem 0px 14rem;
+  padding: 0rem 18rem;
 }
 
 @media (max-width: 1400px) {
 
   .container {
-    padding: 0px 3rem 0px 3rem;
+    padding: 0rem 3rem;
   }
 }
 
 @media (max-width: 650px) {
 
   .container {
-    padding: 0px 1.5rem 0px 1.5rem;
+    padding: 0rem 1.5rem;
   }
 }

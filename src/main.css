@@ -3,27 +3,20 @@
   font-family: Rubik;
 }
 
-body {
-  margin: 0;
-  background-color: #F5F7F9;
-}
-
 :root {
-  font-family: Rubik;
-  font-weight: 400;
-}
+  --bg: #f4f4f4;
+  --bg-light: #FFFFFF;
+  --shadow-color: #CDCDCD;
 
-html,
-body {
   height: 100%;
   margin: 0;
+  font-family: Rubik, Arial, Helvetica, sans-serif;
   font-size: 16px;
-}
-
-#root {
+  font-weight: 400;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: var(--bg);
 }
 
 main {
@@ -33,9 +26,7 @@ main {
 
 @media (max-width: 650px) {
 
-  html, body {
-    height: 100%;
-    margin: 0;
+  :root {
     font-size: 15px;
   }
 }

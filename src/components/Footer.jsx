@@ -8,7 +8,7 @@ function Footer() {
 
                 <img src="/logoFooter.svg" alt="Logo"></img>
 
-                <p>Sua plataforma colaborativa para compartilhar materiais e planos de estudo, conectando quem aprende com quem ensina.</p>
+                <h3>Sua plataforma colaborativa para compartilhar materiais e planos de estudo, conectando quem aprende com quem ensina.</h3>
 
                 <div className="socials">
                     <img src="/instagramLogo.svg" alt="Instagram logo"></img>

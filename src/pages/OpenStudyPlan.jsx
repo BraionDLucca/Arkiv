@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
-import OpenStudyPlanSkeleton from "../components/Skeletons/OpenStudyPlanSkeleton";
+import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
 
 const OpenStudyPlan = () => {
     const { id } = useParams();
@@ -36,22 +36,6 @@ const OpenStudyPlan = () => {
         console.error(erro);
     }
 
-    /* Checa por uma resolução específica para usar renderização condicional */
-    const mediaQuery = window.matchMedia('(max-width: 650px)');
-
-    function handleChange(e) {
-
-        if (e.matches) {
-            setIsMobile(true)
-
-        } else {
-            setIsMobile(false)
-        }
-    }
-
-    mediaQuery.addEventListener('change', handleChange);
-
-
     return isLoading ? <OpenStudyPlanSkeleton /> : (
 
         <div className="open-study-plan-container">
@@ -66,7 +50,7 @@ const OpenStudyPlan = () => {
 
             <section className="description-and-statistics">
 
-                <div className="open-study-left-section">
+                <div className="study-plan-description">
 
                     <div className="author-date-rating">
 
@@ -91,7 +75,7 @@ const OpenStudyPlan = () => {
 
                     <div className="tags">
                         {plano.tags.map((tag, index) => (
-                            <span key={index}>{tag}</span>
+                            <span key={index} className="tag">{tag}</span>
                         ))}
                     </div>
 
@@ -101,9 +85,9 @@ const OpenStudyPlan = () => {
 
                 </div>
 
-                {isMobile ?
+                <div className="stats-and-button">
 
-                    <ul className="estatisticas stats-lists stats-second-list">
+                    <ul className="stats-list">
 
                         <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
                         <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
@@ -111,57 +95,26 @@ const OpenStudyPlan = () => {
 
                     </ul>
 
-                    :
+                    <button className="botao-estudo">Iniciar estudos</button>
 
-                    <section className="details-grid">
-
-                        <div className="estatisticas">
-
-                            <h3>Estatísticas do plano:</h3>
-
-                            <div className="stats-lists">
-                                <ul className="stats-first-list">
-                                    <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
-                                    <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
-                                    <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
-                                    <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
-
-                                </ul>
-
-                                <hr />
-
-                                <ul className="stats-second-list">
-                                    <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
-                                    <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
-                                    <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram</li>
-                                </ul>
-
-                            </div>
-                        </div>
-
-                        <div className="study-and-save-buttons">
-                            <button className="botao-estudo">Iniciar estudos</button>
-                            <button className="open-study-save-button">
-                                <img src="/src/assets/botaoSalvar.svg" alt="Salvar" />
-                            </button>
-                        </div>
-
-                    </section>
-
-                }
+                </div>
 
             </section>
 
             <div className="visao-geral">
-                <table className="tabela-visao-geral">
 
-                    <thead>
-                        <tr>
-                            <td></td>
-                            <td><h3>Visão Geral</h3></td>
-                            <td></td>
-                        </tr>
-                    </thead>
+                <h3>Visão Geral:</h3>
+
+                <ul className="details-card-container">
+
+                    <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
+                    <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
+                    <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
+                    <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+
+                </ul>
+
+                <table className="tabela-visao-geral">
 
                     <tbody>
 
@@ -176,27 +129,18 @@ const OpenStudyPlan = () => {
                     </tbody>
 
                 </table>
+
             </div>
-
-            {isMobile ?
-
-                <ul className="estatisticas stats-first-list">
-
-                    <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
-                    <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
-                    <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
-                    <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
-
-                </ul>
-
-        : null }
 
             <RecommendedList tags={plano.tags} plano_id={plano.id} />
 
             <section className="comments">
+
                 <div className="comments-icon-and-title">
+
                     <img src="/comentariosIcon.svg" alt="" />
                     <span className="comments-title">{plano.comentarios.length} Comentário(s)</span>
+
                 </div>
 
                 {plano.comentarios.length === 0 && (
@@ -204,11 +148,13 @@ const OpenStudyPlan = () => {
                 )}
 
                 {plano.comentarios.map((c, index) => (
+
                     <div key={index} className="comment">
                         <strong>{c.autor}</strong>
                         <p>{c.texto}</p>
                     </div>
                 ))}
+
             </section>
 
         </div>

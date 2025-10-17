@@ -4,40 +4,32 @@
     padding: 0;
 }
 
-.open-study-banner-skeleton {
-    width: 100%;
-    height: 515px;
-}
-
 .open-study-plan-title-skeleton {
+    height: 32px;
     margin-top: 60px;
     margin-bottom: 30px;
 }
 
-.description-and-statistics-skeleton {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-}
-
-.open-study-left-section-skeleton {
+.study-plan-description-skeleton {
+    height: 200px;
     max-width: 100%;
-    flex-grow: 1;
+    border-radius: 20px;
+    margin-bottom: 20px;
 }
 
-
-.details-grid-skeleton {
+.stats-and-button-skeleton {
     display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
     gap: 1rem;
 }
 
-.estatisticas-skeleton {
-    width: 300px;
-    height: 470px;
-    float: left;
-    border-radius: 15px;
+.stats-item-skeleton, .botao-estudo-skeleton {
+    min-width: 8.75rem;
+    height: 3.1rem;
+    border-radius: 100px;
+}
+
+.botao-estudo-skeleton {
+    width: 100%;
 }
 
 .study-and-save-buttons-skeleton {
@@ -48,27 +40,18 @@
     margin-top: 1rem;
 }
 
-.visao-geral-skeleton {
-    margin: auto;
-    max-width: 750px;
-}
-
 .tabela-visao-geral-skeleton {
     border-radius: 20px;
-    width: 100%;
-    height: 300px;
-    margin-top: 60px;
-    margin-bottom: 60px;
+    width: 850px;
+    height: 425px;
+    margin: 60px auto;
 }
 
 .recommended-list-skeleton {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
+    border-radius: 20px;
     width: 100%;
-    margin-bottom: 60px;
+    height: 625px;
+    margin: 60px 0px;
 }
 
 .comments-icon-and-title-skeleton {
@@ -107,9 +90,5 @@
 
     .open-study-left-section-skeleton {
         height: 450px;
-    }
-
-    .estatisticas-skeleton {
-        width: 100%;
     }
 }

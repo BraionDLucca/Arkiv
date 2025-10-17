@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import "./Home.css";
 import StudyPlan from "../components/StudyPlan";
-import StudyPlanSkeleton from "../components/Skeletons/StudyPlanSkeleton";
+import StudyPlanSkeleton from "../skeletons/StudyPlanSkeleton";
 
 function Home() {
 
@@ -28,7 +28,7 @@ function Home() {
                 bannerSrc={plano.imagem_url}
                 title={plano.titulo}
                 tags={plano.tags}
-                description={plano.descricao.split(' ').slice(0, 10).join(' ') + "..."}
+                description={plano.descricao}
                 authorImg="/autorPlaceholder.png"
                 authorName={plano.autor}
                 rating={plano.media_avaliacao || 0}

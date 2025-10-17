@@ -15,12 +15,12 @@
 .top-section{
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 1.6rem;   
 }
 
-.top-section p {
-    font-size: 24px;
-    font-weight: 600;
+.top-section h3 {
+    margin: 0;
     color: #291271;
 }
 
@@ -31,9 +31,9 @@
 .top-section .socials{
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
     flex-wrap: nowrap;
-    margin: 0rem 0rem 1.6rem 0rem;
 }
 
 .helpful-links {
@@ -80,7 +80,7 @@
 
     .helpful-links {
         flex-direction: column;
-        margin: 0px ;
+        margin: 1.6rem 0 0 0;
         gap: 1rem;
     }
 

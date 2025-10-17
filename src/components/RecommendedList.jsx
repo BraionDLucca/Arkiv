@@ -58,7 +58,7 @@ export default function RecommendedList({ tags, plano_id }) {
                                     bannerSrc={plano.imagem_url}
                                     title={plano.titulo}
                                     tags={plano.tags}
-                                    description={plano.descricao.split(' ').slice(0, 6).join(' ') + "..."}
+                                    description={plano.descricao}
                                     authorImg="/autorPlaceholder.png"
                                     authorName={plano.autor}
                                     rating={plano.media_avaliacao || 0}

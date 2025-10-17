@@ -44,7 +44,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 <div className="content" onClick={() => navigate(`/planos/${plano_id}`)}>
                     
                     {/* Título */}
-                    <p className="title">{title}</p>
+                    <h1 className="study-plan-title">{title}</h1>
 
                     {/* Tags */}
                     <div className="tags">
@@ -65,7 +65,13 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                     </div>
 
                     {/* Descrição */}
-                    <p className="description">{description}</p>
+                    <div className="description">
+                        
+                        {/* Se a descrição tiver mais de 131 caracteres,
+                        limitar a 19 palavras e adicionar "..." */}
+                        <p className="description">{ description.length > 131 ?
+                        description.split(' ').slice(0, 19).join(' ') + "..." : description }</p>
+                    </div>
 
                 </div>
             </div>
@@ -77,7 +83,9 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 <div className="author">
 
                     <img src={authorImg} alt="Autor" className="author-item" id="author-avatar" />
-                    <span className="author-item" id="author-name">{authorName}</span>
+                    
+                    <span className="author-item" id="author-name">{
+                    authorName}</span>
 
                 </div>
 
