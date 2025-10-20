@@ -1,5 +1,5 @@
 .skeleton {
-    background-color: #ebebeb;
+    background-color: var(--gray-light);
     border-radius: 4px;
 }
 

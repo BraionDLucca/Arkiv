@@ -92,7 +92,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 <div className="feedback">
 
                     <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
-                    <span className="feedback-item" id="rating">{rating}/5</span>
+                    <span className="feedback-item" id="rating">{Number(rating).toFixed(1)}/5</span>
 
                     <img src="/comentario.svg" alt="Comentário" className="feedback-item" />
                     <span className="feedback-item" id="comment-number">{comments}</span>

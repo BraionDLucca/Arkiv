@@ -3,7 +3,7 @@
 }
 
 .footer {
-    background-color: #37A8CE;
+    background-color: var(--secondary-color);
     width: 100%;
     padding: 30px;
     margin: 0 auto;
@@ -21,7 +21,7 @@
 
 .top-section h3 {
     margin: 0;
-    color: #291271;
+    color: var(--primary-color);
 }
 
 .top-section img {
@@ -43,8 +43,8 @@
 }
 
 .helpful-links .helpful-links-text{
-    color: #291271;
-    border-left: 2px solid #291271;
+    color: var(--primary-color);
+    border-left: 2px solid var(--primary-color);
     display: flex;
     flex-direction: column;
     padding: 0px 10px;

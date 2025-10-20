@@ -22,6 +22,7 @@
     gap: 3rem;
     overflow: auto;
     white-space: nowrap;
+    scrollbar-color: var(--gray) var(--bg);
     width: 100%;
     padding: 1rem;
 }
@@ -43,5 +44,20 @@
 
     .recommended-list-wrapper .study-plan-wrapper {
         min-width: 80%;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .recommended-list-wrapper .study-plan-wrapper {
+        min-width: 98%;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .recommended-list-container {
+        padding: 1rem 0;
+        gap: 1rem;
     }
 }

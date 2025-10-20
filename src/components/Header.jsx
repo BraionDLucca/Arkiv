@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import notifcationBtnImg from "../assets/botaoNotificacoes.svg"
 import searchBtnImg from "../assets/botaoLupa.svg"
 import './Header.css'
 

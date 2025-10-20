@@ -55,7 +55,7 @@ export default function RecommendedList({ tags, plano_id }) {
 
                                 <StudyPlan key={plano.id}
                                     plano_id={plano.id}
-                                    bannerSrc={plano.imagem_url}
+                                    bannerSrc={`/${plano.imagem_url}`} /* Começar com "/" pois as imagens estão em "public". */
                                     title={plano.titulo}
                                     tags={plano.tags}
                                     description={plano.descricao}

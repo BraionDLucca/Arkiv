@@ -5,14 +5,21 @@
 
 :root {
   --bg: #f4f4f4;
-  --bg-light: #FFFFFF;
-  --shadow-color: #CDCDCD;
+  --bg-light: #ffffff;
+  --gray-light: #e6e6e6;
+  --gray: #cdcdcd;
+  --gray-dark: #858585;
+  --primary-color: #291271;
+  --secondary-color: #37a8ce;
+  --font-color: #1a1a1a;
+  --icon-size: 20px;
 
   height: 100%;
   margin: 0;
   font-family: Rubik, Arial, Helvetica, sans-serif;
   font-size: 16px;
   font-weight: 400;
+  color: var(--font-color);
   display: flex;
   flex-direction: column;
   min-height: 100vh;

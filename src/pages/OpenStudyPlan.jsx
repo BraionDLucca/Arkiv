@@ -10,7 +10,6 @@ const OpenStudyPlan = () => {
     const [plano, setPlano] = useState(null);
     const [isLoading, setIsLoading] = useState(true)
     const [erro, setErro] = useState(null);
-    const [isMobile, setIsMobile] = useState()
 
 
     useEffect(() => {
@@ -41,7 +40,7 @@ const OpenStudyPlan = () => {
         <div className="open-study-plan-container">
 
             <div
-                style={{ backgroundImage: `url(${plano.imagem_url})` }}
+                style={{ backgroundImage: `url(/${plano.imagem_url})` }} /* Começar com "/" pois as imagens estão em "public". */
                 alt="Banner do Plano"
                 className="open-study-banner"
             />
@@ -52,23 +51,26 @@ const OpenStudyPlan = () => {
 
                 <div className="study-plan-description">
 
-                    <div className="author-date-rating">
+                    <div className="author-open-study">
 
-                        <div className="author-date">
+                        <div className="author-image-name">
 
                             <img src="/autorPlaceholder.png" alt="Perfil do autor" />
                             <span>{plano.autor}</span>
-                            <span>•</span>
-                            <span className="data-publicacao">{plano.data_publicacao}</span>
+                            <span className="dot-text">•</span>
 
                         </div>
 
-                        <div className="rating">
+                        <div className="date-and-rating">
 
-                            <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
-                            <span className="rating">
-                                {plano.nota_media ? `${plano.nota_media}/5` : "Sem avaliações"}
-                            </span>
+                            <span className="data-publicacao">{plano.data_publicacao}</span>
+
+                            <div className="rating">
+                                <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
+                                <span className="rating">
+                                    {plano.nota_media ? `${plano.nota_media}/5` : "Sem avaliações"}
+                                </span>
+                            </div>
 
                         </div>
                     </div>
@@ -120,9 +122,9 @@ const OpenStudyPlan = () => {
 
                         {plano.modulos.map((modulo, index) => (
                             <tr key={index}>
-                                <td>Módulo {index + 1}</td>
+                                <td className="module-number">M{index + 1}</td>
                                 <td>{modulo.titulo}</td>
-                                <td>Capítulos</td>
+                                <td className="chapters-number">Capítulos</td>
                             </tr>
                         ))}
 

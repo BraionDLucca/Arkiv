@@ -24,12 +24,12 @@ export default function StudyPlanSkeleton() {
 
                     </div>
 
-                    <p class="description">
+                    <div class="description">
 
                         <div class="skeleton skeleton-text"></div>
                         <div class="skeleton skeleton-text"></div>
 
-                    </p>
+                    </div>
                 </div>
             </div>
 

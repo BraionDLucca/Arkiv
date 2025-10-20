@@ -6,7 +6,7 @@
 }
 
 .circle {
-    background-color: #37A8CE;
+    background-color: var(--secondary-color);
     height: 150vh;
     width: 100%;
     border-top-right-radius: 50%;
@@ -32,7 +32,7 @@
     justify-content: center;
     align-items: center;
     flex-grow: 1;
-    color: gray;
+    color: var(--gray-dark);
 }
 
 .reg-form {
@@ -61,7 +61,7 @@
     height: 40px;
     width: 100%;
     border-radius: 8px;
-    border: 3px solid #ebebeb;
+    border: 3px solid var(--gray-light);
     padding: 20px 0px 20px 10px;
     font-size: 16px;
     margin-top: 5px;
@@ -71,10 +71,10 @@
     width: 100%;
     font-size: 24px;
     font-weight: bold;
-    background-color: #37A8CE;
-    color: #291271;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
     padding: 0.6rem 1rem;
-    border: 3px solid #37A8CE;
+    border: 3px solid var(--secondary-color);
     border-radius: 999px;
     cursor: pointer;
     transition: 0.3s ease;
@@ -107,7 +107,7 @@
 }
 
 .login-text {
-    color: gray;
+    color: var(--gray-dark);
     text-align: center;
 }
 
@@ -116,7 +116,7 @@
     border: none;
     padding: 0;
     margin: 0;
-    color: #37A8CE;
+    color: var(--secondary-color);
     cursor: pointer;
     font: inherit;
 }
