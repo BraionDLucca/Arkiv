@@ -47,9 +47,6 @@ export default function RecommendedList({ tags, plano_id }) {
                 <h2 className="more-title">Mais como este:</h2>
 
                 <div className="recommended-list-wrapper">
-                    <button className="arrow-left" onClick={scrollLeft}>
-                        <img src="../public/arrowIcon.svg" alt="Seta esquerda"></img>
-                    </button>
 
                     <div className="recommended-list-container" ref={scrollRef}>
                         {studyPlans.length > 0 ? (
@@ -58,7 +55,7 @@ export default function RecommendedList({ tags, plano_id }) {
 
                                 <StudyPlan key={plano.id}
                                     plano_id={plano.id}
-                                    bannerSrc={plano.imagem_url}
+                                    bannerSrc={`/${plano.imagem_url}`} /* Começar com "/" pois as imagens estão em "public". */
                                     title={plano.titulo}
                                     tags={plano.tags}
                                     description={plano.descricao}
@@ -74,10 +71,6 @@ export default function RecommendedList({ tags, plano_id }) {
                             <p className="loading">Carregando...</p>
                         )}
                     </div>
-
-                    <button className="arrow-right" onClick={scrollRight}>
-                        <img src="../public/arrowIcon.svg" alt="Seta direita"></img>
-                    </button>
                 </div>
             </main>
         </>

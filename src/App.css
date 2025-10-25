@@ -1,4 +1,18 @@
 .container {
-  padding: 0;
-  max-width: 1200px;
+  width: 100%;
+  padding: 0rem 18rem;
+}
+
+@media (max-width: 1400px) {
+
+  .container {
+    padding: 0rem 3rem;
+  }
+}
+
+@media (max-width: 650px) {
+
+  .container {
+    padding: 0rem 1.5rem;
+  }
 }

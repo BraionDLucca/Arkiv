@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import saveBtnImg from "../assets/botaoSalvar.svg";
+import expandBtnImg from "../assets/Botao reticencias.svg"
 import "./StudyPlan.css";
 
 function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
@@ -8,7 +9,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
     const navigate = useNavigate()
 
     const [showAllTags, setShowAllTags] = useState(false);
-    const maxTagsToShow = 4;
+    const maxTagsToShow = 3;
 
     if (!tags) tags = [] // Se o array tags não existir, usa um array vazio.
 
@@ -43,7 +44,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 <div className="content" onClick={() => navigate(`/planos/${plano_id}`)}>
                     
                     {/* Título */}
-                    <p className="title">{title}</p>
+                    <h1 className="study-plan-title">{title}</h1>
 
                     {/* Tags */}
                     <div className="tags">
@@ -53,15 +54,24 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                         ))}
 
                         {tags.length > maxTagsToShow && (
-                            <button id="show-hide-btn" onClick={() => setShowAllTags(!showAllTags)}>
-                                <img src="./src/assets/Botao reticencias.svg" alt="Expandir tags" />
+                            <button id="show-hide-btn" onClick={(e) => {
+                                                            e.stopPropagation()
+                                                            setShowAllTags(!showAllTags)}}>
+
+                                <img src={expandBtnImg} alt="Expandir tags" />
                             </button>
                         )}
 
                     </div>
 
                     {/* Descrição */}
-                    <p className="description">{description}</p>
+                    <div className="description">
+                        
+                        {/* Se a descrição tiver mais de 131 caracteres,
+                        limitar a 19 palavras e adicionar "..." */}
+                        <p className="description">{ description.length > 131 ?
+                        description.split(' ').slice(0, 19).join(' ') + "..." : description }</p>
+                    </div>
 
                 </div>
             </div>
@@ -73,14 +83,16 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 <div className="author">
 
                     <img src={authorImg} alt="Autor" className="author-item" id="author-avatar" />
-                    <span className="author-item" id="author-name">{authorName}</span>
+                    
+                    <span className="author-item" id="author-name">{
+                    authorName}</span>
 
                 </div>
 
                 <div className="feedback">
 
                     <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
-                    <span className="feedback-item" id="rating">{rating}/5</span>
+                    <span className="feedback-item" id="rating">{Number(rating).toFixed(1)}/5</span>
 
                     <img src="/comentario.svg" alt="Comentário" className="feedback-item" />
                     <span className="feedback-item" id="comment-number">{comments}</span>

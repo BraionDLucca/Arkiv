@@ -39,14 +39,19 @@ export default function Login() {
             const data = await res.json();
 
             if (res.ok) {
-                setSuccess("Login realizado com sucesso! Redirecionando...");
+
+                setSuccess("Login realizado com sucesso! Redirecionando...")
                 setTimeout(() => navigate("/"), 1500); // redireciona para a home
+
             } else {
-                setError(data.erro || "Email ou senha incorretos.");
+
+                setError(data.erro || "Email ou senha incorretos.")
             }
+
         } catch (err) {
-            console.error(err);
-            setError("Erro ao conectar com o servidor.");
+
+            console.error(err)
+            setError("Erro ao conectar com o servidor.")
         }
     };
 
@@ -54,14 +59,19 @@ export default function Login() {
         <main className="register-container">
 
             <div className="circle-wrapper">
+
                 <div className="circle">
-                    <img src="./public/registerPageLogo.svg" alt="Logo" />
+
+                    <object type="image/svg+xml" data="/arkiv-animated.svg" className="arkiv-animated"></object>
+                
                 </div>
+
             </div>
 
             <div className="form-container">
 
                 <form className="reg-form" onSubmit={handleSubmit}>
+                    
                     <h1>Login</h1>
 
                     {/* Mensagens de erro e sucesso */}

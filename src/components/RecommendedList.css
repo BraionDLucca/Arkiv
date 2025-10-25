@@ -5,48 +5,59 @@
     width: 100%;
 }
 
+/* Garante que todos os planos na lista sejam do mesmo tamanho */
+.recommended-list-wrapper .study-plan-wrapper {
+    min-width: 50%;
+    max-width: 50%;
+    align-items: stretch;
+}
+
+.recommended-list-wrapper .study-plan-wrapper .description p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .recommended-list-container {
+    display: flex;
+    gap: 3rem;
     overflow: auto;
     white-space: nowrap;
-    scrollbar-width: none;
-    width: 90%;
-    padding: 20px;
-}
-
-.recommended-list-container .study-plan-wrapper {
-    display: inline-block;
-    margin-right: 60px;
-}
-
-.arrow-right, .arrow-left {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 50px;
-    width: 50px;
-    bottom: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    box-shadow: 0px 0px 10px rgb(167, 167, 167);
-    border-radius: 100%;
-    padding: 0;
-    cursor: pointer;
-}
-.arrow-right img, .arrow-left img {
-    width: 40px;
-}
-
-.arrow-right img {
-    transform: rotate(180deg);
-}
-
-.more-title {
-    margin-left: 60px;
+    scrollbar-color: var(--gray) var(--bg);
+    width: 100%;
+    padding: 1rem;
 }
 
 .no-recommended-text {
     text-align: center;
     margin-top: 100px;
     margin-bottom: 100px;
+}
+
+@media (min-width: 1800px) {
+
+    .recommended-list-wrapper .study-plan-wrapper {
+        min-width: 30%;
+    }
+}
+
+@media (max-width: 860px) {
+
+    .recommended-list-wrapper .study-plan-wrapper {
+        min-width: 80%;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .recommended-list-wrapper .study-plan-wrapper {
+        min-width: 98%;
+    }
+}
+
+@media (max-width: 420px) {
+
+    .recommended-list-container {
+        padding: 1rem 0;
+        gap: 1rem;
+    }
 }
