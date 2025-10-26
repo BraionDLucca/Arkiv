@@ -3,41 +3,41 @@ import "./StudyPlanSkeleton.css";
 export default function StudyPlanSkeleton() {
 
     return (
-        <div class="study-plan-wrapper">
+        <div className="study-plan-wrapper">
 
-            <div class="study-plan">
+            <div className="study-plan">
 
-                <div class="banner">
+                <div className="banner">
 
-                    <div class="skeleton banner-img"></div>
+                    <div className="skeleton banner-img"></div>
 
                 </div>
 
-                <div class="content">
+                <div className="content">
 
-                    <p class="title skeleton skeleton-title"></p>
+                    <p className="title skeleton skeleton-title"></p>
 
-                    <div class="tags">
+                    <div className="tags">
 
-                        <div class="skeleton skeleton-tag"></div>
-                        <div class="skeleton skeleton-tag"></div>
+                        <div className="skeleton skeleton-tag"></div>
+                        <div className="skeleton skeleton-tag"></div>
 
                     </div>
 
-                    <div class="description">
+                    <div className="description">
 
-                        <div class="skeleton skeleton-text"></div>
-                        <div class="skeleton skeleton-text"></div>
+                        <div className="skeleton skeleton-text"></div>
+                        <div className="skeleton skeleton-text"></div>
 
                     </div>
                 </div>
             </div>
 
-            <div class="study-plan-footer">
+            <div className="study-plan-footer">
 
-                <div class="skeleton skeleton-author"></div>
+                <div className="skeleton skeleton-author"></div>
 
-                <div class="skeleton skeleton-feedback"></div>
+                <div className="skeleton skeleton-feedback"></div>
 
             </div>
         </div>

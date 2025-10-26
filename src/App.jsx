@@ -1,43 +1,50 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
-import Home from './pages/Home.jsx'
-import OpenStudyPlan from './pages/OpenStudyPlan.jsx'
-import Profile from './pages/Profile.jsx'
-import Register from "./pages/Register.jsx";
-import Login from "./pages/Login.jsx";
 import "./App.css"
-import { SkeletonTheme } from "react-loading-skeleton";
+import { lazy, Suspense } from "react";
+import OpenStudyPlanSkeleton from "./skeletons/OpenStudyPlanSkeleton.jsx";
+
+/* Importando com lazy para carregar na página apenas quando necessário */
+const Home = lazy(() => import('./pages/Home.jsx'))
+const OpenStudyPlan = lazy(() => import('./pages/OpenStudyPlan.jsx'))
+const Register = lazy(() => import("./pages/Register.jsx"))
+const Login = lazy(() => import("./pages/Login.jsx"))
+const Profile = lazy(() => import('./pages/Profile.jsx'))
 
 function App() {
     return (
-        <SkeletonTheme baseColor="#ebebeb" highlightColor="#ddddddff">
-            <BrowserRouter>
-                <Routes>
-                    {/* Rotas sem header/footer */}
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/register" element={<Register />} />
+        <BrowserRouter>
+            <Routes>
+                {/* Rotas sem header/footer */}
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
 
-                    {/* Rotas com header/footer */}
-                    <Route
-                        path="*"
-                        element={
-                            <>
-                                <Header />
-                                <div className="container">
+                {/* Rotas com header/footer */}
+                <Route
+                    path="*"
+                    element={
+                        <>
+                            <Header />
+                            <div className="container">
+
+                                <Suspense> {/* Faz estas rotas possam ser carregadas com lazy */}
                                     <Routes>
                                         <Route path="/" element={<Home />} />
-                                        <Route path="/profile" element={<Profile />} />
                                         <Route path="/planos/:id" element={<OpenStudyPlan />} />
+
+                                        <Route path="/profile" element={<Profile />} />
+
                                     </Routes>
-                                </div>
-                                <Footer />
-                            </>
-                        }
-                    />
-                </Routes>
-            </BrowserRouter>
-        </SkeletonTheme>
+                                </Suspense>
+                            </div>
+
+                            <Footer />
+                        </>
+                    }
+                />
+            </Routes>
+        </BrowserRouter>
     );
 }
 

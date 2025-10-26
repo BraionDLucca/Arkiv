@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 import "./RecommendedList.css"
 import { useState, useEffect, useRef } from "react";
 import StudyPlan from "./StudyPlan";
@@ -8,7 +9,7 @@ export default function RecommendedList({ tags, plano_id }) {
     const tags_param = tags.join(",")
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/planos/recomendados?tags=" + tags_param)
+        fetch(`${apiUrl}/planos/recomendados?tags=${tags_param}`)
             .then((res) => {
                 if (!res.ok) {
                     throw new Error(`Erro na requisição: ${res.status}`);

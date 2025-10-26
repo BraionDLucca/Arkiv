@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
@@ -13,7 +14,7 @@ const OpenStudyPlan = () => {
 
 
     useEffect(() => {
-        fetch(`http://localhost:5000/planos/${id}`)
+        fetch(`${apiUrl}/planos/${id}`)
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Erro ao buscar os dados do plano.");

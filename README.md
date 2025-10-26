@@ -1,12 +1,51 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+<p align="center">
+  <img src="logo.png" alt="Arkiv logo"/>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<h1 align="center">
+  Arkiv
+</h1>
 
-## Expanding the ESLint configuration
+<p align="center">
+  Este projeto visa oferecer uma plataforma para organizar e compartilhar materiais e recursos educativos, otimizando tempo e aprendizado.
+</p>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalação
+
+- Clone este repositório:
+
+    ```
+    git clone https://github.com/BraionDLucca/Arkiv
+    ```
+
+## Desenvolvimento
+
+1. Instale as dependências:
+    - Frontend:
+        ```
+        npm install
+        ```
+
+    - Backend:
+
+        ```
+        cd database
+        pip install -r requirements.txt
+        ```
+
+2. Inicie em ambiente de desenvolvimento:
+
+    - Frontend:
+
+        ```
+        npm run dev
+        ```
+
+    - Backend:
+
+        ```
+        cd database
+        python app.py
+        ```

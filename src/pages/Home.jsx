@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
+import { useState, useEffect, Suspense } from "react";
 import "./Home.css";
 import StudyPlan from "../components/StudyPlan";
 import StudyPlanSkeleton from "../skeletons/StudyPlanSkeleton";
@@ -11,7 +12,7 @@ function Home() {
   useEffect(() => {
     const loadPlans = async () => {
 
-      await fetch("http://127.0.0.1:5000/planos/todos")
+      await fetch(`${apiUrl}/planos/todos`)
         .then((res) => {
           if (!res.ok) {
             throw new Error(`Erro na requisição: ${res.status}`);
@@ -23,17 +24,19 @@ function Home() {
           setStudyPlans(
             planos.map((plano) => (
 
-              <StudyPlan key={plano.id}
-                plano_id={plano.id}
-                bannerSrc={plano.imagem_url}
-                title={plano.titulo}
-                tags={plano.tags}
-                description={plano.descricao}
-                authorImg="/autorPlaceholder.png"
-                authorName={plano.autor}
-                rating={plano.media_avaliacao || 0}
-                comments={plano.total_comentarios?.toString() || "0"}
-              />
+              <Suspense fallback={<StudyPlanSkeleton />}>
+                <StudyPlan key={plano.id}
+                  plano_id={plano.id}
+                  bannerSrc={plano.imagem_url}
+                  title={plano.titulo}
+                  tags={plano.tags}
+                  description={plano.descricao}
+                  authorImg="/autorPlaceholder.png"
+                  authorName={plano.autor}
+                  rating={plano.media_avaliacao || 0}
+                  comments={plano.total_comentarios?.toString() || "0"}
+                />
+              </Suspense>
 
             ))
           );

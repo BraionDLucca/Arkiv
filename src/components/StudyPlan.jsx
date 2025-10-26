@@ -18,9 +18,9 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
     const visibleTags = showAllTags ? tags : tags.slice(0, maxTagsToShow);
 
     const handleSaveBtn = (event) => {
-        event.stopPropagation(); // Evita a ação da div pai
+        event.stopPropagation(); // Evita a ação de clique da div pai
 
-        // Aqui entra a lógica de salvar um plano de estudo.
+        // TO-DO: lógica de salvar um plano de estudo.
     }
 
     return (
@@ -32,11 +32,12 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 {/* Banner do plano de estudos */}
                 <div className="banner" onClick={() => navigate(`/planos/${plano_id}`)}>
 
-                    <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"/>
+                    <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"
+                    loading="lazy"/>
 
                     {/* Botão de Salvar */}
                     <button className="save-button" onClick={handleSaveBtn}>
-                        <img src={saveBtnImg} alt="Salvar" />
+                        <img src={saveBtnImg} alt="Salvar" loading="lazy"/>
                     </button>
 
                 </div>
@@ -53,7 +54,11 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                             <p key={index} className="tag">{tag}</p>
                         ))}
 
-                        {tags.length > maxTagsToShow && (
+                        {/* Botão para mostrar/esconder todas as tags */}
+                        
+                        {tags.length > maxTagsToShow && (                                   
+                            /* Renderização condicional apenas com condição verdadeira, "&&" ao invés de "?" e ":" */
+
                             <button id="show-hide-btn" onClick={(e) => {
                                                             e.stopPropagation()
                                                             setShowAllTags(!showAllTags)}}>
@@ -77,24 +82,25 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
             </div>
 
             {/* Rodapé do plano de estudos */}
-
             <div className="study-plan-footer">
-
+                
+                {/* Imagem e nome do autor */}
                 <div className="author">
 
-                    <img src={authorImg} alt="Autor" className="author-item" id="author-avatar" />
+                    <img src={authorImg} alt="Autor" className="author-item" id="author-avatar" loading="lazy"/>
                     
                     <span className="author-item" id="author-name">{
                     authorName}</span>
 
                 </div>
 
+                {/* Avaliação e qtd. de comentários */}
                 <div className="feedback">
 
-                    <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
+                    <img src="/estrela.svg" alt="Estrela" className="feedback-item" loading="lazy"/>
                     <span className="feedback-item" id="rating">{Number(rating).toFixed(1)}/5</span>
 
-                    <img src="/comentario.svg" alt="Comentário" className="feedback-item" />
+                    <img src="/comentario.svg" alt="Comentário" className="feedback-item" loading="lazy"/>
                     <span className="feedback-item" id="comment-number">{comments}</span>
                     
                 </div>

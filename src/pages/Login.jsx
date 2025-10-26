@@ -1,3 +1,4 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterLogin.css";
@@ -30,7 +31,7 @@ export default function Login() {
         }
 
         try {
-            const res = await fetch("http://localhost:5000/auth/login", {
+            const res = await fetch(`${apiUrl}auth/login`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
