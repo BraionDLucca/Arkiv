@@ -20,10 +20,13 @@
   font-size: 16px;
   font-weight: 400;
   color: var(--font-color);
+  background-color: var(--bg);
+}
+
+#root {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: var(--bg);
+  height: 100vh;
 }
 
 main {

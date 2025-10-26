@@ -23,6 +23,12 @@
     max-height: 370px;
     object-fit: cover;
     object-position: center;
+    transition: 0.3s ease;
+    opacity: 0%;
+}
+
+.loaded {
+    opacity: 100%;
 }
 
 .save-button {
@@ -66,7 +72,7 @@
 }
 
 .study-plan-title {
-    font-size: 1.25rem;
+    font-size: 1.125rem;
     font-weight: 600;
     margin: 0;
     white-space: normal; /* permite quebrar linha */
@@ -78,7 +84,11 @@
     background: none;
     border: none;
     cursor: pointer;
-    height: 40px;
+    height: 35px;
+}
+
+#show-hide-btn img {
+    height: 35px;
 }
 
 .tags {
@@ -156,4 +166,17 @@ img.feedback-item {
 
 #rating {
     margin-right: 0.5rem;
+}
+
+/* Tablet */
+@media (max-width: 780px) {
+
+    .save-button {
+        opacity: 100;
+        height: 34px;
+    }
+
+    .save-button img {
+        height: 34px;
+    }
 }

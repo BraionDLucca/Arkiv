@@ -6,15 +6,15 @@ function Footer() {
 
             <div className="top-section">
 
-                <img src="/logoFooter.svg" alt="Logo"></img>
+                <img src="/logoFooter.svg" alt="Logo" id="logo-footer"></img>
 
                 <h3>Sua plataforma colaborativa para compartilhar materiais e planos de estudo, conectando quem aprende com quem ensina.</h3>
 
                 <div className="socials">
-                    <img src="/instagramLogo.svg" alt="Instagram logo"></img>
-                    <img src="/whatsappLogo.svg" alt="Whatsapp logo"></img>
-                    <img src="/xLogo.svg" alt="X logo"></img>
-                    <img src="/facebookLogo.svg" alt="Facebook logo"></img>
+                    <img src="/instagramLogo.svg" alt="Instagram logo" loading="lazy"></img>
+                    <img src="/whatsappLogo.svg" alt="Whatsapp logo" loading="lazy"></img>
+                    <img src="/xLogo.svg" alt="X logo" loading="lazy"></img>
+                    <img src="/facebookLogo.svg" alt="Facebook logo" loading="lazy"></img>
                 </div>
             </div>
 

@@ -26,10 +26,14 @@
     margin-bottom: 3px;
 }
 
-/* Author */
+/* Study Plan Footer */
 .skeleton-author, .skeleton-feedback {
     border-radius: 99px;
     width: 100%;
     max-width: 150px;
     height: 48px;
+}
+
+.skeleton-feedback {
+    max-width: 128px;
 }

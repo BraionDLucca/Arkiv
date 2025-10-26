@@ -5,11 +5,8 @@
 .footer {
     background-color: var(--secondary-color);
     width: 100%;
-    padding: 30px;
-    margin: 0 auto;
     margin-top: auto;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding: 30px 100px;
 }
 
 .top-section{
@@ -24,8 +21,10 @@
     color: var(--primary-color);
 }
 
-.top-section img {
+.top-section logo-footer {
     float: left;
+    height: 59px;
+    width: 56px;
 }
 
 .top-section .socials{

@@ -10,31 +10,36 @@ const OpenStudyPlan = () => {
 
     const [plano, setPlano] = useState(null);
     const [isLoading, setIsLoading] = useState(true)
-    const [erro, setErro] = useState(null);
 
 
     useEffect(() => {
-        fetch(`${apiUrl}/planos/${id}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Erro ao buscar os dados do plano.");
+
+        const loadPlanDetails = async () => {
+
+            try {
+
+                const res = await fetch(`${apiUrl}/planos/${id}`)
+
+                if (!res.ok) {
+                    throw new Error(`Erro HTTP: ${res.status}`)
                 }
-                return response.json();
-            })
-            .then((data) => {
+
+                const data = await res.json();
+
                 setPlano(data);
+
+            } catch (error) {
+
+                console.error("Erro ao buscar os dados do plano:", error)
+
+            } finally {
                 setIsLoading(false);
-            })
-            .catch((error) => {
-                setErro(error.message);
-                setIsLoading(false);
-            });
+            }
+
+        }
+
+        loadPlanDetails()
     }, [id]);
-
-    if (erro) {
-
-        console.error(erro);
-    }
 
     return isLoading ? <OpenStudyPlanSkeleton /> : (
 
@@ -67,9 +72,12 @@ const OpenStudyPlan = () => {
                             <span className="data-publicacao">{plano.data_publicacao}</span>
 
                             <div className="rating">
+                                
                                 <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
+                                
                                 <span className="rating">
-                                    {plano.nota_media ? `${plano.nota_media}/5` : "Sem avaliações"}
+                                
+                                    {plano.media_avaliacao != null ? `${plano.media_avaliacao}` : "–/5"}
                                 </span>
                             </div>
 
