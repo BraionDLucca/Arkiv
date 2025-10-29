@@ -3,9 +3,8 @@ import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import "./App.css"
 import { lazy, Suspense } from "react";
-import OpenStudyPlanSkeleton from "./skeletons/OpenStudyPlanSkeleton.jsx";
 
-/* Importando com lazy para carregar na página apenas quando necessário */
+/* Importando com lazy para carregar páginas apenas quando necessário */
 const Home = lazy(() => import('./pages/Home.jsx'))
 const OpenStudyPlan = lazy(() => import('./pages/OpenStudyPlan.jsx'))
 const Register = lazy(() => import("./pages/Register.jsx"))
@@ -28,9 +27,12 @@ function App() {
                             <Header />
                             <div className="container">
 
-                                <Suspense> {/* Faz estas rotas possam ser carregadas com lazy */}
+                                {/* Susupense faz com que estas rotas possam
+                                ser carregadas com lazy */}
+                                <Suspense>
                                     <Routes>
                                         <Route path="/" element={<Home />} />
+                                        
                                         <Route path="/planos/:id" element={<OpenStudyPlan />} />
 
                                         <Route path="/profile" element={<Profile />} />

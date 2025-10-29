@@ -189,7 +189,7 @@ export default function Register() {
 
                     <div className="google-login">
 
-                        <img src="./public/Google.png" alt="Continuar com Google" className="google-icon" />
+                        <img src="/Google.png" alt="Continuar com Google" className="google-icon" />
                     </div>
 
                     <p className="login-text">

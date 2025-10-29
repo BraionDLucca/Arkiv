@@ -1,3 +1,7 @@
+.more-title {
+    font-size: 1.2rem;
+}
+
 .recommended-list-wrapper {
     display: flex;
     align-items: center;
@@ -54,10 +58,14 @@
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 425px) {
+
+    .recommended-list-wrapper .study-plan-wrapper {
+        min-width: 88%;
+    }
 
     .recommended-list-container {
-        padding: 1rem 0;
-        gap: 1rem;
+        padding: 2rem 0;
+        gap: 2rem;
     }
 }

@@ -41,6 +41,7 @@ const OpenStudyPlan = () => {
         loadPlanDetails()
     }, [id]);
 
+
     return isLoading ? <OpenStudyPlanSkeleton /> : (
 
         <div className="open-study-plan-container">
@@ -69,7 +70,11 @@ const OpenStudyPlan = () => {
 
                         <div className="date-and-rating">
 
-                            <span className="data-publicacao">{plano.data_publicacao}</span>
+                            <span className="data-publicacao">
+
+                                {/* Formata a data para exibição */}
+                                {new Date(plano.data_publicacao).toLocaleDateString()}
+                            </span>
 
                             <div className="rating">
                                 

@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
 .footer {
     background-color: var(--secondary-color);
     width: 100%;
@@ -25,6 +21,10 @@
     float: left;
     height: 59px;
     width: 56px;
+}
+
+.top-section h3{
+    text-align: justify;
 }
 
 .top-section .socials{
@@ -67,7 +67,7 @@
 @media (max-width: 768px) {
 
     .footer {
-        padding: 30px;
+        padding: 1rem;
     }
 }
 

@@ -1,7 +1,3 @@
-* {
-    box-sizing: border-box;
-}
-
 .study-plan-wrapper {
     width: 100%;
     display: flex;
@@ -178,5 +174,17 @@ img.feedback-item {
 
     .save-button img {
         height: 34px;
+    }
+}
+
+/* Mobile L */
+@media (max-width: 425px) {
+
+    .author, .feedback {
+        border-radius: 100px;
+        background-color: transparent;
+        height: auto;
+        padding: 0;
+        font-size: 0.93rem;
     }
 }
