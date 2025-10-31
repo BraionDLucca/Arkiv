@@ -6,7 +6,7 @@ const OpenStudyPlanSkeleton = () => {
 
         <div className="open-study-plan-container">
 
-            <div className="open-study-banner skeleton"></div>
+            <div className="open-study-banner-skeleton skeleton"></div>
 
             <h2 className="open-study-plan-title-skeleton skeleton"></h2>
 
@@ -29,6 +29,13 @@ const OpenStudyPlanSkeleton = () => {
             <div className="visao-geral-skeleton">
 
                 <div className="skeleton skeleton-subtitle"></div>
+
+                <div className="details-skeleton">
+                    <div className="detail-card-skeleton skeleton"></div>
+                    <div className="detail-card-skeleton skeleton"></div>
+                    <div className="detail-card-skeleton skeleton"></div>
+                    <div className="detail-card-skeleton skeleton"></div> 
+                </div>
 
                 <div className="tabela-visao-geral-skeleton skeleton"></div>
                 

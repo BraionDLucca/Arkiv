@@ -4,8 +4,8 @@
     height: 515px;
     background-size: cover;
     background-position: center;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
     box-shadow: 0px 1px 4px var(--gray);
 }
 
@@ -162,7 +162,7 @@
     width: 100%;
 
     box-shadow: 0px 1px 4px var(--gray);
-    border-radius: 20px;
+    border-radius: 15px;
     padding: 1.5rem;
     transition: 0.3s ease;
 }
@@ -176,7 +176,7 @@
     border-collapse: collapse;
     text-align: center;
     box-shadow: 0px 1px 4px var(--gray);
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
 }
 
@@ -220,7 +220,6 @@
 
 .comments {
     background-color: var(--bg);
-    border-radius: 10px;
     padding: 1rem;
 }
 
@@ -259,7 +258,7 @@
 }
 
 /* Mobile L */
-@media (max-width: 425px) {
+@media (max-width: 440px) {
 
     .open-study-banner {
         height: 15rem;

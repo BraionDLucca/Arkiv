@@ -14,6 +14,8 @@ const OpenStudyPlan = () => {
 
     useEffect(() => {
 
+        !isLoading && setIsLoading(true)
+
         const loadPlanDetails = async () => {
 
             try {
@@ -39,7 +41,7 @@ const OpenStudyPlan = () => {
         }
 
         loadPlanDetails()
-    }, [id]);
+    }, [id]) // [id] = useEffect é executado novamente quando "id" mudar.
 
 
     return isLoading ? <OpenStudyPlanSkeleton /> : (
@@ -148,6 +150,7 @@ const OpenStudyPlan = () => {
 
             </div>
 
+            {/* Lista de planos recomendados */}
             <RecommendedList tags={plano.tags} plano_id={plano.id} />
 
             <section className="comments">

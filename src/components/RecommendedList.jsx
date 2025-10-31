@@ -1,15 +1,16 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 import "./RecommendedList.css"
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import StudyPlan from "./StudyPlan";
 
 export default function RecommendedList({ tags, plano_id }) {
+
     const [studyPlans, setStudyPlans] = useState([]);
 
     const tags_param = tags.join(",")
 
     useEffect(() => {
-
+        
         const loadPlans = async () => {
 
             try {
@@ -33,7 +34,7 @@ export default function RecommendedList({ tags, plano_id }) {
 
         loadPlans()
 
-    }, []); // [] garante que a API será chamada apenas na montagem do componente
+    }, [plano_id]) // [plano_id] = useEffect é executado novamente quando "plano_id" mudar.
 
     // Só exibe planos recomendados se houver.
     if (studyPlans.length === 0) {
@@ -48,7 +49,7 @@ export default function RecommendedList({ tags, plano_id }) {
 
             <div className="recommended-list-wrapper">
 
-                <div className="recommended-list-container">
+                <div className="recommended-list-container" onClick={() => window.scrollTo(0, 0)}>
 
                     {studyPlans.map((plano) => (
 

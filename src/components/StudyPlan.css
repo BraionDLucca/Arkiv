@@ -81,6 +81,11 @@
     border: none;
     cursor: pointer;
     height: 35px;
+    transition: 0.3s ease;
+}
+
+#show-hide-btn:hover {
+    transform: scale(1.1);
 }
 
 #show-hide-btn img {
@@ -178,7 +183,7 @@ img.feedback-item {
 }
 
 /* Mobile L */
-@media (max-width: 425px) {
+@media (max-width: 440px) {
 
     .author, .feedback {
         border-radius: 100px;
