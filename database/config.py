@@ -15,4 +15,6 @@ DB_PLANOS_NAME = config_planos.get("MYSQL_USER")
 DB_PLANOS_PASS = config_planos.get("MYSQL_PASSWORD")
 DB_PLANOS_DB   = config_planos.get("MYSQL_DB")
 
-
+# Carrega URL do frontend (app.py)
+config_frontend = dotenv_values("../.env")
+FRONTEND_URL = config_frontend.get("VITE_FRONTEND_URL")
