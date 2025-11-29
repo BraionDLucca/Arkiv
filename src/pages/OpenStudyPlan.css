@@ -261,7 +261,7 @@
 @media (max-width: 440px) {
 
     .open-study-banner {
-        height: 15rem;
+        max-height: 14rem;
     }
 
     .open-study-plan-title {

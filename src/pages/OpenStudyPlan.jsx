@@ -6,6 +6,9 @@ import RecommendedList from "../components/RecommendedList";
 import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
 
 const OpenStudyPlan = () => {
+
+    window.scrollTo(0, 0)
+
     const { id } = useParams();
 
     const [plano, setPlano] = useState(null);

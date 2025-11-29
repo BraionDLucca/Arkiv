@@ -6,6 +6,7 @@
     grid-gap: 3rem 3rem;
     align-self: center;
     justify-self: center;
+    justify-items: center;
 }
 
 /* Tablet */
