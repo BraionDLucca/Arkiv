@@ -1,19 +1,16 @@
 .register-container {
     overflow: hidden;
-    /* evita scroll */
-    min-width: 50vh;
+    max-height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: space-between;
 }
 
 .circle {
-    background-color: #37A8CE;
-    height: 100vh;
-    width: 80%;
+    background-color: var(--secondary-color);
+    height: 150vh;
+    width: 100%;
     border-top-right-radius: 50%;
     border-bottom-right-radius: 50%;
-    transform: scale(1.5);
     transform-origin: center;
     display: flex;
     align-items: center;
@@ -21,30 +18,31 @@
 }
 
 .circle-wrapper {
-    min-width: 52%;
+    min-width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.circle img {
-    max-height: 40vh;
-    min-width: 20vh;
+.circle .arkiv-animated {
+    max-height: 21rem;
+    min-width: 7rem;
     margin: 30px;
 }
 
 .form-container {
-    max-height: 40vh;
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: gray;
+    flex-grow: 1;
+    color: var(--gray-dark);
 }
 
 .reg-form {
-    padding: 40px;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding: 40px 50px;
     border-radius: 30px;
-    width: 450px;
+    width: 100%;
+    max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -52,32 +50,62 @@
 }
 
 .reg-form h1 {
-    color: black;
-    margin-bottom: 25px;
+    font-size: 1.5rem;
+    color: var(--font-color);
+}
+
+.error-msg {
+    color: rgb(255, 21, 21);
+}
+
+.success-msg {
+    color: rgb(21, 155, 21);
 }
 
 .reg-form-item {
-    height: 75px;
+    height: 65px;
 }
 
 .reg-form-item input {
     height: 40px;
     width: 100%;
     border-radius: 8px;
-    border: 3px solid #ebebeb;
+    border: none;
+    box-shadow: 0px 1px 4px var(--gray);
     padding: 20px 0px 20px 10px;
     font-size: 16px;
     margin-top: 5px;
 }
 
+input.senha-input {
+    background-color: var(--bg-light);
+    width: 90%;
+    float: left;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+
+.mostrar-senha-btn {
+    background-color: var(--bg-light);
+    width: 10%;
+    height: 40px;
+    margin-top: 5px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border: none;
+    box-shadow: 0px 1px 4px var(--gray);
+    cursor: pointer;
+}
+
 .reg-form button[type=submit] {
     width: 100%;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
-    background-color: #37A8CE;
-    color: #291271;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
     padding: 0.6rem 1rem;
-    border: 3px solid #37A8CE;
+    margin: 1rem 0;
+    border: 3px solid var(--secondary-color);
     border-radius: 999px;
     cursor: pointer;
     transition: 0.3s ease;
@@ -95,7 +123,6 @@
     display: flex;
     align-items: center;
     text-align: center;
-    margin-top: 15px;
     gap: 4%;
 }
 
@@ -110,7 +137,7 @@
 }
 
 .login-text {
-    color: gray;
+    color: var(--gray-dark);
     text-align: center;
 }
 
@@ -119,7 +146,78 @@
     border: none;
     padding: 0;
     margin: 0;
-    color: #37A8CE;
+    color: var(--secondary-color);
     cursor: pointer;
     font: inherit;
+}
+
+.swap-form-btn:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 1200px) {
+
+    .register-container {
+        overflow: hidden;
+        flex-direction: column;
+        height: 100vh;
+    }
+
+    .circle-wrapper{
+        margin: 30px;
+    }
+
+    .circle {
+        height: 150px;
+        width: 150px;
+        border-radius: 100%;
+    }
+
+    .arkiv-animated {
+        height: 100px;
+    }
+    
+    .form-container {
+        width: 75%;
+    }
+
+    .reg-form {
+        width: 100%;
+        box-shadow: none;
+        max-width: 600px;
+        padding: 0px 50px;
+    }
+}
+
+@media (max-width: 530px) {
+
+    .circle {
+        height: 100px;
+        width: 100px;
+    }
+
+    .arkiv-animated {
+        height: 65px;
+    }
+
+    .reg-form {
+        gap: 12px;
+        padding: 0px 30px;
+    }
+
+    .reg-form h1 {
+        font-size: 1.2rem;
+    }
+
+    .form-container {
+        width: 100%;
+    }
+
+    .divide {
+        margin-top: 0px;
+    }
+
+    .google-icon {
+        height: 40px;
+    }
 }

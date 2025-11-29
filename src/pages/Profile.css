@@ -46,7 +46,7 @@
     font-weight: 500;
     margin: 0;
     margin-top: 10px;
-    color: gray;
+    color: var(--gray-dark);
 }
 
 .edit-btn {
@@ -59,14 +59,14 @@
     font-weight: 600;
     color: #311271;
     padding: 10px 15px;
-    border: 3px solid #ebebeb;
+    border: 3px solid var(--gray-light);
     border-radius: 999px;
     cursor: pointer;
     transition: 0.3s ease;
 }
 
 .edit-btn:hover {
-    background-color: #ebebeb;
+    background-color: var(--gray-light);
 }
 
 /* Abas */
@@ -88,12 +88,12 @@
 }
 
 .tab-btn:hover {
-    color: #37a8ce;
+    color: var(--secondary-color);
 }
 
 .tab-btn.active {
-    color: #37a8ce;
-    border-bottom: 2px solid #37a8ce;
+    color: var(--secondary-color);
+    border-bottom: 2px solid var(--secondary-color);
 }
 
 /* Conteúdo das Abas */

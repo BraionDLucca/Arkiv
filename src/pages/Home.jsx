@@ -1,23 +1,59 @@
-import { useState, useEffect } from "react";
+const apiUrl = import.meta.env.VITE_API_URL;
+import { useState, useEffect, Suspense } from "react";
 import "./Home.css";
 import StudyPlan from "../components/StudyPlan";
+import StudyPlanSkeleton from "../skeletons/StudyPlanSkeleton";
 
 function Home() {
+
   const [studyPlans, setStudyPlans] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    fetch("http://127.0.0.1:5000/planos/todos")
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`Erro na requisição: ${res.status}`);
-        }
-        return res.json();
-      })
-      .then((planos) => {
+    
+    const loadPlans = async () => {
 
-        setStudyPlans(
-          planos.map((plano) => (
-            
+      try {
+
+        const res = await fetch(`${apiUrl}/planos/todos`)
+
+        if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`)
+
+        const planos = await res.json();
+
+        setStudyPlans(planos)
+
+      } catch (error) {
+        console.error("Erro ao buscar planos de estudos:", error);
+
+      } finally {
+
+        setIsLoading(false)
+      }
+    }
+
+    loadPlans()
+  }, []); // [] garante que a API será chamada apenas na montagem do componente.
+
+  return (
+    <main>
+      <div className="study-plan-container">
+
+        {isLoading ?
+
+          <>
+            <StudyPlanSkeleton />
+            <StudyPlanSkeleton />
+            <StudyPlanSkeleton />
+            <StudyPlanSkeleton />
+            <StudyPlanSkeleton />
+            <StudyPlanSkeleton />
+          </>
+
+          :
+
+          studyPlans.map((plano) => (
+
             <StudyPlan key={plano.id}
               plano_id={plano.id}
               bannerSrc={plano.imagem_url}
@@ -26,29 +62,15 @@ function Home() {
               description={plano.descricao}
               authorImg="/autorPlaceholder.png"
               authorName={plano.autor}
-              rating={plano.media_avaliacao || 0}
+              rating={plano.media_avaliacao || "–"}
               comments={plano.total_comentarios?.toString() || "0"}
             />
 
-          ))
-        );
-      })
-      .catch((error) => console.error("Erro ao buscar planos de estudos:", error));
-  }, []); // [] garante que a API será chamada apenas na montagem do componente.
+          ))}
 
-  return (
-    <>
-      <main>
-        <div className="study-plan-container">
-          {studyPlans.length > 0 ? (
-            studyPlans
-          ) : (
-            <p className="loading">Carregando...</p>
-          )}
-        </div>
-      </main>
-    </>
-  );
+      </div>
+    </main>
+  )
 }
 
 export default Home;

@@ -1,66 +1,100 @@
-* {
-    box-sizing: border-box;
-}
-
 .footer {
-    background-color: #37A8CE;
+    background-color: var(--secondary-color);
     width: 100%;
-    padding: 30px;
-    margin: 0 auto;
-    margin-top: 60px;
-    padding-left: 100px;
-    padding-right: 100px;
+    margin-top: auto;
+    padding: 30px 100px;
 }
 
-.footer .top-section{
+.top-section{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 1.6rem;   
 }
 
-.footer .top-section .logo-and-phrase{
+.top-section h3 {
+    margin: 0;
+    color: var(--primary-color);
+}
+
+.top-section logo-footer {
+    float: left;
+    height: 59px;
+    width: 56px;
+}
+
+.top-section h3{
+    text-align: justify;
+}
+
+.top-section .socials{
     display: flex;
     align-items: center;
-}
-
-.footer .top-section .logo-and-phrase span{
-    font-size: 24px;
-    font-weight: 600;
-    color: #291271;
-    margin-left: 30px;
-}
-
-.footer .top-section .socials{
-    display: flex;
-    align-items: center;
+    justify-content: center;
     gap: 10px;
     flex-wrap: nowrap;
-    width: 150px;
-    margin-left: 30px;
 }
 
-.footer .helpful-links {
+.helpful-links {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-
-    margin-top: 30px;
-    margin-right: 150px;
-    margin-left: 85px;
-    margin-bottom: 0;
+    margin: 30px 150px 0px 85px;
 }
 
-.footer .helpful-links .helpful-links-text{
-    color: #291271;
-    border-left: 2px solid #291271;
+.helpful-links .helpful-links-text{
+    color: var(--primary-color);
+    border-left: 2px solid var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    padding: 0px 10px;
 }
 
-.footer .helpful-links p{
-    margin: 0;
-    padding: 10px;
+.helpful-links a {
+    margin: 10px 0px;
+    text-decoration: none;
 }
 
-.footer .helpful-links .title{
+.helpful-links a:hover {
+    text-decoration: underline;
+}
+
+.helpful-links .title{
     font-size: 20px;
     font-weight: 600;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+
+    .footer {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 520px) {
+
+    .top-section {
+        flex-direction: column;
+    }
+
+    .helpful-links {
+        flex-direction: column;
+        margin: 1.6rem 0 0 0;
+        gap: 1rem;
+    }
+
+    .helpful-links .title{
+        width: 100%;
+    }
+
+    .helpful-links .helpful-links-text {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .helpful-links a {
+        margin: 8px 0px;
+        text-decoration: none;
+    }
 }

@@ -1,12 +1,74 @@
-# React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-Currently, two official plugins are available:
+<p align="center">
+  <img src="logo.png" alt="Arkiv logo"/>
+</p>
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+<h1 align="center">
+  Arkiv
+</h1>
 
-## Expanding the ESLint configuration
+<p align="center">
+  Uma plataforma para organizar e compartilhar materiais e recursos educativos, otimizando tempo e aprendizado.
+</p>
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Instalação
+
+1. Clone este repositório:
+
+    ```
+    git clone https://github.com/BraionDLucca/Arkiv
+    ```
+
+2. Instale as dependências:
+
+    - Frontend (`src/`):
+        ```
+        npm install
+        ```
+
+    - Backend (`database/`):
+
+        ```
+        cd database
+        pip install -r requirements.txt
+        ```
+
+## Execução
+
+Para executar o projeto, você precisa ter um banco MySQL com a estrutura e dados necessários.
+
+1. Acesse a pasta `src/database/sql`.
+
+2. Dentro dela, você encontrará duas pastas:
+
+    - `schema/` = arquivos `.sql` responsáveis por criar os schemas "planos" e "USER"
+
+    - `seed/` = arquivos `.sql` para inserir mocks
+
+3. Execute os arquivos da pasta `schema` no MySQL Workbench para criar a estrutura do banco.
+
+4. Execute os arquivos da pasta `seed` para popular com dados mock (se quiser usar seus próprios dados, pule esta etapa).
+
+5. Em `database/`, configure o acesso do backend ao banco informando host, usuário e senha:
+
+    - `config.env` = conexão do schema "planos"
+
+    - `config_user.env` = conexão do schema "USER"
+
+    Se tiver alterado os nomes de schema, atualize também nesses arquivos `.env`.
+
+6. Inicie em ambiente de desenvolvimento:
+
+    - Frontend (`src/`):
+
+        ```
+        npm run dev
+        ```
+
+    - Backend (`database/`):
+
+        ```
+        cd database
+        python app.py
+        ```

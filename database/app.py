@@ -2,11 +2,11 @@ from flask import Flask, request, jsonify
 from auth import auth_bp
 import mysql.connector
 from mysql.connector import Error
-from config import DB_PLANOS_HOST, DB_PLANOS_NAME, DB_PLANOS_PASS, DB_PLANOS_DB
+from config import DB_PLANOS_HOST, DB_PLANOS_NAME, DB_PLANOS_PASS, DB_PLANOS_DB, FRONTEND_URL
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app, origins=["http://localhost:5173"]) 
+CORS(app, origins=[FRONTEND_URL])
 
 app.register_blueprint(auth_bp, url_prefix="/auth")
 

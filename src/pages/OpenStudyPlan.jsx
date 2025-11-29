@@ -1,46 +1,58 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
+import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
 
 const OpenStudyPlan = () => {
+
+    window.scrollTo(0, 0)
+
     const { id } = useParams();
 
     const [plano, setPlano] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [erro, setErro] = useState(null);
+    const [isLoading, setIsLoading] = useState(true)
+
 
     useEffect(() => {
-        fetch(`http://localhost:5000/planos/${id}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("Erro ao buscar os dados do plano.");
+
+        !isLoading && setIsLoading(true)
+
+        const loadPlanDetails = async () => {
+
+            try {
+
+                const res = await fetch(`${apiUrl}/planos/${id}`)
+
+                if (!res.ok) {
+                    throw new Error(`Erro HTTP: ${res.status}`)
                 }
-                return response.json();
-            })
-            .then((data) => {
+
+                const data = await res.json();
+
                 setPlano(data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                setErro(error.message);
-                setLoading(false);
-            });
-    }, [id]);
 
-    if (loading) {
-        return <p>Carregando...</p>;
-    }
+            } catch (error) {
 
-    if (erro) {
-        return <p>{erro}</p>;
-    }
+                console.error("Erro ao buscar os dados do plano:", error)
 
-    return (
-        <div className="container">
+            } finally {
+                setIsLoading(false);
+            }
+
+        }
+
+        loadPlanDetails()
+    }, [id]) // [id] = useEffect é executado novamente quando "id" mudar.
+
+
+    return isLoading ? <OpenStudyPlanSkeleton /> : (
+
+        <div className="open-study-plan-container">
 
             <div
-                style={{ backgroundImage: `url(${plano.imagem_url})` }}
+                style={{ backgroundImage: `url(/${plano.imagem_url})` }} /* Começar com "/" pois as imagens estão em "public". */
                 alt="Banner do Plano"
                 className="open-study-banner"
             />
@@ -49,27 +61,42 @@ const OpenStudyPlan = () => {
 
             <section className="description-and-statistics">
 
-                <div className="open-study-left-section">
+                <div className="study-plan-description">
 
-                    <div className="author-date-rating">
-                        <div className="author-date">
+                    <div className="author-open-study">
+
+                        <div className="author-image-name">
+
                             <img src="/autorPlaceholder.png" alt="Perfil do autor" />
                             <span>{plano.autor}</span>
-                            <span>•</span>
-                            <span className="data-publicacao">{plano.data_publicacao}</span>
+                            <span className="dot-text">•</span>
+
                         </div>
 
-                        <div className="rating">
-                            <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
-                            <span className="rating">
-                                {plano.nota_media ? `${plano.nota_media}/5` : "Sem avaliações"}
+                        <div className="date-and-rating">
+
+                            <span className="data-publicacao">
+
+                                {/* Formata a data para exibição */}
+                                {new Date(plano.data_publicacao).toLocaleDateString()}
                             </span>
+
+                            <div className="rating">
+                                
+                                <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
+                                
+                                <span className="rating">
+                                
+                                    {plano.media_avaliacao != null ? `${plano.media_avaliacao}` : "–/5"}
+                                </span>
+                            </div>
+
                         </div>
                     </div>
 
                     <div className="tags">
                         {plano.tags.map((tag, index) => (
-                            <span key={index}>{tag}</span>
+                            <span key={index} className="tag">{tag}</span>
                         ))}
                     </div>
 
@@ -79,65 +106,63 @@ const OpenStudyPlan = () => {
 
                 </div>
 
-                <div className="details-grid">
+                <div className="stats-and-button">
 
-                    <div className="estatisticas">
-                        <h3>Estatísticas do plano:</h3>
-                        <ul>
-                            <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
-                            <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
-                            <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
-                            <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
-                            <hr />
-                            <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
-                            <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
-                            <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram o Plano</li>
-                        </ul>
-                    </div>
+                    <ul className="stats-list">
 
-                    <div className="study-and-save-buttons">
-                        <button className="botao-estudo">Iniciar estudos</button>
-                        <button className="open-study-save-button">
-                            <img src="/src/assets/botaoSalvar.svg" alt="Salvar" />
-                        </button>
-                    </div>
+                        <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
+                        <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
+                        <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram</li>
+
+                    </ul>
+
+                    <button className="botao-estudo">Iniciar estudos</button>
 
                 </div>
 
             </section>
 
             <div className="visao-geral">
-                <table className="tabela-visao-geral">
 
-                    <thead>
-                        <tr>
-                            <td></td>
-                            <td><h3>Visão Geral</h3></td>
-                            <td></td>
-                        </tr>
-                    </thead>
+                <h3>Visão Geral:</h3>
+
+                <ul className="details-card-container">
+
+                    <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
+                    <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
+                    <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
+                    <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+
+                </ul>
+
+                <table className="tabela-visao-geral">
 
                     <tbody>
 
                         {plano.modulos.map((modulo, index) => (
                             <tr key={index}>
-                                <td>Módulo {index + 1}</td>
+                                <td className="module-number">M{index + 1}</td>
                                 <td>{modulo.titulo}</td>
-                                <td>Capítulos</td>
+                                <td className="chapters-number">Capítulos</td>
                             </tr>
                         ))}
 
                     </tbody>
 
                 </table>
+
             </div>
-                        
-            <RecommendedList tags={plano.tags} plano_id={plano.id}/>
+
+            {/* Lista de planos recomendados */}
+            <RecommendedList tags={plano.tags} plano_id={plano.id} />
 
             <section className="comments">
+
                 <div className="comments-icon-and-title">
+
                     <img src="/comentariosIcon.svg" alt="" />
                     <span className="comments-title">{plano.comentarios.length} Comentário(s)</span>
+
                 </div>
 
                 {plano.comentarios.length === 0 && (
@@ -145,11 +170,13 @@ const OpenStudyPlan = () => {
                 )}
 
                 {plano.comentarios.map((c, index) => (
+
                     <div key={index} className="comment">
                         <strong>{c.autor}</strong>
                         <p>{c.texto}</p>
                     </div>
                 ))}
+
             </section>
 
         </div>
