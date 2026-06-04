@@ -11,8 +11,8 @@
 
 # Backend
 
-- Linter (analisador estático): **placeholder**
+- Linter (analisador estático): **Flake8**
 
-- Suíte de Testes automatizados: **placeholder**
+- Suíte de Testes automatizados: **PyTeste**
 
-- Cobertura de testes: **placeholder**
+- Cobertura de testes: **75%**
