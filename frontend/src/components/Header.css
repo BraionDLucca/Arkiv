@@ -35,6 +35,7 @@ header {
     background-color: var(--gray-light);
     border: 3px solid var(--gray-light);
     border-radius: 50px;
+    margin: 0;
     padding: 20px;
     height: 100%;
     width: 100%;
