@@ -60,4 +60,6 @@
 .size-large {
     flex-grow: 1;
     font-size: 1.5rem;
+    min-height: 50px;
+    min-width: 50px;
 }

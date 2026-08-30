@@ -5,48 +5,33 @@ import "./Button.css"
  * @param {{ 
  * variant?: "primary" | "secondary" | "danger", 
  * size?: "medium" | "large", 
- * buttonText?: string, 
- * icon?: string, 
- * alt?: string 
  * }} props
  */
 
 // Pode ser um botão com apenas texto, apenas ícone ou com ícone e texto.
-// Basta informar apenas as props desejadas.
 function Button({
     variant = "primary", // primary, secondary, danger.
     size = "medium",     // medium, large.
-    buttonText = "",     // Não infomar = botão sem texto.
-    icon = "",           // Caminho do arquivo. Não infomar = botão sem ícone.
-    alt = "" }) {        // Descrição alternativa à imagem do ícone.
+    children,            // Conteúdo do botão (entre tags)
+    ...props }) {        // Atributos HTML serão utilizados a partir de props
 
-    let variantClassName = ""
-
-    switch (variant) {
-        case ("primary"):
-            variantClassName = "button-primary"
-            break
-        case ("secondary"):
-            variantClassName = "button-secondary"
-            break
-        case ("danger"):
-            variantClassName = "button-danger"
-            break
+    const variants = {
+        "primary": "button-primary",
+        "secondary": "button-secondary",
+        "danger": "button-danger"
     }
 
-    switch (size) {
-        case ("medium"):
-            variantClassName += " size-medium"
-            break
-        case ("large"):
-            variantClassName += " size-large"
-            break
+    const sizes = {
+        "medium": "size-medium",
+        "large": "size-large"
     }
 
-    return <button className={variantClassName}>
-        {icon && <img src={icon} alt={alt}></img>}{buttonText}
+    return <button
+        className={`${variants[variant]} ${sizes[size]}`}
+        {...props}
+    >
+        {children}
     </button>
-
 }
 
 export default Button
