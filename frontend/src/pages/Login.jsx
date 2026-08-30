@@ -98,18 +98,20 @@ export default function Login() {
 
                     <div className="reg-form-item">
 
-                        <label>Email</label> <br />
-                        <input type="email" name="email" placeholder="Digite seu email" onChange={handleChange} required /> <br /> <br />
+                        <label htmlFor="email">Email</label> <br />
+                        <input id="email" name="email" type="email" onChange={handleChange}
+                            required autoComplete="email" /> <br /> <br />
 
                     </div>
 
                     <div className="reg-form-item senha-input">
 
-                        <label>Senha</label> <br />
+                        <label htmlFor="senha">Senha</label> <br />
 
                         {/* Campo de senha */}
-                        <input type={mostrarSenha ? "text" : "password"} name="senha" className="senha-input"
-                            placeholder="Digite sua senha" onChange={handleChange} required />
+                        <input id="senha" name="senha" type={mostrarSenha ? "text" : "password"}
+                            className="senha-input" onChange={handleChange}
+                            required autoComplete="current-password" />
 
                         {/* Botão mostrar/esconder senha */}
                         {mostrarSenha ?
