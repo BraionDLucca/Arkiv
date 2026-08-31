@@ -1,22 +1,20 @@
-.dropdown, .option-container{
+.dropdown{
+    font: inherit;
     color: var(--font-color);
     background-color: var(--bg-light);
     box-shadow: 0px 1px 4px var(--gray);
     border: none;
-    margin: 0;
-    display: flex;
-    width: fit-content;
-    min-width: 100px;
-    transition: 0.3s ease;
-}
-
-.dropdown{
     border-radius: 999px;
+    margin: 0;
     padding: 0.4rem 0.8rem;
+    display: flex;
     justify-content: center;
     align-items: center;
     gap: 5px;
+    width: fit-content;
+    min-width: 100px;
     cursor: pointer;
+    transition: 0.3s ease;
 }
 
 .dropdown:hover {
@@ -37,53 +35,44 @@
     transform: rotate(90deg);
 }
 
-.option-container {
+.dropdown-content-container{
+    color: var(--font-color);
+    background-color: var(--bg-light);
+    box-shadow: 0px 1px 4px var(--gray);
+    border: none;
+    border-radius: 20px;
+    margin: 0;
     margin-top: 10px;
-    border-radius: 10px;
+    padding: 10px;
+    display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     max-height: 40vh;
+    width: fit-content;
+    min-width: 100px;
+    transition: 0.3s ease;
+
     position: absolute;
     z-index: 1;
     opacity: 0;
     transform: translateY(-5%);
     pointer-events: none;
-    padding: 10px;
-
     overflow-y: scroll;
-    /* IE and Legacy Edge */
+    
+    /* IE e Legacy Edge */
     -ms-overflow-style: none; 
     
     /* Firefox */
     scrollbar-width: none; 
 }
 
-/* Chrome, Safari, and Opera */
-.option-container::-webkit-scrollbar {
+/* Chrome, Safari, e Opera */
+.dropdown-content-container::-webkit-scrollbar {
   display: none; 
 }
 
-.option-container-open {
+.dropdown-content-container-open {
     opacity: 1;
     transform: translateY(0);
     pointer-events: all;
-}
-
-.option {
-    padding: 15px;
-    display: flex;
-    align-items: center;
-    transition: 0.3s ease;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.option:hover {
-    background-color: var(--gray-light);
-}
-
-.option-selected {
-    background-color: var(--bg);
-    pointer-events: none;
-    cursor: default;
 }

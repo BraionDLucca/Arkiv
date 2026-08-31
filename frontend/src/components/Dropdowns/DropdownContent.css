@@ -1,0 +1,21 @@
+
+/* Classes para estilizar o conteúdo de Dropdowns (as opções) */
+.content-option {
+    padding: 0.9rem;
+    margin: 0.1rem 0rem;
+    display: flex;
+    align-items: center;
+    transition: 0.3s ease;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.content-option:hover {
+    background-color: var(--gray-light);
+}
+
+.content-option-selected {
+    background-color: var(--bg);
+    pointer-events: none;
+    cursor: default;
+}
