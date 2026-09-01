@@ -1,0 +1,43 @@
+.dropdown-container {
+    width: fit-content;
+    border-radius: 999px;
+}
+
+/* Variantes de posição e tamanho do conteúdo do dropdown */
+
+.dropdown-content-variant-left {
+    width: fit-content;
+}
+
+.dropdown-content-variant-right {
+    width: fit-content;
+    right: 18rem; /* Mesmo valor que o padding horizontal de .app-container para
+    garantir que o conteúdo fique alinhado à direita do botão do dropdown */
+}
+
+.dropdown-content-variant-wide {
+    width: calc(100% - 36rem);
+    /* 100% menos a soma do padding dos dois lados de app-container */
+}
+
+@media (max-width: 1400px) {
+
+  .dropdown-content-variant-right {
+    right: 3rem;
+  }
+
+  .dropdown-content-variant-wide {
+    width: calc(100% - 6rem);
+}
+}
+
+@media (max-width: 650px) {
+
+  .dropdown-content-variant-right {
+    right: 1rem;
+  }
+
+  .dropdown-content-variant-wide {
+    width: calc(100% - 2rem);
+}
+}

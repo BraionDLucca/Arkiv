@@ -2,6 +2,14 @@ import { useEffect, useState } from "react";
 import "../DropdownContent.css"
 const apiUrl = import.meta.env.VITE_API_URL;
 
+// JSDoc
+/** 
+ * @param {{ 
+ * studyPlanId: number, 
+ * currentModuleOrder: number, 
+ * }} props
+ */
+
 function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
 
     const [modules, setModules] = useState([])
