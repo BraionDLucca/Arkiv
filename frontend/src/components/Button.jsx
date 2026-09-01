@@ -22,8 +22,8 @@ function Button({
     }
 
     const sizes = {
-        "medium": "size-medium",
-        "large": "size-large"
+        "medium": "button-size-medium",
+        "large": "button-size-large"
     }
 
     return <button

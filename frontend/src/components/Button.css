@@ -12,10 +12,6 @@
     gap: 10px;
 }
 
-.button-primary img, .button-secondary img, .button-danger img{
-    height: var(--icon-size);
-}
-
 /* Botão Primário */
 .button-primary {
     color: var(--primary-color);
@@ -51,15 +47,24 @@
 }
 
 /* Tamanho médio */
-.size-medium {
+.button-size-medium {
     font-size: 1rem;
     height: 45px;
 }
 
+.button-size-medium img{
+    height: var(--icon-medium);
+}
+
 /* Tamanho grande */
-.size-large {
+.button-size-large {
     flex-grow: 1;
     font-size: 1.5rem;
     min-height: 50px;
     min-width: 50px;
 }
+
+.button-size-large img {
+    height: var(--icon-large);
+}
+

@@ -121,7 +121,7 @@
     flex-wrap: wrap;
 }
 
-.author, .feedback {
+.author, .study-plan-feedback {
     border-radius: 100px;
     background-color: var(--bg-light);
     height: 3rem;
@@ -147,18 +147,18 @@
 }
 
 #author-avatar {
-    height: 35px;
+    height: var(--avatar-medium);
 }
 
-.feedback {
+.study-plan-feedback {
     display: flex;
     align-items: center;
     gap: 5px;
     color: var(--gray-dark);
 }
 
-img.feedback-item {
-    max-width: var(--icon-size);
+img.study-plan-feedback-item {
+    max-width: var(--icon-small);
 }
 
 #rating {
@@ -181,7 +181,7 @@ img.feedback-item {
 /* Mobile L */
 @media (max-width: 440px) {
 
-    .author, .feedback {
+    .author, .study-plan-feedback {
         border-radius: 100px;
         background-color: transparent;
         height: auto;

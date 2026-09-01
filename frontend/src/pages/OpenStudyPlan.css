@@ -46,7 +46,7 @@
 }
 
 .author-image-name img {
-    width: 35px;
+    width: var(--avatar-large);
 }
 
 .data-publicacao {
@@ -64,8 +64,13 @@
 
 .rating {
     display: flex;
+    align-items: center;
     gap: 5px;
     font-weight: 500;
+}
+
+.rating img{
+    height: var(--icon-medium);
 }
 
 .descricao {
@@ -107,7 +112,7 @@
 }
 
 .stats-list li img {
-    max-width: var(--icon-size);
+    max-width: var(--icon-medium);
 }
 
 .botao-estudo {
@@ -210,6 +215,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.comments-icon-and-title img {
+    height: var(--icon-larger);
 }
 
 .comments-title {

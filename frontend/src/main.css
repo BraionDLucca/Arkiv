@@ -13,7 +13,12 @@
   --secondary-color: #37a8ce;
   --danger-color: #C90D0F;
   --font-color: #1a1a1a;
-  --icon-size: 20px;
+  --icon-small: 1.12rem;
+  --icon-medium: 1.25rem;
+  --icon-large: 1.6rem;
+  --icon-larger: 2.3rem;
+  --avatar-medium: 2rem;
+  --avatar-large: 2.3rem;
 
   height: 100%;
   margin: 0;
