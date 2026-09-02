@@ -52,7 +52,7 @@
     transform: scale(1.015);
 }
 
-.content {
+.study-plan-card-content {
     border-radius: 0px 0px 20px 20px;
     border-top: none;
     transition: 0.3s ease;
@@ -93,7 +93,6 @@
     justify-content: space-between;
     gap: 0.5rem;
     margin-top: 10px;
-    flex-wrap: wrap;
 }
 
 .author, .study-plan-feedback {
@@ -145,14 +144,10 @@ img.study-plan-feedback-item {
     }
 }
 
-/* Mobile L */
-@media (max-width: 440px) {
+@media (max-width: 390px) {
 
-    .author, .study-plan-feedback {
-        border-radius: 100px;
-        background-color: transparent;
-        height: auto;
-        padding: 0;
-        font-size: 0.93rem;
+    .study-plan-card-content {
+        padding: 1.5rem;
     }
 }
+

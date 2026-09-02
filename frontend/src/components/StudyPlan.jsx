@@ -5,7 +5,16 @@ import ellipsisIcon from "../assets/ellipsisIcon.svg"
 import Button from "./Button"
 import "./StudyPlan.css";
 
-function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
+function StudyPlan({
+    plano_id,
+    bannerSrc,
+    title,
+    tags,
+    description,
+    authorImg,
+    authorName,
+    rating,
+    comments }) {
 
     const navigate = useNavigate()
 
@@ -38,7 +47,6 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 // Adiciona classe loaded
                 function loaded() {
                     img.classList.add("loaded")
-
                 }
 
                 // Verifica se a imagem foi baixada
@@ -73,7 +81,9 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
                 </div>
 
-                <div className="content" onClick={() => navigate(`/planos/${plano_id}`)}>
+                <div
+                    className="study-plan-card-content"
+                    onClick={() => navigate(`/planos/${plano_id}`)}>
 
                     {/* Título */}
                     <h1 className="study-plan-title">{title}</h1>
