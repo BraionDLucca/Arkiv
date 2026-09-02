@@ -51,6 +51,7 @@
 .reg-form h1 {
     font-size: 1.5rem;
     color: var(--font-color);
+    margin-bottom: 1rem;
 }
 
 .error-msg {
@@ -71,6 +72,7 @@ input.senha-input {
     float: left;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+    position: relative;
 }
 
 .mostrar-senha-btn {
@@ -159,7 +161,7 @@ input.senha-input {
         width: 100%;
         box-shadow: none;
         max-width: 600px;
-        padding: 0px 50px;
+        padding: 0rem 3.125rem;
     }
 }
 
@@ -176,7 +178,10 @@ input.senha-input {
 
     .reg-form {
         gap: 12px;
-        padding: 0px 30px;
+        padding: 0rem 1.875rem;
+        justify-content: space-between;
+        margin-bottom: 5rem;
+        gap: 0.5rem;
     }
 
     .reg-form h1 {
