@@ -146,7 +146,7 @@ const OpenStudyPlan = () => {
 
                         {plano.modulos.map((modulo, index) => (
                             <tr key={index}>
-                                <td className="module-number">M{index + 1}</td>
+                                <td className="module-number">Módulo {modulo.ordem}</td>
                                 <td>{modulo.titulo}</td>
                                 <td className="chapters-number">Capítulos</td>
                             </tr>
