@@ -3,7 +3,7 @@ import "./Button.css"
 // JSDoc
 /** 
  * @param {{ 
- * variant?: "primary" | "secondary" | "danger" | "tertiary", 
+ * variant?: "primary" | "secondary" | "danger", 
  * size?: "medium" | "large" | "small",
  * className?: string, 
  * }} props
@@ -11,7 +11,7 @@ import "./Button.css"
 
 // Pode ser um botão com apenas texto, apenas ícone ou com ícone e texto.
 function Button({
-    variant = "primary", // primary, secondary, tertiary, danger.
+    variant = "primary", // primary, secondary, danger.
     size = "medium",     // medium, large.
     children,            // Conteúdo do botão (entre tags)
     className = "",       // Classes adicionais passadas como prop (caso necessário) 
@@ -20,7 +20,6 @@ function Button({
     const variants = {
         "primary": "button-primary",
         "secondary": "button-secondary",
-        "tertiary": "button-tertiary",
         "danger": "button-danger"
     }
 

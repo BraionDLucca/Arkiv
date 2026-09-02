@@ -102,7 +102,7 @@ function StudyPlan({
 
                                 /* Botão para mostrar/esconder todas as tags */
                                 <Button
-                                    variant="tertiary"
+                                    variant="secondary"
                                     size="small"
                                     id="show-hide-btn"
                                     onClick={(e) => {

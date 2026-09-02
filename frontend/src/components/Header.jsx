@@ -25,14 +25,14 @@ function Header() {
 
             <div className='right-section'>
 
-                <Button
+                <button
                     variant="tertiary"
                     className='register-btn'
                     name="registrar"
                     onClick={() => navigate("/register")}
                 >
                     Registre-se
-                </Button>
+                </button>
 
                 <Button
                     className='login-btn'

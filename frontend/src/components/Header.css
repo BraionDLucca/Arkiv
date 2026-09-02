@@ -63,6 +63,25 @@ header {
     margin-left: 0.5rem;
 }
 
+.register-btn {
+    font-weight: 700;
+    font-size: 1rem;
+    height: 45px;
+    min-width: 5.5rem;
+    color: var(--primary-color);
+    border: none;
+    padding: 0.6rem;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    background-color: var(--bg);
+    margin-left: 0.5rem;
+}
+
+.register-btn:hover {
+    background-color: var(--gray-light);
+}
+
 @media (max-width: 1400px) {
 
     header {
@@ -95,6 +114,11 @@ header {
 }
 
 @media (max-width: 550px) {
+
+    .logo-btn img {
+        height: 3rem;
+    }
+
     .register-btn {
         display: none;
     }

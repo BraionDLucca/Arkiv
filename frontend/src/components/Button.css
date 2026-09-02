@@ -1,5 +1,5 @@
 /* Estilos comum em todos os botões */
-.button-primary, .button-secondary, .button-tertiary, .button-danger{
+.button-primary, .button-secondary, .button-danger{
     font-weight: 700;
     padding: 0.6rem;
     border-radius: 999px;
@@ -31,18 +31,6 @@
 
 .button-secondary:hover {
     background-color: var(--secondary-color);
-    box-shadow: none;
-}
-
-/* Botão Terciário */
-.button-tertiary {
-    color: var(--primary-color);
-    background-color: var(--bg);
-    border: none;
-}
-
-.button-tertiary:hover {
-    background-color: var(--gray-light);
     box-shadow: none;
 }
 
