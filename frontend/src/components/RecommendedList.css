@@ -11,9 +11,7 @@
 
 /* Garante que todos os planos na lista sejam do mesmo tamanho */
 .recommended-list-wrapper .study-plan-wrapper {
-    min-width: 50%;
-    max-width: 50%;
-    align-items: stretch;
+    min-width: 40%;
 }
 
 .recommended-list-wrapper .study-plan-wrapper .description p {
@@ -23,6 +21,7 @@
 
 .recommended-list-container {
     display: flex;
+    justify-content: flex-start;
     gap: 3rem;
     overflow: auto;
     white-space: nowrap;
