@@ -5,12 +5,10 @@ header {
     align-items: center;
     gap: 2rem;
     background-color: var(--bg);
-    position: sticky;
     top: 0;
     z-index: 1;
-    box-shadow: 0px 2px 4px rgb(167, 167, 167);
     margin: 0 auto;
-    padding: 0.75rem 6rem;
+    padding: 0.5rem 6rem;
 }
 
 .logo-btn {
@@ -20,25 +18,29 @@ header {
     cursor: pointer;
 }
 
+.logo-btn img {
+    height: 4rem;
+}
+
 .search-bar {
     position: relative;
-    max-width: 60rem;
-    height: 60px;
-    border-radius: 50px;
+    max-width: 35rem;
+    border-radius: 999px;
     display: flex;
     align-items: center;
     flex-grow: 1;
+    height: 100%;
+    background: none;
+    border: none;
+    padding: 0;
 }
 
 .search-bar input {
-    font-size: 1rem;
-    background-color: var(--gray-light);
-    border: 3px solid var(--gray-light);
-    border-radius: 50px;
+    background-color: var(--bg-light);
+    border-radius: 999px;
     margin: 0;
-    padding: 20px;
-    height: 100%;
-    width: 100%;
+    padding: 1.25rem;
+    height: 90%;
     transition: 0.3s ease;
 }
 
@@ -51,45 +53,14 @@ header {
     right: 7px;
     top: 50%;
     transform: translateY(-50%);
-    height: 100%;
-    background: none;
-    border: none;
-    padding: 0;
     cursor: pointer;
 }
 
 .right-section {
     display: flex;
     align-items: center;
-}
-
-.register-btn, .login-btn {
-    font-weight: 700;
-    font-size: 1rem;
-    height: 45px;
-    min-width: 5.5rem;
-    color: var(--primary-color);
-    border: none;
-    padding: 0.6rem 1rem;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: 0.3s ease;
-    background-color: var(--bg);
-    margin: 0rem 0.5rem 0rem 0.5rem;
-}
-
-.register-btn:hover {
-    background-color: var(--gray-light);
-}
-
-.login-btn {
-    background-color: var(--secondary-color);
-    border: 3px solid var(--secondary-color);
-    margin: 0;
-}
-
-.login-btn:hover {
-    background-color: #ffffff;
+    gap: 0.5rem;
+    margin-left: 0.5rem;
 }
 
 @media (max-width: 1400px) {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import saveBtnImg from "../assets/botaoSalvar.svg";
-import expandBtnImg from "../assets/Botao reticencias.svg"
+import saveIcon from "../assets/saveIcon.svg";
+import ellipsisIcon from "../assets/ellipsisIcon.svg"
+import Button from "./Button"
 import "./StudyPlan.css";
 
 function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
@@ -66,9 +67,9 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                         loading="lazy" />
 
                     {/* Botão de Salvar */}
-                    <button className="save-button" onClick={handleSaveBtn}>
-                        <img src={saveBtnImg} alt="Salvar" loading="lazy" />
-                    </button>
+                    <Button variant="secondary" className="save-button" onClick={handleSaveBtn}>
+                        <img src={saveIcon} alt="Salvar" loading="lazy" />
+                    </Button>
 
                 </div>
 
@@ -84,19 +85,23 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                             <p key={index} className="tag">{tag}</p>
                         ))}
 
-                        {/* Botão para mostrar/esconder todas as tags */}
 
-                        {tags.length > maxTagsToShow && (
-                            /* Renderização condicional apenas com condição verdadeira, "&&" ao invés de "?" e ":" */
+                        {
+                            // Renderização condicional apenas com condição verdadeira, "&&" ao invés de "?" e ":"
+                            tags.length > maxTagsToShow && (
 
-                            <button id="show-hide-btn" onClick={(e) => {
-                                e.stopPropagation() // Evita abrir o plano de estudo ao clicar
-                                setShowAllTags(!showAllTags)
-                            }}>
-
-                                <img src={expandBtnImg} alt="Expandir tags" />
-                            </button>
-                        )}
+                                /* Botão para mostrar/esconder todas as tags */
+                                <Button
+                                    variant="tertiary"
+                                    size="small"
+                                    id="show-hide-btn"
+                                    onClick={(e) => {
+                                        e.stopPropagation() // Evita abrir o plano de estudo ao clicar
+                                        setShowAllTags(!showAllTags)
+                                    }}>
+                                    <img src={ellipsisIcon} alt="Expandir tags" />
+                                </Button>
+                            )}
 
                     </div>
 

@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
 import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
+import Button from "../components/Button";
 
 const OpenStudyPlan = () => {
 
@@ -116,7 +117,7 @@ const OpenStudyPlan = () => {
 
                     </ul>
 
-                    <button className="botao-estudo">Iniciar estudos</button>
+                    <Button size="large">Iniciar Estudos</Button>
 
                 </div>
 

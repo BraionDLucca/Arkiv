@@ -2,6 +2,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterLogin.css";
+import Button from "../components/Button";
 
 export default function Login() {
 
@@ -131,7 +132,7 @@ export default function Login() {
 
                     </div>
 
-                    <button type="submit">Continuar</button>
+                    <Button size="large" type="submit">Continuar</Button>
 
                     <div className="divide">
 
