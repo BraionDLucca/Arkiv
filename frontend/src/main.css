@@ -19,6 +19,7 @@
   --icon-larger: 2.3rem;
   --avatar-medium: 2rem;
   --avatar-large: 2.3rem;
+  --transition: 0.3s ease;
 
   margin: 0;
   font-family: Rubik, Arial, Helvetica, sans-serif;

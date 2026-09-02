@@ -41,7 +41,7 @@ header {
     margin: 0;
     padding: 1.25rem;
     height: 90%;
-    transition: 0.3s ease;
+    transition: var(--transition);
 }
 
 .search-bar input:hover {
@@ -73,7 +73,7 @@ header {
     padding: 0.6rem;
     border-radius: 999px;
     cursor: pointer;
-    transition: 0.3s ease;
+    transition: var(--transition);
     background-color: var(--bg);
     margin-left: 0.5rem;
 }
