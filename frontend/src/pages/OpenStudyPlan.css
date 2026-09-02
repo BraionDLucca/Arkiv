@@ -73,6 +73,14 @@
     height: var(--icon-medium);
 }
 
+.open-study-plan-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 10px;
+    gap: 0.5rem;
+}
+
 .descricao {
     text-align: justify;
     margin-top: 30px;

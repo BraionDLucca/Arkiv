@@ -4,6 +4,7 @@ import saveIcon from "../assets/saveIcon.svg";
 import ellipsisIcon from "../assets/ellipsisIcon.svg"
 import Button from "./Button"
 import "./StudyPlan.css";
+import Tag from "./Tag";
 
 function StudyPlan({
     plano_id,
@@ -66,41 +67,49 @@ function StudyPlan({
 
         <div className="study-plan-wrapper">
 
-            <div className="study-plan">
+            <div className="study-plan" onClick={() => navigate(`/planos/${plano_id}`)}>
 
                 {/* Banner do plano de estudos */}
-                <div className="banner" onClick={() => navigate(`/planos/${plano_id}`)}>
+                <div className="banner">
 
-                    <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"
-                        loading="lazy" />
+                    <img
+                        src={bannerSrc}
+                        alt="Imagem do plano de estudos"
+                        className="banner-img"
+                        loading="lazy"
+                    />
 
-                    {/* Botão de Salvar */}
-                    <Button variant="secondary" className="save-button" onClick={handleSaveBtn}>
+                    {/* Botão de Salvar Plano */}
+                    <Button
+                        variant="secondary"
+                        className="save-button"
+                        onClick={handleSaveBtn}
+                    >
                         <img src={saveIcon} alt="Salvar" loading="lazy" />
                     </Button>
 
                 </div>
 
-                <div
-                    className="study-plan-card-content"
-                    onClick={() => navigate(`/planos/${plano_id}`)}>
+                <div className="study-plan-card-content">
 
                     {/* Título */}
-                    <h1 className="study-plan-title">{title}</h1>
+                    <h1 className="study-plan-title">
+                        {title}
+                    </h1>
 
                     {/* Tags */}
-                    <div className="tags">
+                    <div className="study-plan-tags-container">
 
-                        {visibleTags.map((tag, index) => (
-                            <p key={index} className="tag">{tag}</p>
+                        {visibleTags.map((tagText, index) => (
+
+                            <Tag key={index}>
+                                {tagText}
+                            </Tag>
                         ))}
 
-
-                        {
-                            // Renderização condicional apenas com condição verdadeira, "&&" ao invés de "?" e ":"
+                        {/* Botão para mostrar/esconder todas as tags */
                             tags.length > maxTagsToShow && (
 
-                                /* Botão para mostrar/esconder todas as tags */
                                 <Button
                                     variant="secondary"
                                     size="small"
@@ -118,8 +127,8 @@ function StudyPlan({
                     {/* Descrição */}
                     <div className="description">
 
-                        {/* Se a descrição tiver mais de 131 caracteres,
-                        limitar a 19 palavras e adicionar "..." */}
+                        {/* Se a descrição possuir mais de 131 caracteres,
+                        limitar a 19 palavras e adicionar "..." ao final */}
                         <p className="description">{description.length > 131 ?
                             description.split(' ').slice(0, 19).join(' ') + "..." : description}</p>
                     </div>

@@ -69,7 +69,7 @@
     word-wrap: break-word; /* compatibilidade com navegadores antigos */
 }
 
-.tags {
+.study-plan-tags-container {
     display: flex;
     flex-wrap: wrap;
     align-items: center;

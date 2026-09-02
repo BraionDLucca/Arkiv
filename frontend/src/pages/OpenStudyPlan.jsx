@@ -5,6 +5,7 @@ import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
 import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
 import Button from "../components/Button";
+import Tag from "../components/Tag";
 
 const OpenStudyPlan = () => {
 
@@ -95,9 +96,12 @@ const OpenStudyPlan = () => {
                         </div>
                     </div>
 
-                    <div className="tags">
-                        {plano.tags.map((tag, index) => (
-                            <span key={index} className="tag">{tag}</span>
+                    <div className="open-study-plan-tags-container">
+                        {plano.tags.map((tagText, index) => (
+
+                            <Tag key={index}>
+                                {tagText}
+                            </Tag>
                         ))}
                     </div>
 
