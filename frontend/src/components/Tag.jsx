@@ -3,7 +3,7 @@ import "./Tag.css"
 function Tag({ children }) {
 
     const handleTagClick = (event) => {
-        event.stopPropagation
+        event.stopPropagation()
         // TO-DO: Acessar página com todos os planos contendo determinada tag.
     }
 
