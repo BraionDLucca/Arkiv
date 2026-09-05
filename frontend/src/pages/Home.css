@@ -12,6 +12,6 @@
 @media (max-width: 500px) {
 
         .study-plan-container { /* A grade que acomoda os planos de estudo da tela inicial */
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));        
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));        
     }
 }
