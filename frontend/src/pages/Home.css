@@ -9,10 +9,9 @@
     justify-items: center;
 }
 
-/* Tablet */
-@media (max-width: 768px) {
+@media (max-width: 500px) {
 
         .study-plan-container { /* A grade que acomoda os planos de estudo da tela inicial */
-        grid-template-columns: 1fr;        
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));        
     }
 }

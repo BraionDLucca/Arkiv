@@ -1,13 +1,24 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import saveBtnImg from "../assets/botaoSalvar.svg";
-import expandBtnImg from "../assets/Botao reticencias.svg"
+import saveIcon from "../assets/saveIcon.svg";
+import ellipsisIcon from "../assets/ellipsisIcon.svg"
+import Button from "./Button"
 import "./StudyPlan.css";
+import Tag from "./Tag";
 
-function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
+function StudyPlan({
+    plano_id,
+    bannerSrc,
+    title,
+    tags,
+    description,
+    authorImg,
+    authorName,
+    rating,
+    comments }) {
 
     const navigate = useNavigate()
-    
+
     const [showAllTags, setShowAllTags] = useState(false);
     const maxTagsToShow = 3;
 
@@ -28,83 +39,96 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
         function loadBanners() {
 
-        const bannerDivs = document.querySelectorAll(".banner")
+            const bannerDivs = document.querySelectorAll(".banner")
 
-        bannerDivs.forEach(div => {
+            bannerDivs.forEach(div => {
 
-            const img = div.querySelector("img")
+                const img = div.querySelector("img")
 
-            // Adiciona classe loaded
-            function loaded() {
-                img.classList.add("loaded")
-                
-            }
+                // Adiciona classe loaded
+                function loaded() {
+                    img.classList.add("loaded")
+                }
 
-            // Verifica se a imagem foi baixada
-            if (img.complete) {
-                loaded()
-            } else {
-                img.addEventListener("load", loaded)
-            }
-        })
-    }
-    
-    loadBanners()
+                // Verifica se a imagem foi baixada
+                if (img.complete) {
+                    loaded()
+                } else {
+                    img.addEventListener("load", loaded)
+                }
+            })
+        }
+
+        loadBanners()
 
     }, [])
-    
+
     return (
 
         <div className="study-plan-wrapper">
 
-            <div className="study-plan">
+            <div className="study-plan" onClick={() => navigate(`/planos/${plano_id}`)}>
 
                 {/* Banner do plano de estudos */}
-                <div className="banner" onClick={() => navigate(`/planos/${plano_id}`)}>
+                <div className="banner">
 
-                    <img src={bannerSrc} alt="Imagem do plano de estudos" className="banner-img"
-                        loading="lazy" />
+                    <img
+                        src={bannerSrc}
+                        alt="Imagem do plano de estudos"
+                        className="banner-img"
+                        loading="lazy"
+                    />
 
-                    {/* Botão de Salvar */}
-                    <button className="save-button" onClick={handleSaveBtn}>
-                        <img src={saveBtnImg} alt="Salvar" loading="lazy" />
-                    </button>
+                    {/* Botão de Salvar Plano */}
+                    <Button
+                        variant="secondary"
+                        className="save-button"
+                        onClick={handleSaveBtn}
+                    >
+                        <img src={saveIcon} alt="Salvar" loading="lazy" />
+                    </Button>
 
                 </div>
 
-                <div className="content" onClick={() => navigate(`/planos/${plano_id}`)}>
+                <div className="study-plan-card-content">
 
                     {/* Título */}
-                    <h1 className="study-plan-title">{title}</h1>
+                    <h1 className="study-plan-title">
+                        {title}
+                    </h1>
 
                     {/* Tags */}
-                    <div className="tags">
+                    <div className="study-plan-tags-container">
 
-                        {visibleTags.map((tag, index) => (
-                            <p key={index} className="tag">{tag}</p>
+                        {visibleTags.map((tagText, index) => (
+
+                            <Tag key={index}>
+                                {tagText}
+                            </Tag>
                         ))}
 
-                        {/* Botão para mostrar/esconder todas as tags */}
+                        {/* Botão para mostrar/esconder todas as tags */
+                            tags.length > maxTagsToShow && (
 
-                        {tags.length > maxTagsToShow && (
-                            /* Renderização condicional apenas com condição verdadeira, "&&" ao invés de "?" e ":" */
-
-                            <button id="show-hide-btn" onClick={(e) => {
-                                e.stopPropagation() // Evita abrir o plano de estudo ao clicar
-                                setShowAllTags(!showAllTags)
-                            }}>
-
-                                <img src={expandBtnImg} alt="Expandir tags" />
-                            </button>
-                        )}
+                                <Button
+                                    variant="secondary"
+                                    size="small"
+                                    id="show-hide-btn"
+                                    onClick={(e) => {
+                                        e.stopPropagation() // Evita abrir o plano de estudo ao clicar
+                                        setShowAllTags(!showAllTags)
+                                    }}>
+                                    <img src={ellipsisIcon} alt="Expandir tags" />
+                                </Button>
+                            )}
 
                     </div>
 
                     {/* Descrição */}
                     <div className="description">
 
-                        {/* Se a descrição tiver mais de 131 caracteres,
-                        limitar a 19 palavras e adicionar "..." */}
+                        {/* Se a descrição possuir mais de 131 caracteres,
+                        limitar a 19 palavras e adicionar "..." ao final */}
                         <p className="description">{description.length > 131 ?
                             description.split(' ').slice(0, 19).join(' ') + "..." : description}</p>
                     </div>
@@ -126,17 +150,17 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 </div>
 
                 {/* Avaliação e qtd. de comentários */}
-                <div className="feedback">
+                <div className="study-plan-feedback">
 
-                    <img src="/estrela.svg" alt="Estrela" className="feedback-item" loading="lazy" />
-                    
-                    <span className="feedback-item" id="rating">{
-                                                            Number(rating) ? Number(rating).toFixed(1)
-                                                            :
-                                                            rating}/5</span>
+                    <img src="/estrela.svg" alt="Estrela" className="study-plan-feedback-item" loading="lazy" />
 
-                    <img src="/comentario.svg" alt="Comentário" className="feedback-item" loading="lazy" />
-                    <span className="feedback-item" id="comment-number">{comments}</span>
+                    <span className="study-plan-feedback-item" id="rating">{
+                        Number(rating) ? Number(rating).toFixed(1)
+                            :
+                            rating}/5</span>
+
+                    <img src="/comentario.svg" alt="Comentário" className="study-plan-feedback-item" loading="lazy" />
+                    <span className="study-plan-feedback-item" id="comment-number">{comments}</span>
 
                 </div>
             </div>
