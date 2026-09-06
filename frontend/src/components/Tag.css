@@ -1,0 +1,22 @@
+.tag {
+  font-size: 0.85rem;
+  background-color: var(--bg);
+  border-radius: 999px;
+  padding: 0.625rem;
+  transition: var(--transition);
+}
+
+.tag:hover {
+  font-weight: 700;
+  color: var(--primary-color);
+  background-color: var(--secondary-color);
+  cursor: pointer;
+}
+
+@media (max-width: 500px) {
+
+    .tag {
+        font-size: 0.75rem;
+        padding: 0.5rem;
+    }
+}

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
-import searchBtnImg from "../assets/botaoLupa.svg"
+import searchIcon from "../assets/searchIcon.svg"
 import './Header.css'
+import Button from "../components/Button";
 
 function Header() {
 
@@ -9,33 +10,38 @@ function Header() {
     return <>
         <header>
 
-                <button className='logo-btn' onClick={() => navigate("/")}>
-                    <img src="/logoHeader.svg" id='logo-1' alt='Logo'></img>
-                </button>
+            <button className='logo-btn' onClick={() => navigate("/")}>
+                <img src="/logoHeader.png" id='logo-1' alt='Logo'></img>
+            </button>
 
-                <div className='search-bar'>
+            <div className='search-bar'>
 
-                    <input type='text' placeholder='Buscando otimizar seus estudos?'></input>
+                <input name="search-input" type='text' placeholder='Buscar planos de estudo' />
 
-                    <button className='search-btn'>
-                        <img src={searchBtnImg} alt='Botão buscar'></img>
-                    </button>
-                </div>
-
-            
+                <Button variant="primary" size="medium" className="search-btn">
+                    <img src={searchIcon} alt='Buscar' />
+                </Button>
+            </div>
 
             <div className='right-section'>
 
-                <button className='register-btn' name="registrar" onClick={() => navigate("/register")}>
+                <button
+                    variant="tertiary"
+                    className='register-btn'
+                    name="registrar"
+                    onClick={() => navigate("/register")}
+                >
                     Registre-se
                 </button>
 
-                <button className='login-btn' name="logar" onClick={() => navigate("/login")}>
+                <Button
+                    className='login-btn'
+                    name="logar"
+                    onClick={() => navigate("/login")}
+                >
                     Login
-                </button>
-
+                </Button>
             </div>
-
         </header>
     </>
 }

@@ -26,14 +26,14 @@ function App() {
                     element={
                         <>
                             <Header />
-                            <div className="container">
+                            <div className="app-container">
 
                                 {/* Susupense faz com que estas rotas possam
                                 ser carregadas com lazy */}
                                 <Suspense>
                                     <Routes>
                                         <Route path="/" element={<Home />} />
-                                        
+
                                         <Route path="/planos/:id" element={<OpenStudyPlan />} />
 
                                         <Route path="/profile" element={<Profile />} />

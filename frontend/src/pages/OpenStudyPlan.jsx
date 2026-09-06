@@ -4,6 +4,8 @@ import { useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
 import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
+import Button from "../components/Button";
+import Tag from "../components/Tag";
 
 const OpenStudyPlan = () => {
 
@@ -17,7 +19,7 @@ const OpenStudyPlan = () => {
 
     useEffect(() => {
 
-        !isLoading && setIsLoading(true)
+        setIsLoading(true)
 
         const loadPlanDetails = async () => {
 
@@ -82,11 +84,11 @@ const OpenStudyPlan = () => {
                             </span>
 
                             <div className="rating">
-                                
+
                                 <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
-                                
+
                                 <span className="rating">
-                                
+
                                     {plano.media_avaliacao != null ? `${plano.media_avaliacao}` : "–/5"}
                                 </span>
                             </div>
@@ -94,9 +96,12 @@ const OpenStudyPlan = () => {
                         </div>
                     </div>
 
-                    <div className="tags">
-                        {plano.tags.map((tag, index) => (
-                            <span key={index} className="tag">{tag}</span>
+                    <div className="open-study-plan-tags-container">
+                        {plano.tags.map((tagText, index) => (
+
+                            <Tag key={index}>
+                                {tagText}
+                            </Tag>
                         ))}
                     </div>
 
@@ -116,7 +121,7 @@ const OpenStudyPlan = () => {
 
                     </ul>
 
-                    <button className="botao-estudo">Iniciar estudos</button>
+                    <Button size="large">Iniciar Estudos</Button>
 
                 </div>
 
@@ -141,7 +146,7 @@ const OpenStudyPlan = () => {
 
                         {plano.modulos.map((modulo, index) => (
                             <tr key={index}>
-                                <td className="module-number">M{index + 1}</td>
+                                <td className="module-number">Módulo {modulo.ordem}</td>
                                 <td>{modulo.titulo}</td>
                                 <td className="chapters-number">Capítulos</td>
                             </tr>

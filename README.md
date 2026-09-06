@@ -1,7 +1,5 @@
-
-
 <p align="center">
-  <img src="logo.png" alt="Arkiv logo"/>
+  <img src="frontend/logo.png" alt="Arkiv logo"/>
 </p>
 
 <h1 align="center">
@@ -9,7 +7,7 @@
 </h1>
 
 <p align="center">
-  Uma plataforma para organizar e compartilhar materiais e recursos educativos, otimizando tempo e aprendizado.
+  Plataforma de recomendação e avaliação de materiais didáticos online.
 </p>
 
 ## Instalação
