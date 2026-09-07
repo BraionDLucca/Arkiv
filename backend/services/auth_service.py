@@ -6,6 +6,7 @@ from datetime import timedelta
 
 from config import SECRET_KEY
 
+
 class AuthService:
 
     def __init__(self, repo):

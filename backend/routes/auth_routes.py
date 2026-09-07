@@ -18,6 +18,8 @@ auth_bp = Blueprint(
     "auth",
     __name__
 )
+
+
 def get_auth_service():
 
     db = Database(
