@@ -1,4 +1,4 @@
-#cria nossa chave para criptografar os dados
+# cria nossa chave para criptografar os dados
 
 import secrets
 
