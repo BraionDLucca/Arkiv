@@ -3,6 +3,7 @@ import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import "./App.css"
 import { lazy, Suspense } from "react";
+import ModulesPage from "./pages/ModulesPage.jsx";
 
 /* Importando com lazy para carregar páginas apenas quando necessário */
 const Home = lazy(() => import('./pages/Home.jsx'))
@@ -36,6 +37,8 @@ function App() {
                                         <Route path="/planos/:id" element={<OpenStudyPlan />} />
 
                                         <Route path="/profile" element={<Profile />} />
+
+                                        <Route path="/planos/:id/modulos" element={<ModulesPage />} />
 
                                     </Routes>
                                 </Suspense>
