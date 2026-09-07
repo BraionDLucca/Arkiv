@@ -1,30 +1,40 @@
-from unittest.mock import MagicMock
-from services.auth_service import AuthService
+import pytest
+from django.contrib.auth import get_user_model
+from django.urls import reverse
+from rest_framework import status
+from rest_framework.test import APIClient
+
+Usuario = get_user_model()
 
 
-def test_auth_register_sucesso():
-    mock_repo = MagicMock()
-    mock_repo.criar_usuario.return_value = 1
+@pytest.mark.django_db
+class TestAuthenticationAPI:
+    def setup_method(self):
+        self.client = APIClient()
+        self.register_url = reverse('auth_register')
+        self.token_url = reverse('token_obtain_pair')
 
-    service = AuthService(mock_repo)
-    dados = {
-        "email": "teste@exemplo.com",
-        "senha": "senhaSegura123"
-    }
+    def test_registro_usuario_com_sucesso(self):
+        payload = {
+            'username': 'lucastest',
+            'email': 'lucas@test.com',
+            'password': 'senhaForte123@'
+        }
+        response = self.client.post(self.register_url, payload)
+        assert response.status_code == status.HTTP_201_CREATED
+        assert Usuario.objects.filter(email='lucas@test.com').exists()
 
-    resultado = service.register(dados)
-
-    assert resultado["msg"] == "Usuário cadastrado com sucesso!"
-    assert resultado["usuario_id"] == 1
-    mock_repo.criar_usuario.assert_called_once()
-
-
-def test_auth_login_senha_invalida():
-    mock_repo = MagicMock()
-    # Simula usuário não encontrado
-    mock_repo.buscar_por_email.return_value = None
-
-    service = AuthService(mock_repo)
-    resultado = service.login("usuario@inexistente.com", "senha123")
-
-    assert resultado is None
+    def test_login_obter_token_jwt(self):
+        Usuario.objects.create_user(
+            username='lucaslogin',
+            email='login@test.com',
+            password='senhaForte123@'
+        )
+        payload = {
+            'email': 'login@test.com',
+            'password': 'senhaForte123@'
+        }
+        response = self.client.post(self.token_url, payload)
+        assert response.status_code == status.HTTP_200_OK
+        assert 'access' in response.data
+        assert 'refresh' in response.data
