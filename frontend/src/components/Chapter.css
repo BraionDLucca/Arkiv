@@ -1,0 +1,72 @@
+.chapter {
+    display: flex;
+    gap: 1.25rem;
+    padding: 1.75rem;
+    box-shadow: 0px 1px 4px var(--gray);
+    border-radius: 20px;
+    background-color: var(--bg-light);
+    transition: var(--transition);
+}
+
+.chapter:hover {
+    transform: scale(1.015);
+    cursor: pointer;
+}
+
+.chapter-image {
+    max-width: 100%;
+    max-height: 128px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 20px;
+    transition: var(--transition);
+    min-width: 100px;
+    flex-shrink: 2;
+}
+
+.chapter-number {
+    font-weight: 700;
+}
+
+.chapter h2 {
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.chapter-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-shrink: 1;
+}
+
+.chapter-stats {
+    display: flex;
+    gap: 1.25rem;
+}
+
+.chapter-stats span{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-wrap: nowrap;
+}
+
+.chapter-stats span img{
+    width: var(--icon-medium);
+}
+
+@media (max-width: 440px) {
+    .chapter {
+        flex-direction: column;
+    }
+
+    .chapter-info {
+        gap: 1.25rem;
+        flex-wrap: wrap;
+    }
+
+    .chapter-image {
+        max-height: 176px;
+    }
+}
