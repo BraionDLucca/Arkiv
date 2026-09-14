@@ -24,12 +24,11 @@
 
 .form-group label {
     margin-bottom: 8px;
-    font-weight: 500;
 }
 
 .banner-upload {
     width: 100%;
-    min-height: 330px;
+    height: 330px;
 
     display: flex;
     align-items: center;
@@ -37,50 +36,28 @@
 
     background: #e9e9e9;
     border-radius: 12px;
+    overflow: hidden;
 }
 
-.banner-add-button {
-    width: 64px;
-    height: 64px;
-
-    border: none;
-    border-radius: 50%;
-
-    font-size: 42px;
-    cursor: pointer;
+.banner-preview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
-.supported-formats {
-    margin-top: 4px;
-    font-size: 0.85rem;
+.banner-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
 }
 
+.supported-formats,
 .maximum-words {
     margin-top: 4px;
     font-size: 0.85rem;
-}
-
-.form-input,
-.form-textarea,
-.tag-input {
-    width: 100%;
-    box-sizing: border-box;
-
-    border: 1px solid #ccc;
-    border-radius: 6px;
-
-    font: inherit;
-}
-
-.form-input,
-.tag-input {
-    min-height: 44px;
-    padding: 8px 12px;
-}
-
-.form-textarea {
-    padding: 12px;
-    resize: vertical;
 }
 
 .form-textarea-short {
@@ -92,24 +69,36 @@
 }
 
 .tag-input-row {
+    position: relative;
     display: flex;
     align-items: center;
     gap: 12px;
-
     max-width: 300px;
 }
 
-.tag-add-button {
-    width: 36px;
-    height: 36px;
+.tags-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
 
-    border: 2px solid;
-    border-radius: 50%;
+    width: calc (100% - 45px);
 
-    background: transparent;
+    max-height: 220px;
+    overflow-y: auto;
 
-    font-size: 22px;
+    background: var(--bg-light);
+    border-radius: 8px;
+    box-shadow: 0px 2px 6px avr(--gray);
+    z-index: 10;
+}
+
+.tags-dropdown-item {
+    padding: 10px;
     cursor: pointer;
+}
+
+.tags-dropdown-item:hover {
+    background: var(--gray-light);
 }
 
 .tags-list {
@@ -120,14 +109,45 @@
     margin-top: 16px;
 }
 
-.tag {
-    padding: 6px 14px;
+.selected-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
 
-    border: 1px solid #ccc;
+    padding: 6px 10px;
     border-radius: 999px;
 
+    background-color: var(--secondary-color);
+    color: var(--primary-color);
+
     font-size: 0.9rem;
-    font-weight: 600;
+    font-weight: 700;
+}
+
+.remove-tag {
+    appearance: none;
+    border: none;
+    outline: none;
+    background: transparent;
+    box-shadow: none;
+
+    padding: 0;
+    margin: 0;
+
+    width: auto;
+    height: auto;
+
+    color: inherit;
+    font-size: 0.8rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.remove-tag:focus,
+.remove-tag:active {
+    border: none;
+    outline: none;
+    box-shadow: none;
 }
 
 .form-actions {
@@ -136,27 +156,6 @@
     gap: 12px;
 
     margin-top: 48px;
-}
-
-.cancel-button,
-.save-button {
-    padding: 10px 20px;
-
-    border: none;
-    border-radius: 22px;
-
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.cancel-button {
-    background: #d60000;
-    color: #fff;
-}
-
-.save-button {
-    background: #3bb0d0;
-    color: #120078;
 }
 
 @media (max-width: 768px) {
@@ -169,7 +168,7 @@
     }
 
     .banner-upload {
-        min-height: 220px;
+        height: 220px;
     }
 
     .form-actions {
