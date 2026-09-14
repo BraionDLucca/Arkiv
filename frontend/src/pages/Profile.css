@@ -4,11 +4,35 @@
 }
 
 .cover {
-    background-image: url("public/paisagem.jpg");
     width: 100%;
     height: 250px;
+
     background-size: cover;
     background-position: center;
+
+    position: relative;
+}
+.change-cover-image {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 8px 14px;
+
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary-color);
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: var(--transition);
+}
+
+.change-cover-image:hover {
+    background: white;
 }
 
 .profile-wrapper {
@@ -49,23 +73,19 @@
     color: var(--gray-dark);
 }
 
-.edit-btn {
+.profile-edit-btn {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background-color: white;
-    font-family: Rubik;
-    font-size: 18px;
-    font-weight: 600;
-    color: #311271;
-    padding: 10px 15px;
-    border: 3px solid var(--gray-light);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: var(--transition);
+    justify-content: center;
+    gap: 8px;
 }
 
-.edit-btn:hover {
+.profile-edit-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.profile-edit-btn:hover {
     background-color: var(--gray-light);
 }
 
@@ -106,6 +126,48 @@
     text-align: center;
     font-size: 2rem;
     font-weight: 500;
-    margin: auto;
-    padding: 150px;
+    margin: 0;
+}
+
+.empty-plans {
+    width: 100%;
+    min-height: 320px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 20px;
+    text-align: center;
+}
+
+.profile-edit-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    max-width: 350px;
+}
+
+.profile-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.change-profile-image {
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: 600;
 }

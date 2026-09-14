@@ -3,6 +3,7 @@ import Button from "../components/Button";
 import Tag from "../components/Tag";
 import saveIcon from "../assets/saveIcon.svg";
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 
 function CreateStudyPlan() {
@@ -11,30 +12,31 @@ function CreateStudyPlan() {
     const [tagSearch, setTagSearch] = useState("");
     const [selectedTags, setSelectedTags] = useState([]);
     const [tagsDropdownOpen, setTagsDropdownOpen] = useState(false);
-    
+
+    const navigate = useNavigate();
+    const tagsAreaRef = useRef(null);
 
     useEffect(() => {
         fetch("http://localhost:5000/tags")
             .then((response) => response.json())
             .then((data) => {
-                 setTags(data);
+                setTags(data);
             })
             .catch((error) => {
                 console.error("Erro ao carregar tags:", error);
             });
-    },  []);
+    }, []);
 
     const filteredTags = tags.filter((tag) =>
-            tag.nome.toLowerCase().includes(tagSearch.toLowerCase())
+        tag.nome.toLowerCase().includes(tagSearch.toLowerCase())
     );
 
-    const tagsAreaRef = useRef(null);
-        useEffect(() => {
-            function handleClickOutside(event) {
-                if (
-                    tagsAreaRef.current &&
-                    !tagsAreaRef.current.contains(event.target)
-                ) {
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (
+                tagsAreaRef.current &&
+                !tagsAreaRef.current.contains(event.target)
+            ) {
                 setTagsDropdownOpen(false);
             }
         }
@@ -46,8 +48,30 @@ function CreateStudyPlan() {
         };
     }, []);
 
+    const handleCancel = () => {
+        const confirmExit = window.confirm(
+            "As alterações não foram salvas. Deseja sair mesmo assim?"
+        );
+
+        if (confirmExit) {
+            navigate("/profile");
+        }
+    };
+
+
     return (
         <main className="create-study-plan">
+
+            <button
+                type="button"
+                className="back-button"
+                onClick={handleCancel}
+                aria-label="Voltar para o perfil"
+            >
+                <span className="back-arrow">←</span>
+                Voltar
+            </button>
+
             <h1>Criação de Plano de Estudos</h1>
 
             <section className="study-plan-form">
@@ -229,9 +253,14 @@ function CreateStudyPlan() {
             </div>
 
                 <div className="form-actions">
-                    <Button type="button" variant="danger" size="medium">
+                    <Button
+                        type="button"
+                        variant="danger"
+                        size="medium"
+                        onClick={handleCancel}
+                    >
                         Cancelar
-                    </Button> 
+                    </Button>
 
                     <Button type="button" variant="primary" size="medium">
                         <img src={saveIcon} alt="" />
