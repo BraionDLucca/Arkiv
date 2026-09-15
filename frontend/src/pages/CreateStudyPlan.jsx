@@ -62,16 +62,6 @@ function CreateStudyPlan() {
     return (
         <main className="create-study-plan">
 
-            <button
-                type="button"
-                className="back-button"
-                onClick={handleCancel}
-                aria-label="Voltar para o perfil"
-            >
-                <span className="back-arrow">←</span>
-                Voltar
-            </button>
-
             <h1>Criação de Plano de Estudos</h1>
 
             <section className="study-plan-form">

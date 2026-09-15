@@ -26,34 +26,7 @@
     margin-bottom: 8px;
 }
 
-.back-button {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    border: none;
-    background: transparent;
-    padding: 6px 8px;
-
-    color: var(--primary-color);
-    font-size: 1rem;
-    font-weight: 600;
-
-    cursor: pointer;
-    border-radius: 8px;
-
-    transition: var(--transition);
-}
-
-.back-button:hover {
-    background-color: var(--gray-light);
-}
-
-.back-arrow {
-    font-size: 1.4rem;
-    line-height: 1;
-}
-
+/*Banner*/
 .banner-upload {
     width: 100%;
     height: 330px;

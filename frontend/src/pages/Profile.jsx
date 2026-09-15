@@ -10,12 +10,8 @@ export default function Profile() {
 
   const [name, setName] = useState("Usuário");
 
-  const [description, setDescription] = useState(
-  "Administrador de Banco de Dados"
-  );
-
-  const [location, setLocation] = useState(    
-  "Porto Velho - RO"
+  const [bio, setBio] = useState(
+    "Administrador de Banco de Dados\nPorto Velho - RO"
   );
 
   const [profileImage, setProfileImage] = useState("/perfilImg.svg");
@@ -64,6 +60,7 @@ export default function Profile() {
         <div className="profile-section">
 
           <div className="profile-img-and-info">
+
             <div className="profile-image-container">
               <img
                 src={profileImage}
@@ -111,55 +108,41 @@ export default function Profile() {
               ) : (
                 <h2 className="profile-name">{name}</h2>
               )}
-              <br />
 
-              <h2 className="profile-date">Entrou em 21/03/2025</h2>
+              {isEditing ? (
+                <textarea
+                  className="profile-bio-input"
+                  value={bio}
+                  maxLength={300}
+                  onChange={(e) => setBio(e.target.value)}
+                  placeholder="Conte um pouco sobre você..."
+                />
+              ) : (
+                <p className="profile-description">
+                  {bio}
+                </p>
+              )}
 
             </div>
           </div>
 
-
-          <Button 
+          <Button
             type="button"
             variant="secondary"
             size="medium"
-            classname="profile-edit-btn"
-            onClick={() => setIsEditing(!isEditing)}       
+            className="profile-edit-btn"
+            onClick={() => setIsEditing(!isEditing)}
           >
             <img
               src="/editarIcone.svg"
               alt=""
-              classname="edit-icon"
+              className="profile-edit-icon"
             />
 
-            {isEditing? "Salvar" : "Editar"}
+            {isEditing ? "Salvar" : "Editar"}
           </Button>
 
         </div>
-
-          {isEditing ? (
-                <div className="profile-edit-fields">
-
-                  <input
-                    type="text"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-
-                  <input
-                    type="text"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                  />
-
-                </div>
-              ) : (
-                <p className="profile-description">
-                  {description}
-                  <br />
-                  {location}
-                </p>
-              )}
 
       </section>
 

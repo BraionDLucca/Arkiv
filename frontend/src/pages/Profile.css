@@ -35,58 +35,128 @@
     background: white;
 }
 
+
 .profile-wrapper {
-    padding-top: 30px;
+    padding: 28px 40px 24px;
+    box-sizing: border-box;
 }
 
 .profile-section {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 30px;
 }
 
 .profile-img-and-info {
     display: flex;
     align-items: center;
+    gap: 18px;
+
+    min-width: 0;
+}
+
+.profile-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
 .profile-img {
+    width: 100px;
     height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .profile-info {
-    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+
+    min-width: 0;
+    max-width: 600%;
 }
 
 .profile-name {
     font-size: 24px;
     font-weight: 600;
-    margin-top: 8px;
-    display: inline;
+    margin: 0;
 }
 
 .profile-date {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     margin: 0;
-    margin-top: 10px;
     color: var(--gray-dark);
 }
+
+/* Biografia */
+
+.profile-description {
+    margin: 0;
+    max-width: 600px;
+
+    line-height: 1.6;
+    white-space: pre-line;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
+}
+
+/* Botão Editar */
 
 .profile-edit-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
+
+    min-width: 105px;
+    height: 40px;
+
+    margin-top: 10px;
+
+    flex-shrink: 0;
 }
 
 .profile-edit-icon {
     width: 18px;
     height: 18px;
+    object-fit: contain;
 }
 
-.profile-edit-btn:hover {
-    background-color: var(--gray-light);
+/* Alterar foto */
+
+.change-profile-image {
+    border: none;
+    background: transparent;
+
+    padding: 4px 8px;
+
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+/* Edição da biografia */
+
+.profile-bio-edit {
+    width: 100%;
+    max-width: 500px;
+
+    margin: 18px 0 0 118px;
+}
+
+.profile-bio-input {
+    width: 450px;
+    min-height: 100px;
+    resize: vertical;
 }
 
 /* Abas */
