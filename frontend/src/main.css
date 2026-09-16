@@ -9,6 +9,7 @@
   --gray-light: #e6e6e6;
   --gray: #cdcdcd;
   --gray-dark: #858585;
+  --gray-darker: #6b6b6b;
   --primary-color: #291271;
   --secondary-color: #37a8ce;
   --danger-color: #C90D0F;
@@ -70,7 +71,7 @@ input:focus {
 }
 
 label {
-  color: var(--gray-dark);
+  color: var(--gray-darker);
   font-weight: 400;
   display: inline-block;
 }

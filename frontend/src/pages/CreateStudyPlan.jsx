@@ -1,10 +1,10 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 import "./CreateStudyPlan.css";
 import Button from "../components/Button";
-import Tag from "../components/Tag";
-import saveIcon from "../assets/saveIcon.svg";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import xIcon from "../assets/xIcon.svg"
+import plusIcon from "../assets/plusIcon.svg"
 
 function CreateStudyPlan() {
     const [Banner, setBanner] = useState(null);
@@ -17,7 +17,7 @@ function CreateStudyPlan() {
     const tagsAreaRef = useRef(null);
 
     useEffect(() => {
-        fetch("http://localhost:5000/tags")
+        fetch(`${apiUrl}/tags`)
             .then((response) => response.json())
             .then((data) => {
                 setTags(data);
@@ -92,14 +92,15 @@ function CreateStudyPlan() {
                         )}
 
                         {!Banner && (
-                            <Button 
+                            <Button
+                                className="add-banner-btn"
                                 type="button"
                                 variant="secondary"
                                 size="medium"
                                 aria-label="Adicionar banner"
                                 onClick={() => document.getElementById("banner-input").click()}
                             >
-                                +
+                                <img src={plusIcon} alt="Adicionar Banner" />
                             </Button>
                         )}
                     </div>
@@ -112,7 +113,7 @@ function CreateStudyPlan() {
                                 aria-label="Remover banner"
                                 onClick={() => setBanner(null)}
                             >
-                                Cancelar
+                                Remover Banner
                             </Button>
 
                             <Button
@@ -120,9 +121,9 @@ function CreateStudyPlan() {
                                 variant="secondary"
                                 size="medium"
                                 onClick={() => document.getElementById("banner-input").click()}
-                            
+
                             >
-                                Trocar imagem
+                                Trocar Banner
                             </Button>
 
                         </div>
@@ -134,29 +135,23 @@ function CreateStudyPlan() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="title">Adicione um título:</label>
+                    <label htmlFor="title">Adicione um título (máximo de 20 palavras):</label>
                     <input
                         id="title"
                         type="text"
                         className="form-input"
                     />
-                    <span className="maximum-words">
-                        Máximo de 20 palavras
-                    </span>
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="short-description">
                         Adicione uma descrição curta:
                     </label>
-                
+
                     <textarea
                         id="short-description"
                         className="form-textarea form-textarea-short"
                     />
-                    <span className="maximum-words">
-                        Máximo de 20 palavras
-                    </span>
                 </div>
 
                 <div className="form-group">
@@ -169,7 +164,7 @@ function CreateStudyPlan() {
                         className="form-textarea form-textarea-large"
                     />
                 </div>
-               
+
                 <div className="form-group">
                     <label htmlFor="tags">Adicione algumas tags:</label>
 
@@ -179,68 +174,70 @@ function CreateStudyPlan() {
                             type="text"
                             className="tag-input"
                             value={tagSearch}
-                            onChange={(event) => {setTagSearch(event.target.value); setTagsDropdownOpen(true)}}
+                            onChange={(event) => { setTagSearch(event.target.value); setTagsDropdownOpen(true) }}
                             onFocus={() => setTagsDropdownOpen(true)}
                         />
 
-                        <Button 
-                        
-                            type="button"
-                            variant="secondary"
-                            size="small"
-                        >
-                            +
-                        </Button>
-
-                        {tagsDropdownOpen && (
-                            <div className="tags-dropdown">
-                                {filteredTags.map((tag) => (
-                                <div
-                                    key={tag.id}
-                                    className="tags-dropdown-item"
-                                    onClick={() => {
-                                        const alreadySelected = selectedTags.some(
-                                            (selectedTag) => selectedTag.id === tag.id
-                                        );
-
-                                        if (!alreadySelected) {setSelectedTags([...selectedTags, tag]);
-                                        }
-
-                                        setTagSearch("");
-                                        setTagsDropdownOpen(false);
+                        {(
+                            <div className="tags-dropdown"
+                                style={ /* Animação de abrir/fechar e prevenção de clique */
+                                    tagsDropdownOpen ? {
+                                        transform: "translateY(0)",
+                                        pointerEvents: "all",
+                                        opacity: "1"
+                                    } : {
+                                        transform: "translateY(-5%)",
+                                        pointerEvents: "none",
+                                        opacity: "0"
                                     }}
-                                >
-                                    {tag.nome}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-
-                <div className="tags-list">
-                    {selectedTags.map((tag) => (
-                        <div key={tag.id} className="selected-tag">
-                            <span>{tag.nome}</span>
-                            
-                            <button
-                                type="button"
-                                className="remove-tag"
-                                onClick={() => {
-                                    setSelectedTags(
-                                        selectedTags.filter(
-                                            (selectedTag) => selectedTag.id !== tag.id
-                                        )
-                                    );
-                                }}
-                                aria-label={`Remover tag ${tag.nome}`}
                             >
-                                ×
-                            </button>
-                        </div>
-                    ))}
-                </div>
+                                {filteredTags.map((tag) => (
+                                    <div
+                                        key={tag.id}
+                                        className="tags-dropdown-item"
+                                        onClick={() => {
+                                            const alreadySelected = selectedTags.some(
+                                                (selectedTag) => selectedTag.id === tag.id
+                                            );
 
-            </div>
+                                            if (!alreadySelected) {
+                                                setSelectedTags([...selectedTags, tag]);
+                                            }
+
+                                            setTagSearch("");
+                                            setTagsDropdownOpen(false);
+                                        }}
+                                    >
+                                        {tag.nome}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
+
+                    <div className="tags-list">
+                        {selectedTags.map((tag) => (
+                            <div key={tag.id} className="selected-tag">
+                                <button
+                                    type="button"
+                                    className="remove-tag"
+                                    onClick={() => {
+                                        setSelectedTags(
+                                            selectedTags.filter(
+                                                (selectedTag) => selectedTag.id !== tag.id
+                                            )
+                                        );
+                                    }}
+                                    aria-label={`Remover tag ${tag.nome}`}
+                                >
+                                    <span>{tag.nome}</span>
+                                    <img src={xIcon} alt="Remover Tag" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+
+                </div>
 
                 <div className="form-actions">
                     <Button
@@ -253,12 +250,11 @@ function CreateStudyPlan() {
                     </Button>
 
                     <Button type="button" variant="primary" size="medium">
-                        <img src={saveIcon} alt="" />
                         Salvar
                     </Button>
                 </div>
             </section>
-        </main>
+        </main >
     );
 }
 

@@ -55,10 +55,13 @@
     margin-top: 10px;
 }
 
-.supported-formats,
-.maximum-words {
-    margin-top: 4px;
-    font-size: 0.85rem;
+.add-banner-btn img {
+    width: var(--icon-large);
+}
+
+.supported-formats {
+    color: var(--gray-darker);
+    margin-top: 8px;
 }
 
 .form-textarea-short {
@@ -78,28 +81,52 @@
 }
 
 .tags-dropdown {
+    color: var(--font-color);
+    background-color: var(--bg-light);
+    box-shadow: 0px 1px 4px var(--gray);
+    border: none;
+    border-radius: 20px;
+    margin: 0;
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    max-height: 40vh;
+    min-width: 300px;
+    transition: 0.3s ease;
+    transform: translateY(-5%);
+
     position: absolute;
     top: 100%;
-    left: 0;
+    z-index: 1;
 
-    width: calc (100% - 45px);
+    overflow-y: scroll;
+    
+    /* IE e Legacy Edge */
+    -ms-overflow-style: none; 
+    
+    /* Firefox */
+    scrollbar-width: none; 
+}
 
-    max-height: 220px;
-    overflow-y: auto;
-
-    background: var(--bg-light);
-    border-radius: 8px;
-    box-shadow: 0px 2px 6px avr(--gray);
-    z-index: 10;
+/* Chrome, Safari, e Opera */
+.tags-dropdown::-webkit-scrollbar {
+  display: none; 
 }
 
 .tags-dropdown-item {
-    padding: 10px;
+    padding: 0.9rem;
+    margin: 0.1rem 0rem;
+    display: flex;
+    align-items: center;
+    transition: 0.3s ease;
+    border-radius: 20px;
     cursor: pointer;
 }
 
 .tags-dropdown-item:hover {
-    background: var(--gray-light);
+    background-color: var(--gray-light);
 }
 
 .tags-list {
@@ -110,19 +137,28 @@
     margin-top: 16px;
 }
 
+@keyframes tag-aparecendo {
+    from {
+        opacity: 0;
+        transform: translateX(-15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 .selected-tag {
     display: inline-flex;
     align-items: center;
-    gap: 5px;
-
-    padding: 6px 10px;
+    gap: 0.313rem;
     border-radius: 999px;
 
     background-color: var(--secondary-color);
     color: var(--primary-color);
 
-    font-size: 0.9rem;
-    font-weight: 700;
+    animation: tag-aparecendo 0.3s ease-out;
 }
 
 .remove-tag {
@@ -132,16 +168,23 @@
     background: transparent;
     box-shadow: none;
 
-    padding: 0;
-    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.313rem;
+
+    padding: 0.55rem 0.75rem;
 
     width: auto;
     height: auto;
 
     color: inherit;
-    font-size: 0.8rem;
-    line-height: 1;
+    font-size: 0.9rem;
+    font-weight: 700;
     cursor: pointer;
+}
+
+.remove-tag img{
+ width: var(--icon-small);
 }
 
 .remove-tag:focus,
