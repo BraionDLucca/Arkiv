@@ -1,11 +1,8 @@
 /* Perfil */
-.profile-container {
-    background-color: white;
-}
-
 .cover {
     width: 100%;
     height: 250px;
+    border-radius: 20px;
 
     background-size: cover;
     background-position: center;
@@ -37,20 +34,20 @@
 
 
 .profile-wrapper {
-    padding: 28px 40px 24px;
+    margin: 2.5rem 0rem;
     box-sizing: border-box;
 }
 
 .profile-section {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
     gap: 30px;
+    position: relative;
 }
 
 .profile-img-and-info {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 18px;
 
     min-width: 0;
@@ -82,8 +79,8 @@
 }
 
 .profile-name {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 400;
     margin: 0;
 }
 
@@ -110,23 +107,9 @@
 /* Botão Editar */
 
 .profile-edit-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    min-width: 105px;
-    height: 40px;
-
-    margin-top: 10px;
-
-    flex-shrink: 0;
-}
-
-.profile-edit-icon {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
+    position: relative;
+    right: 0;
+    top: 25px;
 }
 
 /* Alterar foto */
@@ -163,17 +146,17 @@
 .tabs-nav {
     display: flex;
     justify-content: center;
-    gap: 24px;
+    gap: 1.5rem;
     border-bottom: 1px solid #ccc;
-    margin-top: 16px;
 }
 
 .tab-btn {
     background: none;
     border: none;
     padding: 10px;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--gray-darker);
     cursor: pointer;
 }
 
@@ -194,22 +177,31 @@
 
 .message-empty-page {
     text-align: center;
-    font-size: 2rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gray-darker);
     margin: 0;
 }
 
 .empty-plans {
     width: 100%;
-    min-height: 320px;
+    margin: 14rem 0rem;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    gap: 20px;
+    gap: 1.25rem;
     text-align: center;
+}
+
+.empty-plans-icon {
+    width: var(--icon-larger);
+}
+
+.create-plan-btn {
+    margin-top: 1.25rem;
 }
 
 .profile-edit-fields {
@@ -240,4 +232,15 @@
     color: var(--primary-color);
     cursor: pointer;
     font-weight: 600;
+}
+
+@media (max-width: 710px) {
+    .profile-img-and-info {
+        flex-direction: column;
+        align-items: baseline;
+    }
+
+    .profile-edit-btn {
+        position: absolute;
+    }
 }
