@@ -26,6 +26,17 @@ function Chapter({ imagem, titulo, ordem, artigosQtd, videosQtd }) {
                         <img src={videoIcon} alt="Quantidade de artigos" />
                         {videosQtd} vídeos
                     </span>
+
+                    <span>
+                        <img src={articleIcon} alt="Quantidade de artigos" />
+                        {artigosQtd} artigos
+                    </span>
+
+                    <span>
+                        <img src={videoIcon} alt="Quantidade de artigos" />
+                        {videosQtd} vídeos
+                    </span>
+
                 </div>
 
             </div>

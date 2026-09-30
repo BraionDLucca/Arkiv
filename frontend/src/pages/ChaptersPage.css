@@ -1,6 +1,11 @@
+#chapters-page-container {
+    margin: 3.75rem 0rem;
+}
+
 .chapters-container {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 1.875rem;
-    margin: 3.75rem 0rem 3.75rem 0rem;
+    margin-top: 1.875rem;
+    margin-bottom: 3.75rem;
 }

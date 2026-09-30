@@ -25,7 +25,7 @@ function ChaptersPage() {
                 id: 2,
                 moduloId: 1,
                 imagem: "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
-                titulo: "Título de Capítulo",
+                titulo: "Título de Capítulo Título de Capítulo Título de Capítulo",
                 ordem: 2,
                 artigosQtd: 3,
                 videosQtd: 9
@@ -68,10 +68,10 @@ function ChaptersPage() {
     const orderedChapters = [...chaptersList].sort((a, b) => a.ordem - b.ordem)
 
     return (
-        <main>
-            <div className="chapters-container">
+        <main id="chapters-page-container">
+            <h1>Capítulos</h1>
 
-                <h1>Capítulos</h1>
+            <div className="chapters-container">
 
                 {
                     orderedChapters.map((chapter, index) => {
