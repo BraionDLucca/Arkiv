@@ -70,7 +70,10 @@
     }
 
     .chapter-image {
-        width: 100%;
+        width: calc(100% + 3rem);
         max-height: 176px;
+        margin-top: -1.5rem;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
     }
 }
