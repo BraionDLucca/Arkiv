@@ -1,6 +1,11 @@
+#modules-page-container {
+    margin: 3.75rem 0rem;
+}
+
 .modules-container {
     display: flex;
     flex-direction: column;
-    gap: 1.875rem;
-    margin: 3.75rem 0rem 3.75rem 0rem;
+    gap: 3rem;
+    margin-top: 3rem;
+    margin-bottom: 3.75rem;
 }

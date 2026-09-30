@@ -36,10 +36,11 @@ function ModulesPage() {
     const orderedModules = [...modulesList].sort((a, b) => a.ordem - b.ordem)
 
     return (
-        <main>
-            <div className="modules-container">
+        <main id="modules-page-container">
 
-                <h1>Módulos</h1>
+            <h1>Módulos</h1>
+
+            <div className="modules-container">
 
                 {
                     orderedModules.map((module, index) => {
