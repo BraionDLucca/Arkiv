@@ -1,0 +1,7 @@
+.youtube-video {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 1px 4px var(--gray);
+}
