@@ -21,3 +21,27 @@
     border-radius: 999px;
     background-color: var(--gray-light);
 }
+
+.link-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+}
+
+.link-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    overflow-wrap: anywhere;
+}
+
+.link-item img {
+    width: var(--icon-large);
+}
+
+@media (max-width: 400px) {
+    .link-item {
+        gap: 0.75rem;
+    }
+}

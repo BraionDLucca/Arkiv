@@ -9,15 +9,43 @@
 
 .chapter-content-container {
     margin: auto;
-    max-width: 800px;
-    display: flex;
-    flex-direction: column;
+    max-width: 850px;
+    display: grid;
+    grid-template-columns: 24px 1fr;
     align-items: center;
-    gap: 1.875rem;
-    margin-bottom: 3.75rem;
+    justify-items: center;
+    column-gap: 3rem;
+    margin-bottom: 2.813rem;
 }
 
 .chapter-content-header {
     margin-top: 1.875rem;
-    margin-bottom: 3rem;
+    margin-bottom: 2.063rem;
+}
+
+.chapter-content {
+    margin: 0.938rem 0rem;
+    width: 100%;
+}
+
+.first-content {
+    margin-top: 0rem
+}
+
+.last-content {
+    margin-bottom: 0rem;
+}
+
+@media (max-width: 650px) {
+    .chapter-content-container {
+        column-gap: 1.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    
+    .chapter-content-container {
+        column-gap: 1rem;
+        grid-template-columns: 20px 1fr;
+    }
 }

@@ -9,4 +9,15 @@
     box-shadow: 0px 1px 4px var(--gray);
     transition: var(--transition);
     padding: 1.25rem;
+    overflow-wrap: anywhere;
+}
+
+.link-content img {
+    width: var(--icon-large);
+}
+
+@media (max-width: 400px) {
+    .link-content {
+        gap: 0.75rem;
+    }
 }

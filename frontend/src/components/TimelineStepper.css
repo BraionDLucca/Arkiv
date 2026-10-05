@@ -1,0 +1,53 @@
+.timeline-stepper-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.stepper-circle {
+    width: 8px;
+    height: 8px;
+    padding: 8px;
+    border-radius: 100%;
+    border: 5px solid var(--gray);
+    background-color: var(--bg-light);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.stepper-top-line, .stepper-bottom-line {
+    position: relative;
+    height: 50%;
+    border: 3px solid var(--secondary-color);
+    border-radius: 50px;
+    z-index: 0;
+    opacity: 0;
+}
+
+.stepper-top-line {
+    transform: translateY(-5px);
+}
+
+.stepper-first-line {
+    transform: translateY(0);
+}
+
+.stepper-accessed {
+    border: 5px solid var(--secondary-color);
+}
+
+.line-accessed {
+    opacity: 1;
+}
+
+@media (max-width: 400px) {
+    .stepper-circle {
+        width: 6px;
+        height: 6px;
+        padding: 6px;
+    }
+}

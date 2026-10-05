@@ -1,6 +1,9 @@
 import "./YoutubeURLContent.css";
+import YouTube from "react-youtube"
 
-function YoutubeURLContent({ url }) {
+function YoutubeURLContent({ content, markContentAccessed }) {
+
+    const url = content.value
 
     function getYouTubeVideoId(url) {
         try {
@@ -34,12 +37,14 @@ function YoutubeURLContent({ url }) {
     }
 
     return (
-        <iframe
-            className="youtube-video"
-            src={`https://www.youtube.com/embed/${getYouTubeVideoId(url)}`}
-            title="Vídeo do YouTube"
-            allowFullScreen
-        />
+        <div className="youtube-video-container">
+            <YouTube
+                videoId={getYouTubeVideoId(url)}
+                title="Vídeo do YouTube"
+                iframeClassName="youtube-video"
+                onEnd={() => markContentAccessed(content)}
+            />
+        </div>
     );
 }
 
