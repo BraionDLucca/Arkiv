@@ -3,9 +3,12 @@ import LinkContent from "../components/LinkContent";
 import TextWithLinkContent from "../components/TextWithLinkContent";
 import TimelineStepper from "../components/TimelineStepper";
 import YoutubeURLContent from "../components/YoutubeURLContent";
+import Button from "../components/Button"
 import "./ChapterContent.css";
 
 function ChapterContent() {
+
+    const [timelineHidden, setTimelineHidden] = useState(false)
 
     const chaptersMock = [
         {
@@ -60,6 +63,10 @@ function ChapterContent() {
         );
     };
 
+    const handleHideTimeline = (timelineHidden) => {
+        setTimelineHidden(!timelineHidden)
+    }
+
     useEffect(() => {
         console.log(contentMock);
     }, [contentMock]);
@@ -80,8 +87,28 @@ function ChapterContent() {
 
             </div>
 
-            <section className="chapter-content-container">
+            <Button
+                variant="secondary"
+                className="hide-timeline-button"
+                onClick={() => handleHideTimeline(timelineHidden)}
+            >
+                {
+                    timelineHidden ? <>
+                        <img src="/arrowIcon.svg" alt="Exibir linha do tempo" />
+                        <span>Exibir linha do tempo</span>
+                    </>
+                        : <>
+                            <img
+                                src="/arrowIcon.svg"
+                                alt="Ocultar linha do tempo"
+                                className="hide-timeline-button-arrow-right"
+                            />
+                            <span>Ocultar linha do tempo</span>
+                        </>
+                }
+            </Button>
 
+            <section className={`chapter-content-container ${timelineHidden ? "grid-item-timeline-hidden" : ""}`}>
                 {
                     contentMock.map((content, index) => {
 
@@ -91,6 +118,7 @@ function ChapterContent() {
                                 return <>
                                     <TimelineStepper
                                         firstLine={index === 0 ? true : false}
+                                        timelineHidden={timelineHidden}
                                         accessed={content.accessed}
                                     />
                                     <div className={
@@ -110,6 +138,7 @@ function ChapterContent() {
                                 return <>
                                     <TimelineStepper
                                         firstLine={index === 0 ? true : false}
+                                        timelineHidden={timelineHidden}
                                         accessed={content.accessed}
                                     />
                                     <div className={
@@ -127,6 +156,7 @@ function ChapterContent() {
                                 return <>
                                     <TimelineStepper
                                         firstLine={index === 0 ? true : false}
+                                        timelineHidden={timelineHidden}
                                         accessed={content.accessed}
                                     />
                                     <div className={

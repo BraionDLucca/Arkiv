@@ -8,14 +8,13 @@
 }
 
 .chapter-content-container {
-    margin: auto;
-    max-width: 850px;
     display: grid;
-    grid-template-columns: 24px 1fr;
+    grid-template-columns: 24px minmax(0px, 850px);
     align-items: center;
     justify-items: center;
     column-gap: 3rem;
     margin-bottom: 2.813rem;
+    transition: var(--transition);
 }
 
 .chapter-content-header {
@@ -34,6 +33,24 @@
 
 .last-content {
     margin-bottom: 0rem;
+}
+
+.chapter-content-container.grid-item-timeline-hidden {
+    grid-template-columns: 0px 1fr;
+    column-gap: 0rem;
+}
+
+.hide-timeline-button{
+    margin-bottom: 1.875rem;
+}
+
+.hide-timeline-button img{
+    transform: rotate(180deg);
+    transition: var(--transition);
+}
+
+.hide-timeline-button .hide-timeline-button-arrow-right {
+    transform: rotate(0deg);
 }
 
 @media (max-width: 650px) {
