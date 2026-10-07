@@ -30,21 +30,21 @@ function ChapterContent() {
 
         // Busca o plano de estudos atualmente acessado.
         async function getCurrentStudyPlan() {
-            const res = await fetch(`${apiUrl}/planos/${studyPlanId}`)
+            try {
+                const res = await fetch(`${apiUrl}/planos/${studyPlanId}`)
 
-            if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`)
+                if (!res.ok) {
+                    throw new Error(`Erro na requisição: ${res.status}`)
+                }
 
-            const studyPlan = await res.json()
-
-            setCurrentStudyPlan(studyPlan)
+                const studyPlan = await res.json()
+                setCurrentStudyPlan(studyPlan)
+            } catch (error) {
+                console.error("Erro ao buscar plano de estudos atual:", error)
+            }
         }
 
-        try {
-            getCurrentStudyPlan()
-        } catch (error) {
-            console.error("Erro ao buscar plano de estudos atual:", error);
-        }
-
+        getCurrentStudyPlan()
     }, [studyPlanId])
 
     // Armazena os módulos do plano de estudos atualmente acessado, quando
@@ -53,6 +53,11 @@ function ChapterContent() {
 
     // Ordena array de modulos em ordem crescente (baseado no atributo ordem de cada modulo)
     const orderedModules = [...currentStudyPlanModules].sort((a, b) => a.ordem - b.ordem);
+
+    // Armazena o módulo atual
+    const currentModule = orderedModules.find(
+        module => module.id === moduleId
+    )
 
     const chaptersMock = [
         {
@@ -164,7 +169,10 @@ function ChapterContent() {
                         variant="right"
                         setHeight={false}
                         ButtonComponent={
-                            <ModulesDropdownButton currentModuleOrder={2} disableSelected={false}>
+                            <ModulesDropdownButton
+                                currentModuleOrder={currentModule?.ordem || "-"}
+                                disableSelected={false}
+                            >
                                 <>
                                     <div className="vertical-rule" />
                                     <span className="dropdown-current-chapter">
