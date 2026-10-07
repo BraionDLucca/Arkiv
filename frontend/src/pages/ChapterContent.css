@@ -9,10 +9,9 @@
 
 .chapter-content-container {
     display: grid;
-    grid-template-columns: 24px minmax(0px, 850px);
-    align-items: center;
-    justify-items: center;
+    grid-template-columns: 24px 1fr;
     column-gap: 3rem;
+    align-items: center;
     margin-bottom: 2.813rem;
     transition: var(--transition);
 }
@@ -32,6 +31,10 @@
     border-radius: 100px
 }
 
+.dropdown-current-chapter {
+    min-width: fit-content;
+}
+
 .accordion-list {
     display: flex;
     flex-direction: column;
@@ -40,8 +43,10 @@
 }
 
 .chapter-content {
+    max-width: 800px;
     margin: 0.938rem 0rem;
     width: 100%;
+    transition: var(--transition);
 }
 
 .first-content {

@@ -1,5 +1,5 @@
 .dropdown-container {
-    width: fit-content;
+    min-width: fit-content;
     border-radius: 999px;
 }
 

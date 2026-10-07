@@ -167,7 +167,9 @@ function ChapterContent() {
                             <ModulesDropdownButton currentModuleOrder={2} disableSelected={false}>
                                 <>
                                     <div className="vertical-rule" />
-                                    <span>{`Capítulo ${chapterId}`}</span>
+                                    <span className="dropdown-current-chapter">
+                                        {`Capítulo ${chapterId}`}
+                                    </span>
                                 </>
                             </ModulesDropdownButton>
                         }>
