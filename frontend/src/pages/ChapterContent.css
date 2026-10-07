@@ -18,8 +18,25 @@
 }
 
 .chapter-content-header {
+    display: flex;
+    justify-content: space-between;
     margin-top: 1.875rem;
     margin-bottom: 2.063rem;
+}
+
+.vertical-rule {
+    display: inline-block;
+    height: var(--icon-medium);
+    width: 1px;
+    border: 1px solid var(--gray);
+    border-radius: 100px
+}
+
+.accordion-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.625rem;
 }
 
 .chapter-content {

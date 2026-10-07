@@ -5,10 +5,54 @@ import TimelineStepper from "../components/TimelineStepper";
 import YoutubeURLContent from "../components/YoutubeURLContent";
 import Button from "../components/Button"
 import "./ChapterContent.css";
+import Dropdown from "../components/Dropdowns/Dropdown";
+import ChaptersAccordionContent from "../components/Accordions/ChaptersAccordion/ChaptersAccordionContent";
+import ModulesDropdownButton from "../components/Dropdowns/ModulesDropdown/ModulesDropdownButton";
+import Accordion from "../components/Accordions/Accordion";
+import ChaptersAccordionTrigger from "../components/Accordions/ChaptersAccordion/ChaptersAccordionTrigger";
+import { useParams } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function ChapterContent() {
 
     const [timelineHidden, setTimelineHidden] = useState(false)
+
+    const [currentStudyPlan, setCurrentStudyPlan] = useState(null)
+
+    // ID's dos itens acessados atualmente
+    const params = useParams()
+
+    const studyPlanId = Number(params.studyPlanId)
+    const moduleId = Number(params.moduleId)
+    const chapterId = Number(params.chapterId)
+
+    useEffect(() => {
+
+        // Busca o plano de estudos atualmente acessado.
+        async function getCurrentStudyPlan() {
+            const res = await fetch(`${apiUrl}/planos/${studyPlanId}`)
+
+            if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`)
+
+            const studyPlan = await res.json()
+
+            setCurrentStudyPlan(studyPlan)
+        }
+
+        try {
+            getCurrentStudyPlan()
+        } catch (error) {
+            console.error("Erro ao buscar plano de estudos atual:", error);
+        }
+
+    }, [studyPlanId])
+
+    // Armazena os módulos do plano de estudos atualmente acessado, quando
+    // o fetch terminar de buscá-lo.
+    const currentStudyPlanModules = currentStudyPlan?.modulos ?? []
+
+    // Ordena array de modulos em ordem crescente (baseado no atributo ordem de cada modulo)
+    const orderedModules = [...currentStudyPlanModules].sort((a, b) => a.ordem - b.ordem);
 
     const chaptersMock = [
         {
@@ -17,8 +61,43 @@ function ChapterContent() {
             imagem: "https://fastly.picsum.photos/id/20/3670/2462.jpg?hmac=CmQ0ln-k5ZqkdtLvVO23LjVAEabZQx2wOaT4pyeG10I",
             titulo: "Título de Capítulo",
             ordem: 1,
-            artigosQtd: 7,
-            videosQtd: 4
+            linkQtd: 5,
+            textoComLinkQtd: 2,
+            youtubeURLQtd: 3,
+            imagensQtd: 2,
+        },
+        {
+            id: 2,
+            moduloId: 1,
+            imagem: "https://fastly.picsum.photos/id/0/5000/3333.jpg?hmac=_j6ghY5fCfSD6tvtcV74zXivkJSPIfR9B8w34XeQmvU",
+            titulo: "Título de Capítulo Título de Capítulo Título de Capítulo",
+            ordem: 2,
+            linkQtd: 5,
+            textoComLinkQtd: 2,
+            youtubeURLQtd: 3,
+            imagensQtd: 2,
+        },
+        {
+            id: 3,
+            moduloId: 1,
+            imagem: "https://fastly.picsum.photos/id/48/5000/3333.jpg?hmac=y3_1VDNbhii0vM_FN6wxMlvK27vFefflbUSH06z98so",
+            titulo: "Título de Capítulo",
+            ordem: 3,
+            linkQtd: 5,
+            textoComLinkQtd: 2,
+            youtubeURLQtd: 3,
+            imagensQtd: 2,
+        },
+        {
+            id: 4,
+            moduloId: 1,
+            imagem: "https://fastly.picsum.photos/id/60/1920/1200.jpg?hmac=fAMNjl4E_sG_WNUjdU39Kald5QAHQMh-_-TsIbbeDNI",
+            titulo: "Título de Capítulo",
+            ordem: 4,
+            linkQtd: 5,
+            textoComLinkQtd: 2,
+            youtubeURLQtd: 3,
+            imagensQtd: 2,
         }
     ]
 
@@ -51,8 +130,6 @@ function ChapterContent() {
     ])
 
     const markContentAccessed = (accessedContent) => {
-        console.log("accessedContent:", accessedContent);
-        console.log("accessedContent.id:", accessedContent.id);
 
         setContentMock(prevContent =>
             prevContent.map(content =>
@@ -67,25 +144,65 @@ function ChapterContent() {
         setTimelineHidden(!timelineHidden)
     }
 
-    useEffect(() => {
-        console.log(contentMock);
-    }, [contentMock]);
-
-
     return (
         <main id="chapter-content-page-container">
-            <img
-                src={chaptersMock[0].imagem}
-                className="chapter-banner"
-            ></img>
+            <section>
+                <img
+                    src={chaptersMock[0].imagem}
+                    className="chapter-banner"
+                ></img>
 
-            <div className="chapter-content-header">
+                <div className="chapter-content-header">
 
-                <h1 className="chapter-content-title">
-                    {chaptersMock[0].titulo}
-                </h1>
+                    <h1 className="chapter-content-title">
+                        {chaptersMock[0].titulo}
+                    </h1>
 
-            </div>
+                    {/* Dropdown com Accordion de cada módulo e capítulo do plano atual */}
+
+                    <Dropdown
+                        variant="right"
+                        setHeight={false}
+                        ButtonComponent={
+                            <ModulesDropdownButton currentModuleOrder={2} disableSelected={false}>
+                                <>
+                                    <div className="vertical-rule" />
+                                    <span>{`Capítulo ${chapterId}`}</span>
+                                </>
+                            </ModulesDropdownButton>
+                        }>
+
+                        <div className="accordion-list">
+                            {
+                                orderedModules.map((module, key) => {
+
+                                    return <Accordion
+                                        key={key}
+                                        TriggerComponent={
+                                            <ChaptersAccordionTrigger
+                                                currentModuleId={moduleId}
+                                                module={module}
+                                            />
+                                        } >
+                                        <ChaptersAccordionContent
+                                            // currentModuleChapters = Todos os capítulos de todos os módulos
+                                            // do plano de estudos atualmente acessado.
+                                            module={module}
+                                            currentChapterId={chapterId}
+                                            chaptersMock={chaptersMock}
+                                        // chaptersMock não será necessário quando implementados.
+                                        >
+
+                                        </ChaptersAccordionContent>
+                                    </Accordion>
+                                })
+                            }
+                        </div>
+
+                    </Dropdown>
+
+                </div>
+            </section>
 
             <Button
                 variant="secondary"
