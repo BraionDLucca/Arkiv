@@ -43,15 +43,15 @@ export default function Profile() {
               }}
             />
 
-            <button
-              type="button"
+            <Button
+              variant="secondary"
               className="change-cover-image"
               onClick={() =>
                 document.getElementById("cover-image-input").click()
               }
             >
-              Trocar capa
-            </button>
+              Alterar capa
+            </Button>
           </>
         )}
       </div>
@@ -86,15 +86,14 @@ export default function Profile() {
                     }}
                   />
 
-                  <button
-                    type="button"
-                    className="change-profile-image"
+                  <Button
+                    variant="secondary"
                     onClick={() =>
                       document.getElementById("profile-image-input").click()
                     }
                   >
                     Alterar foto
-                  </button>
+                  </Button>
                 </>
               )}
             </div>
