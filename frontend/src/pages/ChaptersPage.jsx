@@ -2,10 +2,16 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ChaptersPage.css";
 import Chapter from "../components/Chapter";
+import Dropdown from "../components/Dropdowns/Dropdown";
+import ModulesDropdownButton from "../components/Dropdowns/ModulesDropdown/ModulesDropdownButton";
+import ModulesDropdownContent from "../components/Dropdowns/ModulesDropdown/ModulesDropdownContent";
 
 function ChaptersPage() {
 
-    const { studyPlanId, moduleId } = useParams()
+    const params = useParams()
+
+    const studyPlanId = Number(params.studyPlanId)
+    const moduleId = Number(params.moduleId)
 
     const [chaptersList, setChaptersList] = useState([])
 
@@ -69,7 +75,25 @@ function ChaptersPage() {
 
     return (
         <main id="chapters-page-container">
-            <h1>Capítulos</h1>
+
+            <div className="chapters-page-header">
+
+                <h1>Capítulos</h1>
+
+                <nav className="chapters-page-modules-dropdown">
+                    <Dropdown
+                        ButtonComponent={
+                            <ModulesDropdownButton currentModuleOrder={moduleId} />
+                        }
+                        variant={"right"}
+                    >
+                        <ModulesDropdownContent
+                            currentModuleOrder={moduleId}
+                            studyPlanId={studyPlanId}
+                        />
+                    </Dropdown>
+                </nav>
+            </div>
 
             <div className="chapters-container">
 
