@@ -12,15 +12,23 @@
     grid-template-columns: 24px 1fr;
     column-gap: 3rem;
     align-items: center;
+    justify-items: start;
     margin-bottom: 2.813rem;
     transition: var(--transition);
 }
 
 .chapter-content-header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
     margin-top: 1.875rem;
     margin-bottom: 2.063rem;
+}
+
+.modules-chapters-dropdown {
+    margin-left: auto;
 }
 
 .vertical-rule {
@@ -58,7 +66,9 @@
 }
 
 .chapter-content-container.grid-item-timeline-hidden {
-    grid-template-columns: 0px 1fr;
+    /* Centraliza a segunda coluna da grid dinamicamente através da
+    largura da primeira coluna (pois assim a trnasição é aplicada) */
+    grid-template-columns: calc((100vw - 36rem - 800px) / 2) 1fr;
     column-gap: 0rem;
 }
 
@@ -73,6 +83,13 @@
 
 .hide-timeline-button .hide-timeline-button-arrow-right {
     transform: rotate(0deg);
+}
+
+@media (max-width: 1400px) {
+
+    .chapter-content-container.grid-item-timeline-hidden {
+        grid-template-columns: calc((100vw - 6rem - 800px) / 2) 1fr;
+    }
 }
 
 @media (max-width: 650px) {

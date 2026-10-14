@@ -165,51 +165,53 @@ function ChapterContent() {
 
                     {/* Dropdown com Accordion de cada módulo e capítulo do plano atual */}
 
-                    <Dropdown
-                        variant="right"
-                        setHeight={false}
-                        ButtonComponent={
-                            <ModulesDropdownButton
-                                currentModuleOrder={currentModule?.ordem || "-"}
-                                disableSelected={false}
-                            >
-                                <>
-                                    <div className="vertical-rule" />
-                                    <span className="dropdown-current-chapter">
-                                        {`Capítulo ${chapterId}`}
-                                    </span>
-                                </>
-                            </ModulesDropdownButton>
-                        }>
+                    <nav className="modules-chapters-dropdown">
+                        <Dropdown
+                            variant="right"
+                            setHeight={false}
+                            ButtonComponent={
+                                <ModulesDropdownButton
+                                    currentModuleOrder={currentModule?.ordem || "-"}
+                                    disableSelected={false}
+                                >
+                                    <>
+                                        <div className="vertical-rule" />
+                                        <span className="dropdown-current-chapter">
+                                            {`Capítulo ${chapterId}`}
+                                        </span>
+                                    </>
+                                </ModulesDropdownButton>
+                            }>
 
-                        <div className="accordion-list">
-                            {
-                                orderedModules.map((module, key) => {
+                            <div className="accordion-list">
+                                {
+                                    orderedModules.map((module, key) => {
 
-                                    return <Accordion
-                                        key={key}
-                                        TriggerComponent={
-                                            <ChaptersAccordionTrigger
-                                                currentModuleId={moduleId}
+                                        return <Accordion
+                                            key={key}
+                                            TriggerComponent={
+                                                <ChaptersAccordionTrigger
+                                                    currentModuleId={moduleId}
+                                                    module={module}
+                                                />
+                                            } >
+                                            <ChaptersAccordionContent
+                                                // currentModuleChapters = Todos os capítulos de todos os módulos
+                                                // do plano de estudos atualmente acessado.
                                                 module={module}
-                                            />
-                                        } >
-                                        <ChaptersAccordionContent
-                                            // currentModuleChapters = Todos os capítulos de todos os módulos
-                                            // do plano de estudos atualmente acessado.
-                                            module={module}
-                                            currentChapterId={chapterId}
-                                            chaptersMock={chaptersMock}
-                                        // chaptersMock não será necessário quando implementados.
-                                        >
+                                                currentChapterId={chapterId}
+                                                chaptersMock={chaptersMock}
+                                            // chaptersMock não será necessário quando implementados.
+                                            >
 
-                                        </ChaptersAccordionContent>
-                                    </Accordion>
-                                })
-                            }
-                        </div>
+                                            </ChaptersAccordionContent>
+                                        </Accordion>
+                                    })
+                                }
+                            </div>
 
-                    </Dropdown>
+                        </Dropdown>
+                    </nav>
 
                 </div>
             </section>

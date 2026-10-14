@@ -4,6 +4,7 @@
     flex-direction: column;
     align-items: center;
     position: relative;
+    margin-left: 12px;
     animation: slide-in 0.3s
 }
 
@@ -86,6 +87,11 @@
 }
 
 @media (max-width: 400px) {
+
+    .timeline-stepper-container {
+        margin-left: 10px;
+    }
+
     .stepper-circle {
         width: 6px;
         height: 6px;
