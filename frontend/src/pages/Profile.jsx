@@ -1,12 +1,8 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom";
 import "./Profile.css"
 
 export default function Profile() {
   const [activeTab, setActiveTab] = useState("salvos");
-  
-  const navigate = useNavigate();
-
 
   return (
     <div className="profile-container">
@@ -20,11 +16,11 @@ export default function Profile() {
         <div className="profile-section">
 
           <div className="profile-img-and-info">
-            <img src="/perfilImg.svg" className="profile-img" alt="Perfil"/>
+            <img src="/perfilImg.svg" className="profile-img" alt="Perfil" />
 
             <div className="profile-info">
 
-              <h2 className="profile-name">Kleber Machado</h2> <br/>
+              <h2 className="profile-name">Kleber Machado</h2> <br />
               <h2 className="profile-date">Entrou em 21/03/2025</h2>
 
             </div>
@@ -33,7 +29,7 @@ export default function Profile() {
           <button className="edit-btn"><img src="./public/editarIcone.svg"></img>Editar</button>
 
         </div>
-        
+
         <p className="profile-description">Administrador de Banco de Dados<br />Porto Velho - RO</p>
 
       </section>
@@ -46,7 +42,7 @@ export default function Profile() {
 
         <button className={`tab-btn ${activeTab === "andamento" ? "active" : ""}`}
           onClick={() => setActiveTab("andamento")}>Em andamento</button>
-        
+
         <button className={`tab-btn ${activeTab === "meusPlanos" ? "active" : ""}`}
           onClick={() => setActiveTab("meusPlanos")}>Meus planos</button>
 

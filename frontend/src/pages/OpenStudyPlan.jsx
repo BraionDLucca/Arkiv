@@ -17,7 +17,7 @@ const OpenStudyPlan = () => {
 
     useEffect(() => {
 
-        !isLoading && setIsLoading(true)
+        setIsLoading(true)
 
         const loadPlanDetails = async () => {
 
@@ -82,11 +82,11 @@ const OpenStudyPlan = () => {
                             </span>
 
                             <div className="rating">
-                                
+
                                 <img src="/estrela.svg" alt="Estrela" className="feedback-item" />
-                                
+
                                 <span className="rating">
-                                
+
                                     {plano.media_avaliacao != null ? `${plano.media_avaliacao}` : "–/5"}
                                 </span>
                             </div>

@@ -10,7 +10,7 @@ export default function RecommendedList({ tags, plano_id }) {
     const tags_param = tags.join(",")
 
     useEffect(() => {
-        
+
         const loadPlans = async () => {
 
             try {
@@ -34,7 +34,7 @@ export default function RecommendedList({ tags, plano_id }) {
 
         loadPlans()
 
-    }, [plano_id]) // [plano_id] = useEffect é executado novamente quando "plano_id" mudar.
+    }, [plano_id, tags_param]) // efeito é executado quando "plano_id" ou "tags_param" mudar.
 
     // Só exibe planos recomendados se houver.
     if (studyPlans.length === 0) {
@@ -66,7 +66,7 @@ export default function RecommendedList({ tags, plano_id }) {
                         />
 
                     ))}
-                    
+
                 </div>
             </div>
         </main>
