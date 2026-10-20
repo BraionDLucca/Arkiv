@@ -1,0 +1,23 @@
+#chapters-page-container {
+    margin: 3.75rem 0rem;
+}
+
+.chapters-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    margin-top: 3rem;
+    margin-bottom: 3.75rem;
+}
+
+.chapters-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+}
+
+.chapters-page-modules-dropdown {
+    margin-left: auto;
+}
