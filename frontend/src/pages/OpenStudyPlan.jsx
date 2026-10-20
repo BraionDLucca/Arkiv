@@ -1,6 +1,6 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
 import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
@@ -11,6 +11,7 @@ const OpenStudyPlan = () => {
 
     window.scrollTo(0, 0)
 
+    const navigate = useNavigate();
     const { id } = useParams();
 
     const [plano, setPlano] = useState(null);
@@ -121,7 +122,9 @@ const OpenStudyPlan = () => {
 
                     </ul>
 
-                    <Button size="large">Iniciar Estudos</Button>
+                    <Button size="large" onClick={() => navigate(`/planos/${id}/modulos`)}>
+                        Iniciar Estudos
+                    </Button>
 
                 </div>
 
