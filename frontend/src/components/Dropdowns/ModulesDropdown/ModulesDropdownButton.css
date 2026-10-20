@@ -6,11 +6,12 @@
     border: none;
     border-radius: 999px;
     margin: 0;
-    padding: 0.4rem 0.8rem;
+    padding: 0.6rem 0.8rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 5px;
+    gap: 0.8rem;
+    height: fit-content;
     width: fit-content;
     min-width: 100px;
     cursor: pointer;
@@ -27,6 +28,7 @@
 }
 
 .arrow-icon {
+    height: var(--icon-medium);
     transform: rotate(-90deg);
     transition: 0.3s ease-out;
 }

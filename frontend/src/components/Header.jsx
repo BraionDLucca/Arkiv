@@ -26,7 +26,6 @@ function Header() {
             <div className='right-section'>
 
                 <button
-                    variant="tertiary"
                     className='register-btn'
                     name="registrar"
                     onClick={() => navigate("/register")}

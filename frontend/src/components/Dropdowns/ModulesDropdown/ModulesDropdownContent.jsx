@@ -44,8 +44,8 @@ function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
 
             return <li
                 className={
-                    `content-option ${currentModuleOrder === module.ordem ?
-                        "content-option-selected" : ""}`
+                    `dropdown-content-option ${currentModuleOrder === module.ordem ?
+                        "dropdown-content-option-selected" : ""}`
                 }
                 value={module.titulo}
                 key={index}

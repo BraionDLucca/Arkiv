@@ -13,6 +13,7 @@ const Register = lazy(() => import("./pages/Register.jsx"))
 const Login = lazy(() => import("./pages/Login.jsx"))
 const Profile = lazy(() => import('./pages/Profile.jsx'))
 const CreateStudyPlan = lazy(() => import('./pages/CreateStudyPlan.jsx'))
+const ChapterContent = lazy(() => import('./pages/ChapterContent.jsx'))
 
 function App() {
     return (
@@ -48,7 +49,12 @@ function App() {
                                         <Route path="/planos/:id/modulos" element={<ModulesPage />} />
 
                                         <Route path="/criar-plano" element={<CreateStudyPlan />} />
-                                        
+
+                                        <Route
+                                            path="/planos/:studyPlanId/modulos/:moduleId/capitulos/:chapterId/conteudo"
+                                            element={<ChapterContent />}
+                                        />
+
                                     </Routes>
                                 </Suspense>
                             </div>

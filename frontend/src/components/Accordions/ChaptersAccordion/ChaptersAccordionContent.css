@@ -1,0 +1,29 @@
+.accordion-content-list {
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding-right: 0.9rem;
+    padding-left: calc(0.8rem + var(--icon-medium));
+
+    /* Necessário para a transição de altura da grid em:
+       Accordion.css -> .accordion-content-container */
+    overflow: hidden;
+}
+
+.accordion-content-item {
+    border-radius: 12px;
+    padding: 0.625rem;
+    transition: var(--transition);
+    cursor: pointer;
+}
+
+.accordion-content-item:hover {
+    background-color: var(--gray-light);
+}
+
+.accordion-content-item-selected {
+    background-color: var(--bg);
+    pointer-events: none;
+    cursor: default;
+}

@@ -9,7 +9,7 @@ import "./ModulesDropdownButton.css"
  * }} props
  */
 
-function ModulesDropdownButton({ dropdownOpen, currentModuleOrder, onClick }) {
+function ModulesDropdownButton({ dropdownOpen, currentModuleOrder, onClick, children }) {
 
     return <>
         <button className="dropdown-button" onClick={onClick}>
@@ -18,7 +18,11 @@ function ModulesDropdownButton({ dropdownOpen, currentModuleOrder, onClick }) {
                 className={`arrow-icon ${dropdownOpen ? "arrow-icon-open" : ""}`}
             />
 
-            <p id="selected-option">{`Módulo ${currentModuleOrder}`}</p>
+            <span id="selected-option">{`Módulo ${currentModuleOrder}`}</span>
+
+            {/* Utilizado para o capítulo atual em ChapterContent */}
+            {children}
+
         </button>
     </>
 }
