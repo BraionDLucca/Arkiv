@@ -4,69 +4,159 @@
 }
 
 .cover {
-    background-image: url("public/paisagem.jpg");
     width: 100%;
     height: 250px;
+
     background-size: cover;
     background-position: center;
+
+    position: relative;
+}
+.change-cover-image {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+
+    border: none;
+    border-radius: 8px;
+
+    padding: 8px 14px;
+
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--primary-color);
+
+    font-weight: 600;
+    cursor: pointer;
+
+    transition: var(--transition);
 }
 
+.change-cover-image:hover {
+    background: white;
+}
+
+
 .profile-wrapper {
-    padding-top: 30px;
+    padding: 28px 40px 24px;
+    box-sizing: border-box;
 }
 
 .profile-section {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 30px;
 }
 
 .profile-img-and-info {
     display: flex;
     align-items: center;
+    gap: 18px;
+
+    min-width: 0;
+}
+
+.profile-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
 }
 
 .profile-img {
+    width: 100px;
     height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .profile-info {
-    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 10px;
+
+    min-width: 0;
+    max-width: 600%;
 }
 
 .profile-name {
     font-size: 24px;
     font-weight: 600;
-    margin-top: 8px;
-    display: inline;
+    margin: 0;
 }
 
 .profile-date {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     margin: 0;
-    margin-top: 10px;
     color: var(--gray-dark);
 }
 
-.edit-btn {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background-color: white;
-    font-family: Rubik;
-    font-size: 18px;
-    font-weight: 600;
-    color: #311271;
-    padding: 10px 15px;
-    border: 3px solid var(--gray-light);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: var(--transition);
+/* Biografia */
+
+.profile-description {
+    margin: 0;
+    max-width: 600px;
+
+    line-height: 1.6;
+    white-space: pre-line;
+
+    overflow-wrap: anywhere;
+    word-break: break-word;
 }
 
-.edit-btn:hover {
-    background-color: var(--gray-light);
+/* Botão Editar */
+
+.profile-edit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    min-width: 105px;
+    height: 40px;
+
+    margin-top: 10px;
+
+    flex-shrink: 0;
+}
+
+.profile-edit-icon {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+/* Alterar foto */
+
+.change-profile-image {
+    border: none;
+    background: transparent;
+
+    padding: 4px 8px;
+
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+}
+
+/* Edição da biografia */
+
+.profile-bio-edit {
+    width: 100%;
+    max-width: 500px;
+
+    margin: 18px 0 0 118px;
+}
+
+.profile-bio-input {
+    width: 450px;
+    min-height: 100px;
+    resize: vertical;
 }
 
 /* Abas */
@@ -106,6 +196,48 @@
     text-align: center;
     font-size: 2rem;
     font-weight: 500;
-    margin: auto;
-    padding: 150px;
+    margin: 0;
+}
+
+.empty-plans {
+    width: 100%;
+    min-height: 320px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    gap: 20px;
+    text-align: center;
+}
+
+.profile-edit-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 15px;
+    max-width: 350px;
+}
+
+.profile-image-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.change-profile-image {
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: 600;
 }

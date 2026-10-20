@@ -11,6 +11,7 @@ const OpenStudyPlan = lazy(() => import('./pages/OpenStudyPlan.jsx'))
 const Register = lazy(() => import("./pages/Register.jsx"))
 const Login = lazy(() => import("./pages/Login.jsx"))
 const Profile = lazy(() => import('./pages/Profile.jsx'))
+const CreateStudyPlan = lazy(() => import('./pages/CreateStudyPlan.jsx'))
 
 function App() {
     return (
@@ -40,6 +41,8 @@ function App() {
 
                                         <Route path="/planos/:id/modulos" element={<ModulesPage />} />
 
+                                        <Route path="/criar-plano" element={<CreateStudyPlan />} />
+                                        
                                     </Routes>
                                 </Suspense>
                             </div>
