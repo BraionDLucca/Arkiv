@@ -29,6 +29,7 @@
 
 .modules-chapters-dropdown {
     margin-left: auto;
+    z-index: 3;
 }
 
 .vertical-rule {
