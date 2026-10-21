@@ -54,7 +54,7 @@ function CreateStudyPlan() {
         );
 
         if (confirmExit) {
-            navigate("/profile");
+            navigate(-1);
         }
     };
 
