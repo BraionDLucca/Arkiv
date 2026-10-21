@@ -2,11 +2,12 @@ import { useState } from "react"
 import "./Profile.css"
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import Tabs from "../components/Tabs";
 import ghostIcon from "../assets/ghostIcon.svg"
 import plusIcon from "../assets/plusIcon.svg"
 
 export default function Profile() {
-  const [activeTab, setActiveTab] = useState("salvos");
+  const [activeTab, setActiveTab] = useState("Salvos");
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -149,23 +150,18 @@ export default function Profile() {
       </section>
 
       {/* Abas */}
-      <nav className="tabs-nav">
+      <Tabs
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        tabsNames={
+          ["Salvos", "Em andamento", "Meus planos"]
+        }
+      />
 
-        <button className={`tab-btn ${activeTab === "salvos" ? "active" : ""}`}
-          onClick={() => setActiveTab("salvos")}>Salvos</button>
+      <section className="profile-tabs-content">
 
-        <button className={`tab-btn ${activeTab === "andamento" ? "active" : ""}`}
-          onClick={() => setActiveTab("andamento")}>Em andamento</button>
-
-        <button className={`tab-btn ${activeTab === "meusPlanos" ? "active" : ""}`}
-          onClick={() => setActiveTab("meusPlanos")}>Meus planos</button>
-
-      </nav>
-
-      <section className="tabs-content">
-
-        {activeTab === "salvos" && (
-          <div className="tab-content">
+        {activeTab === "Salvos" && (
+          <div className="profile-tab-content">
             <div className="empty-plans">
 
               <img src={ghostIcon} alt="Sem planos para exibir." className="empty-plans-icon" />
@@ -178,8 +174,8 @@ export default function Profile() {
           </div>
         )}
 
-        {activeTab === "andamento" && (
-          <div className="tab-content">
+        {activeTab === "Em andamento" && (
+          <div className="profile-tab-content">
             <div className="empty-plans">
 
               <img src={ghostIcon} alt="Sem planos para exibir." className="empty-plans-icon" />
@@ -192,8 +188,8 @@ export default function Profile() {
           </div>
         )}
 
-        {activeTab === "meusPlanos" && (
-          <div className="tab-content">
+        {activeTab === "Meus planos" && (
+          <div className="profile-tab-content">
             <div className="empty-plans">
 
               <img src={ghostIcon} alt="Sem planos para exibir." className="empty-plans-icon" />
@@ -206,8 +202,7 @@ export default function Profile() {
                 type="button"
                 variant="primary"
                 size="medium"
-                onClick={() => navigate("/criar-plano")
-                }
+                onClick={() => navigate("/criar-plano")}
                 className="create-plan-btn"
               >
                 <img src={plusIcon} alt="Criar Plano de Estudos" />

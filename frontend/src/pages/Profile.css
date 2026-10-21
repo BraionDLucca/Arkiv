@@ -109,33 +109,6 @@
     resize: vertical;
 }
 
-/* Abas */
-.tabs-nav {
-    display: flex;
-    justify-content: center;
-    gap: 1.5rem;
-    border-bottom: 1px solid #ccc;
-}
-
-.tab-btn {
-    background: none;
-    border: none;
-    padding: 10px;
-    font-size: 1.125rem;
-    font-weight: 500;
-    color: var(--gray-darker);
-    cursor: pointer;
-}
-
-.tab-btn:hover {
-    color: var(--secondary-color);
-}
-
-.tab-btn.active {
-    color: var(--secondary-color);
-    border-bottom: 2px solid var(--secondary-color);
-}
-
 /* Conteúdo das Abas */
 
 .hidden {
