@@ -17,6 +17,7 @@ plano_bp = Blueprint(
     __name__
 )
 
+
 def get_plano_db():
     return Database(
         host=DB_PLANOS_HOST,
@@ -25,11 +26,12 @@ def get_plano_db():
         database=DB_PLANOS_DB
     )
 
+
 @plano_bp.route("/")
 def home():
-    return jsonify({
-        "msg": "API rodando! Use /planos, /usuarios, /cursos, /comentarios ou /avaliacoes"
-    })
+    msg = "API rodando! Use /planos, /usuarios, /cursos, /comentarios ou /avaliacoes"
+    return jsonify({"msg": msg})
+
 
 @plano_bp.route("/planos/<int:plano_id>", methods=["GET"])
 def get_plano(plano_id):
@@ -51,6 +53,7 @@ def get_plano(plano_id):
 
     db.close()
     return jsonify(plano)
+
 
 @plano_bp.route("/planos/recomendados", methods=["GET"])
 def get_recomendados():
