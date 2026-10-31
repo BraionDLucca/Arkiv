@@ -1,10 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import "./App.css"
 import { lazy, Suspense } from "react";
 import ChaptersPage from "./pages/ChaptersPage.jsx";
 import ModulesPage from "./pages/ModulesPage.jsx";
+
 
 /* Importando com lazy para carregar páginas apenas quando necessário */
 const Home = lazy(() => import('./pages/Home.jsx'))
@@ -18,52 +20,65 @@ const ChapterContent = lazy(() => import('./pages/ChapterContent.jsx'))
 function App() {
     return (
         <BrowserRouter>
-            <Routes>
-                {/* Rotas sem header/footer */}
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
+            <Suspense fallback={<p>Carregando...</p>}>
+                <Routes>
+                    {/* Rotas públicas sem Header e Footer */}
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
 
-                {/* Rotas com header/footer */}
-                <Route
-                    path="*"
-                    element={
-                        <>
-                            <Header />
-                            <div className="app-container">
+                    {/* Layout principal */}
+                    <Route
+                        path="*"
+                        element={
+                            <>
+                                <Header />
 
-                                {/* Susupense faz com que estas rotas possam
-                                ser carregadas com lazy */}
-                                <Suspense>
+                                <div className="app-container">
                                     <Routes>
+                                        {/* Rotas públicas */}
                                         <Route path="/" element={<Home />} />
 
-                                        <Route path="/planos/:id" element={<OpenStudyPlan />} />
-
-                                        <Route path="/profile" element={<Profile />} />
+                                        <Route
+                                            path="/planos/:id"
+                                            element={<OpenStudyPlan />}
+                                        />
 
                                         <Route
                                             path="/planos/:studyPlanId/modulos/:moduleId/capitulos"
                                             element={<ChaptersPage />}
                                         />
 
-                                        <Route path="/planos/:id/modulos" element={<ModulesPage />} />
-
-                                        <Route path="/criar-plano" element={<CreateStudyPlan />} />
+                                        <Route
+                                            path="/planos/:id/modulos"
+                                            element={<ModulesPage />}
+                                        />
 
                                         <Route
                                             path="/planos/:studyPlanId/modulos/:moduleId/capitulos/:chapterId/conteudo"
                                             element={<ChapterContent />}
                                         />
 
-                                    </Routes>
-                                </Suspense>
-                            </div>
+                                        {/* Rotas protegidas */}
+                                        <Route element={<ProtectedRoute />}>
+                                            <Route
+                                                path="/profile"
+                                                element={<Profile />}
+                                            />
 
-                            <Footer />
-                        </>
-                    }
-                />
-            </Routes>
+                                            <Route
+                                                path="/criar-plano"
+                                                element={<CreateStudyPlan />}
+                                            />
+                                        </Route>
+                                    </Routes>
+                                </div>
+
+                                <Footer />
+                            </>
+                        }
+                    />
+                </Routes>
+            </Suspense>
         </BrowserRouter>
     );
 }

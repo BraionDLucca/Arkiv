@@ -1,10 +1,12 @@
-const apiUrl = import.meta.env.VITE_API_URL;
+import { apiRequest } from "../services/api.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterLogin.css";
 import Button from "../components/Button";
 
 export default function Login() {
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
 
@@ -24,41 +26,55 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (isSubmitting) return;
+
         setError("");
         setSuccess("");
 
-        // Validação campos obrigatórios
-        if (!formData.email || !formData.senha) {
+        if (!formData.email.trim() || !formData.senha) {
             setError("Preencha todos os campos obrigatórios.");
             return;
         }
 
-        /* Envio do formulário */
-        try {
+        setIsSubmitting(true);
 
-            const res = await fetch(`${apiUrl}/auth/login`, {
+        try {
+            await apiRequest("/auth/login", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
 
-            const data = await res.json();
+            // A resposta foi recebida com sucesso.
+            // Ainda precisamos confirmar o contrato de
+            // autenticação disponibilizado pelo Flask.
 
-            if (!res.ok) {
+            console.log("Requisição de login aceita pela API.");
 
-                setError("Email ou senha incorretos.")
-                console.error("Erro: ", data.erro)
-            }
+            // Não registramos tokens nem credenciais no console.
+            // Por enquanto, não criamos uma sessão no AuthContext.
 
-            setSuccess("Login realizado com sucesso! Redirecionando...")
-
-            // redireciona para a página inicial após 1,5s
-            setTimeout(() => navigate("/"), 1500);
+            setSuccess(
+                "Requisição aceita. Aguardando integração da sessão."
+            );
 
         } catch (err) {
+            console.error(
+                "Falha na requisição de autenticação:",
+                err.message
+            );
 
-            console.error(err)
-            setError("Erro ao conectar com o servidor.")
+            if (err.status === 400 || err.status === 401) {
+                setError("Email ou senha incorretos.");
+                } else if (err.status === 403) {
+                    setError("Acesso não autorizado.");
+                } else if (err.status >= 500) {
+                    setError("Erro interno do servidor. Tente novamente mais tarde.");
+                } else {
+                    setError("Não foi possível conectar ao servidor.");
+                }
+            } finally {
+                setIsSubmitting(false);
         }
     };
 
@@ -132,7 +148,9 @@ export default function Login() {
 
                     </div>
 
-                    <Button size="large" type="submit">Continuar</Button>
+                    <Button size="large" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Entrando..." : "Continuar"}
+                    </Button>
 
                     <div className="divide">
 

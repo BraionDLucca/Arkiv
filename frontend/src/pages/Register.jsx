@@ -1,4 +1,4 @@
-const apiUrl = import.meta.env.VITE_API_URL;
+import { apiRequest } from "../services/api.js";
 import { useState } from "react";
 import "./RegisterLogin.css";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,8 @@ export default function Register() {
     const [error, setError] = useState("") // para mostrar mensagens de erro
     const [success, setSuccess] = useState("") // mensagem de sucesso
 
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
     };
@@ -29,51 +31,71 @@ export default function Register() {
         setConfirmSenha(e.target.value)
     };
 
+
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError(""); // limpa erro anterior
-        setSuccess("") // limpa sucesso anterior
+        e.preventDefault();
 
-        // Validação de "confirmar senha"
+        if (isSubmitting) return;
+
+        setError("");
+        setSuccess("");
+
+        // Validação dos campos obrigatórios
+        if (!formData.email.trim() || !formData.senha || !confirmSenha) {
+            setError("Preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        // Validação de confirmação de senha
         if (formData.senha !== confirmSenha) {
-            setError("As senhas não coincidem!")
-            return
+            setError("As senhas não coincidem!");
+            return;
         }
 
-        // Validação de senha (8 caracteres)
+        // Validação do tamanho mínimo da senha
         if (formData.senha.length < 8) {
-            setError("A senha precisa ter no mínimo 8 caracteres.")
-            return
+            setError("A senha precisa ter no mínimo 8 caracteres.");
+            return;
         }
 
-        /* Envio do formulário */
+        setIsSubmitting(true);
+
         try {
-
-            const res = await fetch(`${apiUrl}/auth/register`, {
+            await apiRequest("/auth/register", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            })
+                body: JSON.stringify({
+                    email: formData.email.trim(),
+                    senha: formData.senha,
+                }),
+            });
 
-            const data = await res.json();
+            // Só executa quando a API retorna sucesso.
+            setSuccess(
+                "Cadastro realizado com sucesso! Redirecionando para login..."
+            );
 
-            if (!res.ok) {
-
-                setError("Ocorreu um erro ao cadastrar.")
-                console.error("Erro: ", data.erro)
-            }
-
-            setSuccess("Cadastro realizado com sucesso! Redirecionando para login...")
-
-            // redireciona após 1,5s
             setTimeout(() => navigate("/login"), 1500);
 
         } catch (err) {
+            console.error(
+                "Falha no cadastro:",
+                err.message
+            );
 
-            console.error(err);
-            setError("Erro ao conectar com o servidor.")
+            if (err.status === 409) {
+                setError("Este e-mail já está cadastrado.");
+            } else if (err.status === 400 || err.status === 422) {
+                setError("Não foi possível cadastrar. Verifique os dados informados.");
+            } else if (err.status >= 500) {
+                setError("Erro interno do servidor. Tente novamente mais tarde.");
+            } else {
+                setError("Não foi possível conectar ao servidor.");
+            }
+        } finally {
+            setIsSubmitting(false);
         }
-    }
+    };
+
 
     /* Mostrar/Esconder senha */
     function handleMostrarSenha() {
@@ -182,7 +204,9 @@ export default function Register() {
 
                     </div>
 
-                    <Button size="large" type="submit">Continuar</Button>
+                    <Button size="large" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Cadastrando..." : "Continuar"}
+                    </Button>
 
                     <div className="divide">
 
