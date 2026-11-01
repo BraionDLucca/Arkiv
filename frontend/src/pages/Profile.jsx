@@ -149,16 +149,18 @@ export default function Profile() {
 
       </section>
 
-      {/* Abas */}
-      <Tabs
-        activeTab={activeTab}
-        setActiveTab={setActiveTab}
-        tabsNames={
-          ["Salvos", "Em andamento", "Meus planos"]
-        }
-      />
+      <hr />
 
       <section className="profile-tabs-content">
+
+        {/* Abas */}
+        <Tabs
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabsNames={
+            ["Salvos", "Em andamento", "Meus planos"]
+          }
+        />
 
         {activeTab === "Salvos" && (
           <div className="profile-tab-content">

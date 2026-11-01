@@ -25,6 +25,7 @@
     justify-content: space-between;
     gap: 30px;
     position: relative;
+    margin-bottom: 3.75rem;
 }
 
 .profile-img-and-info {
@@ -110,6 +111,10 @@
 }
 
 /* Conteúdo das Abas */
+
+.profile-tabs-content {
+    margin-top: 3.75rem;
+}
 
 .hidden {
     display: none;
