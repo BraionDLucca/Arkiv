@@ -27,48 +27,41 @@
         npm install
         ```
 
-    - Backend (`database/`):
+    - Backend (`backend/`):
+        ```bash
+        cd backend
+        python -m venv venv
+        # No Windows:
+        venv\Scripts\activate
+        # No Linux/Mac:
+        source venv/bin/activate
 
-        ```
-        cd database
         pip install -r requirements.txt
         ```
 
 ## Execução
 
-Para executar o projeto, você precisa ter um banco MySQL com a estrutura e dados necessários.
+1. **Backend (Django):**
 
-1. Acesse a pasta `src/database/sql`.
+    Navegue até a pasta do backend, ative o ambiente virtual e execute as migrações do banco de dados antes de iniciar o servidor:
 
-2. Dentro dela, você encontrará duas pastas:
+    ```bash
+    cd backend
 
-    - `schema/` = arquivos `.sql` responsáveis por criar os schemas "planos" e "USER"
+    # Executar as migrações das tabelas do Django
+    python manage.py migrate
 
-    - `seed/` = arquivos `.sql` para inserir mocks
+    # Iniciar o servidor de desenvolvimento
+    python manage.py runserver
+    ```
+    O backend estará rodando em `http://127.0.0.1:8000/`.
 
-3. Execute os arquivos da pasta `schema` no MySQL Workbench para criar a estrutura do banco.
+2. **Frontend (React + Vite):**
 
-4. Execute os arquivos da pasta `seed` para popular com dados mock (se quiser usar seus próprios dados, pule esta etapa).
+    Em outro terminal, navegue até a pasta do frontend e inicie a aplicação:
 
-5. Em `database/`, configure o acesso do backend ao banco informando host, usuário e senha:
-
-    - `config.env` = conexão do schema "planos"
-
-    - `config_user.env` = conexão do schema "USER"
-
-    Se tiver alterado os nomes de schema, atualize também nesses arquivos `.env`.
-
-6. Inicie em ambiente de desenvolvimento:
-
-    - Frontend (`src/`):
-
-        ```
-        npm run dev
-        ```
-
-    - Backend (`database/`):
-
-        ```
-        cd database
-        python app.py
-        ```
+    ```bash
+    cd frontend
+    npm run dev
+    ```
+    O frontend estará acessível no endereço indicado pelo Vite (geralmente `http://localhost:5173/`).
