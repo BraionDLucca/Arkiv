@@ -1,13 +1,13 @@
 from rest_framework import serializers
 from .models import (
-    Plano,
-    Modulo,
+    Avaliacao,
     Capitulo,
+    Comentario,
     Conteudo,
+    Modulo,
+    Plano,
     ProgressoConteudo,
     Tag,
-    Comentario,
-    Avaliacao,
 )
 
 
@@ -170,27 +170,59 @@ class ModuloSerializer(serializers.ModelSerializer):
 
 
 class ComentarioSerializer(serializers.ModelSerializer):
+    usuario_id = serializers.ReadOnlyField(source='usuario.id')
+    usuario_nome = serializers.ReadOnlyField(source='usuario.username')
     usuario_email = serializers.ReadOnlyField(source='usuario.email')
 
     class Meta:
         model = Comentario
-        fields = ['id', 'usuario', 'usuario_email', 'texto', 'data']
+        fields = [
+            'id',
+            'plano',
+            'usuario',
+            'usuario_id',
+            'usuario_nome',
+            'usuario_email',
+            'texto',
+            'data',
+        ]
         read_only_fields = ['usuario', 'data']
 
 
 class AvaliacaoSerializer(serializers.ModelSerializer):
+    usuario_id = serializers.ReadOnlyField(source='usuario.id')
+    usuario_email = serializers.ReadOnlyField(source='usuario.email')
+
     class Meta:
         model = Avaliacao
-        fields = ['id', 'plano', 'usuario', 'nota']
+        fields = ['id', 'plano', 'usuario', 'usuario_id', 'usuario_email', 'nota']
         read_only_fields = ['usuario']
+
+    def validate_nota(self, value):
+        if value < 1 or value > 5:
+            raise serializers.ValidationError(
+                "A nota de avaliação deve estar entre 1.0 e 5.0."
+            )
+        return value
 
 
 class PlanoSerializer(serializers.ModelSerializer):
+    autor_id = serializers.ReadOnlyField(source='autor.id')
+    autor_nome = serializers.ReadOnlyField(source='autor.username')
     autor_email = serializers.ReadOnlyField(source='autor.email')
     tags = TagSerializer(many=True, read_only=True)
+    tag_ids = serializers.PrimaryKeyRelatedField(
+        queryset=Tag.objects.all(),
+        many=True,
+        write_only=True,
+        required=False,
+        source='tags'
+    )
     modulos = serializers.SerializerMethodField()
     comentarios = ComentarioSerializer(many=True, read_only=True)
+    total_comentarios = serializers.SerializerMethodField()
     media_avaliacoes = serializers.SerializerMethodField()
+    media_avaliacao = serializers.SerializerMethodField()
     total_conteudos = serializers.SerializerMethodField()
     conteudos_acessados = serializers.SerializerMethodField()
     percentual_progresso = serializers.SerializerMethodField()
@@ -204,11 +236,16 @@ class PlanoSerializer(serializers.ModelSerializer):
             'imagem_url',
             'data_publicacao',
             'autor',
+            'autor_id',
+            'autor_nome',
             'autor_email',
             'tags',
+            'tag_ids',
             'modulos',
             'comentarios',
+            'total_comentarios',
             'media_avaliacoes',
+            'media_avaliacao',
             'total_conteudos',
             'conteudos_acessados',
             'percentual_progresso',
@@ -225,7 +262,7 @@ class PlanoSerializer(serializers.ModelSerializer):
         conteudo_ids = list(
             Conteudo.objects.filter(
                 capitulo__modulo__plano=obj
-                ).values_list('id', flat=True)
+            ).values_list('id', flat=True)
         )
         total = len(conteudo_ids)
 
@@ -252,11 +289,17 @@ class PlanoSerializer(serializers.ModelSerializer):
         )
         return serializer.data
 
+    def get_total_comentarios(self, obj):
+        return obj.comentarios.count()
+
     def get_media_avaliacoes(self, obj):
         avaliacoes = obj.avaliacoes.all()
         if not avaliacoes.exists():
             return 0.0
         return round(sum(a.nota for a in avaliacoes) / avaliacoes.count(), 2)
+
+    def get_media_avaliacao(self, obj):
+        return self.get_media_avaliacoes(obj)
 
     def get_total_conteudos(self, obj):
         total, _, _ = self._get_progresso_stats(obj)

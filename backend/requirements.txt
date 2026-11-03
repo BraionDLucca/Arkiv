@@ -6,4 +6,6 @@ cryptography
 flake8
 pytest
 pytest-django
+pytest-cov
 djangorestframework-simplejwt
+python-decouple

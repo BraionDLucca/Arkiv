@@ -27,3 +27,24 @@ dist-ssr
 **/__pycache__/
 *.pyc
 *tempCodeRunnerFile.py
+
+# Virtual Environments
+venv/
+.venv/
+env/
+ENV/
+
+# Environment variables
+.env
+*.env
+!.env.example
+
+# Database
+*.sqlite3
+db.sqlite3
+
+# Test & coverage artifacts
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
