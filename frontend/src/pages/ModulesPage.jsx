@@ -46,8 +46,9 @@ function ModulesPage() {
                     orderedModules.map((module, index) => {
 
                         return <Modules
-                            titulo={module.titulo}
-                            ordem={module.ordem}
+                            title={module.titulo}
+                            order={module.ordem}
+                            chapterCount={module.capitulos.length}
                             key={index}
                         />
                     })
