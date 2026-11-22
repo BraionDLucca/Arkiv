@@ -13,8 +13,9 @@ export default function Register() {
 
 
     const [formData, setFormData] = useState({
+        username: "",
         email: "",
-        senha: "",
+        password: "",
     });
 
     const [confirmSenha, setConfirmSenha] = useState("") // para validar a confirmação
@@ -35,13 +36,13 @@ export default function Register() {
         setSuccess("") // limpa sucesso anterior
 
         // Validação de "confirmar senha"
-        if (formData.senha !== confirmSenha) {
+        if (formData.password !== confirmSenha) {
             setError("As senhas não coincidem!")
             return
         }
 
         // Validação de senha (8 caracteres)
-        if (formData.senha.length < 8) {
+        if (formData.password.length < 8) {
             setError("A senha precisa ter no mínimo 8 caracteres.")
             return
         }
@@ -49,7 +50,7 @@ export default function Register() {
         /* Envio do formulário */
         try {
 
-            const res = await fetch(`${apiUrl}/auth/register`, {
+            const res = await fetch(`${apiUrl}/auth/register/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
@@ -61,12 +62,13 @@ export default function Register() {
 
                 setError("Ocorreu um erro ao cadastrar.")
                 console.error("Erro: ", data.erro)
+            } else {
+
+                setSuccess("Cadastro realizado com sucesso! Redirecionando para login...")
+
+                // redireciona após 1,5s
+                setTimeout(() => navigate("/login"), 1500);
             }
-
-            setSuccess("Cadastro realizado com sucesso! Redirecionando para login...")
-
-            // redireciona após 1,5s
-            setTimeout(() => navigate("/login"), 1500);
 
         } catch (err) {
 
@@ -120,6 +122,14 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
+                        <label htmlFor="email">Nome de usuário</label> <br />
+                        <input id="username" name="username" type="text" onChange={handleChange}
+                            required /> <br /> <br />
+
+                    </div>
+
+                    <div className="reg-form-item">
+
                         <label htmlFor="email">Email</label> <br />
                         <input id="email" name="email" type="email" onChange={handleChange}
                             required autoComplete="email" /> <br /> <br />
@@ -128,11 +138,11 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
-                        <label htmlFor="senha">Senha</label> <br />
+                        <label htmlFor="password">Senha</label> <br />
 
                         {/* Campo de senha */}
-                        <input id="senha" name="senha" type={mostrarSenha ? "text" : "password"}
-                            className="senha-input" onChange={handleChange}
+                        <input id="password" name="password" type={mostrarSenha ? "text" : "password"}
+                            className="password-input" onChange={handleChange}
                             required autoComplete="current-password" />
 
                         {/* Botão mostrar/esconder senha */}
@@ -160,7 +170,7 @@ export default function Register() {
                         {/* Campo de confirmar senha */}
                         <input id="confirmar-senha" name="confirmar-senha"
                             type={mostrarConfirmarSenha ? "text" : "password"}
-                            className="senha-input" value={confirmSenha}
+                            className="password-input" value={confirmSenha}
                             onChange={handleConfirmChange} required />
 
                         {/* Botão mostrar/esconder senha */}
