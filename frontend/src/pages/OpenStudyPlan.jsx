@@ -6,6 +6,7 @@ import RecommendedList from "../components/RecommendedList";
 import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
 import Button from "../components/Button";
 import Tag from "../components/Tag";
+import Banner from "../components/Banner";
 
 const OpenStudyPlan = () => {
 
@@ -14,7 +15,7 @@ const OpenStudyPlan = () => {
     const navigate = useNavigate();
     const { id } = useParams();
 
-    const [plano, setPlano] = useState(null);
+    const [studyPlan, setStudyPlan] = useState(null);
     const [isLoading, setIsLoading] = useState(true)
 
 
@@ -34,11 +35,11 @@ const OpenStudyPlan = () => {
 
                 const data = await res.json();
 
-                setPlano(data);
+                setStudyPlan(data);
 
             } catch (error) {
 
-                console.error("Erro ao buscar os dados do plano:", error)
+                console.error("Erro ao buscar os dados do studyPlan:", error)
 
             } finally {
                 setIsLoading(false);
@@ -54,16 +55,12 @@ const OpenStudyPlan = () => {
 
         <div className="open-study-plan-container">
 
-            <div
-                style={{
-                    backgroundImage:
-                        `url(/${plano.imagem_url})`
-                }} /* Começa com "/" pois as imagens de exemplo estão em "public/". */
-                alt="Banner do Plano"
-                className="open-study-banner"
+            <Banner
+                imageUrl={studyPlan.imagem_url}
+                studyPlanTitle={studyPlan.titulo}
             />
 
-            <h2 className="open-study-plan-title">{plano.titulo}</h2>
+            <h2 className="open-study-plan-title">{studyPlan.titulo}</h2>
 
             <section className="description-and-statistics">
 
@@ -74,7 +71,7 @@ const OpenStudyPlan = () => {
                         <div className="author-image-name">
 
                             <img src="/autorPlaceholder.png" alt="Perfil do autor" />
-                            <span>{plano.autor_nome}</span>
+                            <span>{studyPlan.autor_nome}</span>
                             <span className="dot-text">•</span>
 
                         </div>
@@ -84,7 +81,7 @@ const OpenStudyPlan = () => {
                             <span className="data-publicacao">
 
                                 {/* Formata a data para exibição */}
-                                {new Date(plano.data_publicacao).toLocaleDateString()}
+                                {new Date(studyPlan.data_publicacao).toLocaleDateString()}
                             </span>
 
                             <div className="rating">
@@ -93,7 +90,7 @@ const OpenStudyPlan = () => {
 
                                 <span className="rating">
 
-                                    {plano.media_avaliacao != null ? `${plano.media_avaliacao}` : "–/5"}
+                                    {studyPlan.media_avaliacao != null ? `${studyPlan.media_avaliacao}` : "–/5"}
                                 </span>
                             </div>
 
@@ -101,7 +98,7 @@ const OpenStudyPlan = () => {
                     </div>
 
                     <div className="open-study-plan-tags-container">
-                        {plano.tags.map((tag, index) => (
+                        {studyPlan.tags.map((tag, index) => (
 
                             <Tag key={index}>
                                 {tag.nome}
@@ -110,7 +107,7 @@ const OpenStudyPlan = () => {
                     </div>
 
                     <div className="descricao">
-                        <p>{plano.descricao}</p>
+                        <p>{studyPlan.descricao}</p>
                     </div>
 
                 </div>
@@ -150,7 +147,7 @@ const OpenStudyPlan = () => {
 
                     <tbody>
 
-                        {plano.modulos.map((modulo, index) => (
+                        {studyPlan.modulos.map((modulo, index) => (
                             <tr key={index}>
                                 <td className="module-number">Módulo {modulo.ordem}</td>
                                 <td>{modulo.titulo}</td>
@@ -165,22 +162,22 @@ const OpenStudyPlan = () => {
             </div>
 
             {/* Lista de planos recomendados */}
-            <RecommendedList tags={plano.tags} plano_id={plano.id} />
+            <RecommendedList tags={studyPlan.tags} plano_id={studyPlan.id} />
 
             <section className="comments">
 
                 <div className="comments-icon-and-title">
 
                     <img src="/comentariosIcon.svg" alt="" />
-                    <span className="comments-title">{plano.comentarios.length} Comentário(s)</span>
+                    <span className="comments-title">{studyPlan.comentarios.length} Comentário(s)</span>
 
                 </div>
 
-                {plano.comentarios.length === 0 && (
+                {studyPlan.comentarios.length === 0 && (
                     <p>Seja o primeiro a comentar!</p>
                 )}
 
-                {plano.comentarios.map((c, index) => (
+                {studyPlan.comentarios.map((c, index) => (
 
                     <div key={index} className="comment">
                         <strong>{c.autor}</strong>

@@ -1,12 +1,14 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
 import "./ModulesPage.css";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Modules from "../components/Module";
+import Banner from "../components/Banner";
 
 function ModulesPage() {
 
     const [modulesList, setModulesList] = useState([])
+    const [studyPlan, setStudyPlan] = useState([])
 
     const { studyPlanId } = useParams()
 
@@ -19,6 +21,8 @@ function ModulesPage() {
             if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`)
 
             const currentStudyPlan = await res.json()
+
+            setStudyPlan(currentStudyPlan)
 
             setModulesList(currentStudyPlan.modulos)
         }
@@ -38,7 +42,12 @@ function ModulesPage() {
     return (
         <main id="modules-page-container">
 
-            <h1>Módulos</h1>
+            <Banner
+                imageUrl={studyPlan.imagem_url}
+                studyPlanTitle={studyPlan.titulo}
+            />
+
+            <h1>{studyPlan.titulo} - Módulos</h1>
 
             <div className="modules-container">
 
