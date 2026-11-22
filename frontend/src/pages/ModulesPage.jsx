@@ -1,20 +1,20 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
 import "./ModulesPage.css";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import Modules from "../components/Module";
 
 function ModulesPage() {
 
     const [modulesList, setModulesList] = useState([])
 
-    const { id } = useParams()
+    const { studyPlanId } = useParams()
 
     useEffect(() => {
 
         const loadModules = async () => {
 
-            const res = await fetch(`${apiUrl}/planos/${id}`)
+            const res = await fetch(`${apiUrl}/planos/${studyPlanId}`)
 
             if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`)
 
@@ -30,7 +30,7 @@ function ModulesPage() {
             console.error("Erro ao buscar módulos do planos de estudos:", error);
         }
 
-    }, [id])
+    }, [studyPlanId])
 
     // Ordena array de modulos em ordem crescente (baseado no atributo ordem de cada modulo)
     const orderedModules = [...modulesList].sort((a, b) => a.ordem - b.ordem)
@@ -46,6 +46,8 @@ function ModulesPage() {
                     orderedModules.map((module, index) => {
 
                         return <Modules
+                            studyPlanId={studyPlanId}
+                            moduleId={module.id}
                             title={module.titulo}
                             order={module.ordem}
                             chapterCount={module.capitulos.length}
