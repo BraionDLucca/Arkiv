@@ -34,7 +34,7 @@ function ChaptersPage() {
                 (module) => module.id === moduleId
             )
 
-            setCurrentModule(currentModule.ordem)
+            setCurrentModule(currentModule)
         }
 
         try {
@@ -120,17 +120,17 @@ function ChaptersPage() {
 
             <div className="chapters-page-header">
 
-                <h1>{studyPlan.titulo} - Capítulos</h1>
+                <h1>{currentModule.titulo} - Capítulos</h1>
 
                 <nav className="chapters-page-modules-dropdown">
                     <Dropdown
                         ButtonComponent={
-                            <ModulesDropdownButton currentModuleOrder={currentModule} />
+                            <ModulesDropdownButton currentModuleOrder={currentModule.ordem} />
                         }
                         variant={"right"}
                     >
                         <ModulesDropdownContent
-                            currentModuleOrder={currentModule}
+                            currentModuleOrder={currentModule.ordem}
                             studyPlanId={studyPlanId}
                         />
                     </Dropdown>
