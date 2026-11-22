@@ -7,7 +7,7 @@ import "./StudyPlan.css";
 function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, authorName, rating, comments }) {
 
     const navigate = useNavigate()
-    
+
     const [showAllTags, setShowAllTags] = useState(false);
     const maxTagsToShow = 3;
 
@@ -28,31 +28,31 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
 
         function loadBanners() {
 
-        const bannerDivs = document.querySelectorAll(".banner")
+            const bannerDivs = document.querySelectorAll(".banner")
 
-        bannerDivs.forEach(div => {
+            bannerDivs.forEach(div => {
 
-            const img = div.querySelector("img")
+                const img = div.querySelector("img")
 
-            // Adiciona classe loaded
-            function loaded() {
-                img.classList.add("loaded")
-                
-            }
+                // Adiciona classe loaded
+                function loaded() {
+                    img.classList.add("loaded")
 
-            // Verifica se a imagem foi baixada
-            if (img.complete) {
-                loaded()
-            } else {
-                img.addEventListener("load", loaded)
-            }
-        })
-    }
-    
-    loadBanners()
+                }
+
+                // Verifica se a imagem foi baixada
+                if (img.complete) {
+                    loaded()
+                } else {
+                    img.addEventListener("load", loaded)
+                }
+            })
+        }
+
+        loadBanners()
 
     }, [])
-    
+
     return (
 
         <div className="study-plan-wrapper">
@@ -81,7 +81,7 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                     <div className="tags">
 
                         {visibleTags.map((tag, index) => (
-                            <p key={index} className="tag">{tag}</p>
+                            <p key={index} className="tag">{tag.nome}</p>
                         ))}
 
                         {/* Botão para mostrar/esconder todas as tags */}
@@ -129,11 +129,11 @@ function StudyPlan({ plano_id, bannerSrc, title, tags, description, authorImg, a
                 <div className="feedback">
 
                     <img src="/estrela.svg" alt="Estrela" className="feedback-item" loading="lazy" />
-                    
+
                     <span className="feedback-item" id="rating">{
-                                                            Number(rating) ? Number(rating).toFixed(1)
-                                                            :
-                                                            rating}/5</span>
+                        Number(rating) ? Number(rating).toFixed(1)
+                            :
+                            rating}/5</span>
 
                     <img src="/comentario.svg" alt="Comentário" className="feedback-item" loading="lazy" />
                     <span className="feedback-item" id="comment-number">{comments}</span>
