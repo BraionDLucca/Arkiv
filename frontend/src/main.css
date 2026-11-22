@@ -75,3 +75,14 @@ label {
   display: inline-block;
 }
 
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+@media (max-width: 780px) {
+
+  h1 {
+    font-size: 1.313rem;
+  }
+}

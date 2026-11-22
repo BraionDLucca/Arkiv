@@ -60,7 +60,7 @@ const OpenStudyPlan = () => {
                 studyPlanTitle={studyPlan.titulo}
             />
 
-            <h2 className="open-study-plan-title">{studyPlan.titulo}</h2>
+            <h1 className="open-study-plan-title">{studyPlan.titulo}</h1>
 
             <section className="description-and-statistics">
 
