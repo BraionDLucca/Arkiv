@@ -3,6 +3,8 @@ import Header from './components/Header.jsx'
 import Footer from './components/Footer.jsx'
 import "./App.css"
 import { lazy, Suspense } from "react";
+import ChaptersPage from "./pages/ChaptersPage.jsx";
+import ModulesPage from "./pages/ModulesPage.jsx";
 
 /* Importando com lazy para carregar páginas apenas quando necessário */
 const Home = lazy(() => import('./pages/Home.jsx'))
@@ -10,6 +12,8 @@ const OpenStudyPlan = lazy(() => import('./pages/OpenStudyPlan.jsx'))
 const Register = lazy(() => import("./pages/Register.jsx"))
 const Login = lazy(() => import("./pages/Login.jsx"))
 const Profile = lazy(() => import('./pages/Profile.jsx'))
+const CreateStudyPlan = lazy(() => import('./pages/CreateStudyPlan.jsx'))
+const ChapterContent = lazy(() => import('./pages/ChapterContent.jsx'))
 
 function App() {
     return (
@@ -25,17 +29,31 @@ function App() {
                     element={
                         <>
                             <Header />
-                            <div className="container">
+                            <div className="app-container">
 
                                 {/* Susupense faz com que estas rotas possam
                                 ser carregadas com lazy */}
                                 <Suspense>
                                     <Routes>
                                         <Route path="/" element={<Home />} />
-                                        
+
                                         <Route path="/planos/:id" element={<OpenStudyPlan />} />
 
                                         <Route path="/profile" element={<Profile />} />
+
+                                        <Route
+                                            path="/planos/:studyPlanId/modulos/:moduleId/capitulos"
+                                            element={<ChaptersPage />}
+                                        />
+
+                                        <Route path="/planos/:id/modulos" element={<ModulesPage />} />
+
+                                        <Route path="/criar-plano" element={<CreateStudyPlan />} />
+
+                                        <Route
+                                            path="/planos/:studyPlanId/modulos/:moduleId/capitulos/:chapterId/conteudo"
+                                            element={<ChapterContent />}
+                                        />
 
                                     </Routes>
                                 </Suspense>

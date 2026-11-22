@@ -1,0 +1,108 @@
+.chapter-banner {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    height: 18.75rem;
+    object-fit: cover;
+    border-radius: 1.25rem;
+    box-shadow: 0px 1px 4px var(--gray);
+}
+
+.chapter-content-container {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    column-gap: 3rem;
+    align-items: center;
+    justify-items: start;
+    margin-bottom: 2.813rem;
+    transition: var(--transition);
+}
+
+.chapter-content-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.875rem;
+    margin-bottom: 2.063rem;
+}
+
+.modules-chapters-dropdown {
+    margin-left: auto;
+    z-index: 3;
+}
+
+.vertical-rule {
+    display: inline-block;
+    height: var(--icon-medium);
+    width: 1px;
+    border: 1px solid var(--gray);
+    border-radius: 100px
+}
+
+.dropdown-current-chapter {
+    min-width: fit-content;
+}
+
+.accordion-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.625rem;
+}
+
+.chapter-content {
+    max-width: 800px;
+    margin: 0.938rem 0rem;
+    width: 100%;
+    transition: var(--transition);
+}
+
+.first-content {
+    margin-top: 0rem
+}
+
+.last-content {
+    margin-bottom: 0rem;
+}
+
+.chapter-content-container.grid-item-timeline-hidden {
+    /* Centraliza a segunda coluna da grid dinamicamente através da
+    largura da primeira coluna (pois assim a trnasição é aplicada) */
+    grid-template-columns: calc((100vw - 36rem - 800px) / 2) 1fr;
+    column-gap: 0rem;
+}
+
+.hide-timeline-button{
+    margin-bottom: 1.875rem;
+}
+
+.hide-timeline-button img{
+    transform: rotate(180deg);
+    transition: var(--transition);
+}
+
+.hide-timeline-button .hide-timeline-button-arrow-right {
+    transform: rotate(0deg);
+}
+
+@media (max-width: 1400px) {
+
+    .chapter-content-container.grid-item-timeline-hidden {
+        grid-template-columns: calc((100vw - 6rem - 800px) / 2) 1fr;
+    }
+}
+
+@media (max-width: 650px) {
+    .chapter-content-container {
+        column-gap: 1.5rem;
+    }
+}
+
+@media (max-width: 400px) {
+    
+    .chapter-content-container {
+        column-gap: 1rem;
+        grid-template-columns: 20px 1fr;
+    }
+}

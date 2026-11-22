@@ -1,14 +1,17 @@
 const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./OpenStudyPlan.css";
 import RecommendedList from "../components/RecommendedList";
 import OpenStudyPlanSkeleton from "../skeletons/OpenStudyPlanSkeleton";
+import Button from "../components/Button";
+import Tag from "../components/Tag";
 
 const OpenStudyPlan = () => {
 
     window.scrollTo(0, 0)
 
+    const navigate = useNavigate();
     const { id } = useParams();
 
     const [plano, setPlano] = useState(null);
@@ -97,9 +100,12 @@ const OpenStudyPlan = () => {
                         </div>
                     </div>
 
-                    <div className="tags">
+                    <div className="open-study-plan-tags-container">
                         {plano.tags.map((tag, index) => (
-                            <span key={index} className="tag">{tag.nome}</span>
+
+                            <Tag key={index}>
+                                {tag.nome}
+                            </Tag>
                         ))}
                     </div>
 
@@ -119,7 +125,9 @@ const OpenStudyPlan = () => {
 
                     </ul>
 
-                    <button className="botao-estudo">Iniciar estudos</button>
+                    <Button size="large" onClick={() => navigate(`/planos/${id}/modulos`)}>
+                        Iniciar Estudos
+                    </Button>
 
                 </div>
 
@@ -144,7 +152,7 @@ const OpenStudyPlan = () => {
 
                         {plano.modulos.map((modulo, index) => (
                             <tr key={index}>
-                                <td className="module-number">M{index + 1}</td>
+                                <td className="module-number">Módulo {modulo.ordem}</td>
                                 <td>{modulo.titulo}</td>
                                 <td className="chapters-number">Capítulos</td>
                             </tr>

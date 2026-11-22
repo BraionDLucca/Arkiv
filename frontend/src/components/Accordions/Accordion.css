@@ -1,0 +1,21 @@
+.accordion-container {
+    transition: var(--transition);
+}
+
+.accordion-content-container {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: var(--transition);
+
+    opacity: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.accordion-content-container-open {
+    grid-template-rows: 1fr;
+    margin-top: 0.9rem;
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+}

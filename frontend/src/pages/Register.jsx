@@ -2,6 +2,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 import { useState } from "react";
 import "./RegisterLogin.css";
 import { useNavigate } from "react-router-dom";
+import Button from "../components/Button";
 
 export default function Register() {
 
@@ -119,18 +120,20 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
-                        <label>Email</label> <br />
-                        <input type="email" name="email" placeholder="Digite seu email" onChange={handleChange} required /> <br /> <br />
+                        <label htmlFor="email">Email</label> <br />
+                        <input id="email" name="email" type="email" onChange={handleChange}
+                            required autoComplete="email" /> <br /> <br />
 
                     </div>
 
                     <div className="reg-form-item">
 
-                        <label>Senha</label> <br />
+                        <label htmlFor="senha">Senha</label> <br />
 
                         {/* Campo de senha */}
-                        <input type={mostrarSenha ? "text" : "password"} name="senha"
-                            className="senha-input" placeholder="Digite sua senha" onChange={handleChange} required />
+                        <input id="senha" name="senha" type={mostrarSenha ? "text" : "password"}
+                            className="senha-input" onChange={handleChange}
+                            required autoComplete="current-password" />
 
                         {/* Botão mostrar/esconder senha */}
                         {mostrarSenha ?
@@ -152,11 +155,13 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
-                        <label>Confirmar Senha</label> <br />
+                        <label htmlFor="confirmar-senha">Confirmar Senha</label> <br />
 
                         {/* Campo de confirmar senha */}
-                        <input type={mostrarConfirmarSenha ? "text" : "password"} placeholder="Confirme sua senha"
-                            className="senha-input" value={confirmSenha} onChange={handleConfirmChange} required />
+                        <input id="confirmar-senha" name="confirmar-senha"
+                            type={mostrarConfirmarSenha ? "text" : "password"}
+                            className="senha-input" value={confirmSenha}
+                            onChange={handleConfirmChange} required />
 
                         {/* Botão mostrar/esconder senha */}
                         {mostrarConfirmarSenha ?
@@ -177,7 +182,7 @@ export default function Register() {
 
                     </div>
 
-                    <button type="submit">Continuar</button>
+                    <Button size="large" type="submit">Continuar</Button>
 
                     <div className="divide">
 

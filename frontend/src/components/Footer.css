@@ -35,6 +35,10 @@
     flex-wrap: nowrap;
 }
 
+.socials img {
+    height: var(--icon-large);
+}
+
 .helpful-links {
     display: flex;
     justify-content: space-between;

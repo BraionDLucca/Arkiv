@@ -1,0 +1,29 @@
+.accordion-trigger {
+    padding: 0.9rem;
+    padding-left: 0rem;
+    margin: 0.1rem 0rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    transition: var(--transition);
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.accordion-trigger:hover {
+    background-color: var(--gray-light);
+}
+
+.accordion-trigger img{
+    transform: rotate(-90deg);
+    width: var(--icon-medium);
+}
+
+.accordion-trigger span {
+    font-weight: 500;
+}
+
+.accordion-trigger-selected {
+    background-color: var(--bg);
+}
+

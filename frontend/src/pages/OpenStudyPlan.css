@@ -1,11 +1,11 @@
 .open-study-banner {
     aspect-ratio: 16 / 9;
     width: 100%;
-    height: 515px;
+    height: 18.75rem;
     background-size: cover;
     background-position: center;
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 1.25rem;
+    border-bottom-right-radius: 1.25rem;
     box-shadow: 0px 1px 4px var(--gray);
 }
 
@@ -27,7 +27,7 @@
     max-width: 100%;
     flex-grow: 1;
     box-shadow: 0px 1px 4px var(--gray);
-    border-radius: 15px;
+    border-radius: 1.25rem;
     background-color: var(--bg-light);
 }
 
@@ -46,7 +46,7 @@
 }
 
 .author-image-name img {
-    width: 35px;
+    width: var(--avatar-large);
 }
 
 .data-publicacao {
@@ -64,8 +64,21 @@
 
 .rating {
     display: flex;
+    align-items: center;
     gap: 5px;
     font-weight: 500;
+}
+
+.rating img{
+    height: var(--icon-medium);
+}
+
+.open-study-plan-tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 10px;
+    gap: 0.5rem;
 }
 
 .descricao {
@@ -102,30 +115,12 @@
     font-size: 0.85rem;
     background-color: var(--bg-light);
     box-shadow: 0px 1px 1px var(--gray);
-    border-radius: 50px;
+    border-radius: 999px;
     padding: 0.7rem;
 }
 
 .stats-list li img {
-    max-width: var(--icon-size);
-}
-
-.botao-estudo {
-    flex-grow: 1;
-    font-size: 1.5rem;
-    font-weight: bold;
-    background-color: var(--secondary-color);
-    color: var(--primary-color);
-    border: none;
-    padding: 0.6rem 1rem;
-    border: 3px solid var(--secondary-color);
-    border-radius: 999px;
-    cursor: pointer;
-    transition: 0.3s ease;
-}
-
-.botao-estudo:hover {
-    background-color: var(--bg-light);
+    max-width: var(--icon-medium);
 }
 
 .visao-geral {
@@ -150,7 +145,6 @@
 .details-card-container li {
     list-style: none;
     font-size: 1rem;
-    font-weight: 500;
 
     display: flex;
     align-items: flex-start;
@@ -162,9 +156,9 @@
     width: 100%;
 
     box-shadow: 0px 1px 4px var(--gray);
-    border-radius: 15px;
+    border-radius: 1.25rem;
     padding: 1.5rem;
-    transition: 0.3s ease;
+    transition: var(--transition);
 }
 
 .details-card-container li img {
@@ -176,18 +170,18 @@
     border-collapse: collapse;
     text-align: center;
     box-shadow: 0px 1px 4px var(--gray);
-    border-radius: 15px;
+    border-radius: 1.25rem;
     overflow: hidden;
 }
 
 .tabela-visao-geral td{
     padding: 1rem;
+    width: fit-content;
 }
 
 .module-number {
-    width: 50px;
     font-weight: 700;
-    color: var(--primary-color);
+    color: var(--font-color);
     border-right: 1px solid var(--gray-light);
 }
 
@@ -198,7 +192,7 @@
 
 .tabela-visao-geral tr {
     background-color: var(--bg-light);
-    transition: 0.3s ease;
+    transition: var(--transition);
 }
 
 .tabela-visao-geral tr:hover,
@@ -210,6 +204,10 @@
     display: flex;
     align-items: center;
     gap: 10px;
+}
+
+.comments-icon-and-title img {
+    height: var(--icon-larger);
 }
 
 .comments-title {
@@ -232,10 +230,6 @@
 
 @media (max-width: 920px) {
 
-    .open-study-banner {
-        height: 20rem;
-    }
-
     .details-card-container {
         grid-template-columns: 1fr 1fr;
     }
@@ -246,6 +240,10 @@
 }
 
 @media (max-width: 780px) {
+
+    .open-study-banner {
+        max-height: 14rem;
+    }
 
     .stats-and-button {
         flex-direction: column;
@@ -260,12 +258,37 @@
 /* Mobile L */
 @media (max-width: 440px) {
 
-    .open-study-banner {
-        max-height: 14rem;
-    }
-
     .open-study-plan-title {
         font-size: 1.33rem;
         margin-bottom: 1rem;
+    }
+
+    .details-card-container {
+        grid-template-columns: auto;
+        flex-direction: column;
+        gap: 0.7rem;
+    }
+
+    .details-card-container li{
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 1rem;
+    }
+
+    .details-card-container img{
+        height: var(--icon-large);
+    }
+
+    .tabela-visao-geral {
+        border-collapse: separate;
+    }
+
+    .module-number {
+        border-right: none;
+    }
+
+    .chapters-number {
+        border-left: none;
     }
 }
