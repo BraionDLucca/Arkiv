@@ -16,6 +16,44 @@ afterEach(() => {
 
 describe("apiRequest - ARKIV", () => {
 
+    it("envia o JWT no header Authorization", async () => {
+        const fetchMock = vi.fn().mockResolvedValue(
+            new Response(null, { status: 204 })
+        );
+
+        vi.stubGlobal("fetch", fetchMock);
+
+        await apiRequest("/recurso-protegido", {
+            method: "GET",
+            token: "jwt-simulado-para-teste"
+        });
+
+        const [, options] = fetchMock.mock.calls[0];
+
+        expect(
+            options.headers.get("Authorization")
+        ).toBe("Bearer jwt-simulado-para-teste");
+    });
+
+    it("não envia Authorization em requisições públicas", async () => {
+        const fetchMock = vi.fn().mockResolvedValue(
+            new Response(null, { status: 204 })
+        );
+
+        vi.stubGlobal("fetch", fetchMock);
+
+        await apiRequest("/planos", {
+            method: "GET"
+        });
+
+        const [, options] = fetchMock.mock.calls[0];
+
+        expect(
+            options.headers.has("Authorization")
+        ).toBe(false);
+    });
+
+
     it("retorna JSON quando a API responde 200", async () => {
         const dados = [{ id: 1, titulo: "Plano de Teste" }];
 

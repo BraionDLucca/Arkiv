@@ -3,8 +3,11 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterLogin.css";
 import Button from "../components/Button";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
 export default function Login() {
+
+    const { login } = useAuth();
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -40,41 +43,54 @@ export default function Login() {
         setIsSubmitting(true);
 
         try {
-            await apiRequest("/auth/login", {
+            const data = await apiRequest("/auth/login", {
                 method: "POST",
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    email: formData.email.trim(),
+                    senha: formData.senha,
+                }),
             });
 
-            // A resposta foi recebida com sucesso.
-            // Ainda precisamos confirmar o contrato de
-            // autenticação disponibilizado pelo Flask.
+            // Confirma se a resposta possui o token esperado.
+            if (
+                !data ||
+                typeof data.token !== "string" ||
+                !data.token.trim()
+            ) {
+                setError(
+                    "O servidor não retornou uma autenticação válida."
+                );
+                return;
+            }
 
-            console.log("Requisição de login aceita pela API.");
+            // Registra o JWT no contexto global.
+            login(data.token);
 
-            // Não registramos tokens nem credenciais no console.
-            // Por enquanto, não criamos uma sessão no AuthContext.
+            setSuccess("Login realizado com sucesso!");
 
-            setSuccess(
-                "Requisição aceita. Aguardando integração da sessão."
-            );
+            // Recupera a página solicitada anteriormente,
+            // caso o usuário tenha sido redirecionado ao login.
+            navigate("/", { replace: true });
 
         } catch (err) {
             console.error(
-                "Falha na requisição de autenticação:",
+                "Falha na autenticação:",
                 err.message
             );
 
             if (err.status === 400 || err.status === 401) {
                 setError("Email ou senha incorretos.");
-                } else if (err.status === 403) {
-                    setError("Acesso não autorizado.");
-                } else if (err.status >= 500) {
-                    setError("Erro interno do servidor. Tente novamente mais tarde.");
-                } else {
-                    setError("Não foi possível conectar ao servidor.");
-                }
-            } finally {
-                setIsSubmitting(false);
+            } else if (err.status === 403) {
+                setError("Acesso não autorizado.");
+            } else if (err.status >= 500) {
+                setError(
+                    "Erro interno do servidor. Tente novamente mais tarde."
+                );
+            } else {
+                setError("Não foi possível conectar ao servidor.");
+            }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 

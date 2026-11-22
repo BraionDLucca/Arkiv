@@ -7,10 +7,10 @@ import {
     useAuth
 } from "./AuthContext.jsx";
 
-// Componente auxiliar utilizado somente nos testes.
+// Componente auxiliar exclusivo dos testes
 function TestAuthComponent() {
     const {
-        user,
+        token,
         isAuthenticated,
         login,
         logout
@@ -25,12 +25,12 @@ function TestAuthComponent() {
             </p>
 
             <p>
-                Usuário: {user?.email || "Nenhum"}
+                Token: {token || "Nenhum"}
             </p>
 
             <button
                 onClick={() =>
-                    login({ email: "teste@example.com" })
+                    login("token-simulado-para-teste")
                 }
             >
                 Simular login
@@ -43,9 +43,9 @@ function TestAuthComponent() {
     );
 }
 
-describe("AuthContext - ARKIV", () => {
+describe("AuthContext JWT - ARKIV", () => {
 
-    it("deve iniciar sem usuário autenticado", () => {
+    it("deve iniciar sem autenticação", () => {
         render(
             <AuthProvider>
                 <TestAuthComponent />
@@ -57,11 +57,11 @@ describe("AuthContext - ARKIV", () => {
         ).toBeInTheDocument();
 
         expect(
-            screen.getByText("Usuário: Nenhum")
+            screen.getByText("Token: Nenhum")
         ).toBeInTheDocument();
     });
 
-    it("deve atualizar o estado após login local", () => {
+    it("deve armazenar o token após login local", () => {
         render(
             <AuthProvider>
                 <TestAuthComponent />
@@ -79,11 +79,11 @@ describe("AuthContext - ARKIV", () => {
         ).toBeInTheDocument();
 
         expect(
-            screen.getByText("Usuário: teste@example.com")
+            screen.getByText("Token: token-simulado-para-teste")
         ).toBeInTheDocument();
     });
 
-    it("deve limpar o estado após logout local", () => {
+    it("deve remover o token após logout", () => {
         render(
             <AuthProvider>
                 <TestAuthComponent />
@@ -107,7 +107,7 @@ describe("AuthContext - ARKIV", () => {
         ).toBeInTheDocument();
 
         expect(
-            screen.getByText("Usuário: Nenhum")
+            screen.getByText("Token: Nenhum")
         ).toBeInTheDocument();
     });
 });

@@ -14,22 +14,42 @@ export class ApiError extends Error {
 }
 
 export async function apiRequest(endpoint, options = {}) {
-    const headers = new Headers(options.headers);
+    // Separa o token das opções nativas do fetch.
+    const { token, ...fetchOptions } = options;
 
-    // Define JSON para requisições com corpo textual,
-    // sem interferir em uploads de arquivos.
+    const headers = new Headers(fetchOptions.headers);
+
+    // Define Content-Type para corpos JSON textuais.
     if (
-        typeof options.body === "string" &&
+        typeof fetchOptions.body === "string" &&
         !headers.has("Content-Type")
     ) {
         headers.set("Content-Type", "application/json");
+    }
+
+    // Adiciona o JWT somente quando informado.
+    if (token) {
+        if (
+            typeof token !== "string" ||
+            !token.trim()
+        ) {
+            throw new ApiError(
+                "Token de autenticação inválido.",
+                0
+            );
+        }
+
+        headers.set(
+            "Authorization",
+            `Bearer ${token}`
+        );
     }
 
     let response;
 
     try {
         response = await fetch(`${apiUrl}${endpoint}`, {
-            ...options,
+            ...fetchOptions,
             headers,
         });
     } catch {
@@ -39,7 +59,6 @@ export async function apiRequest(endpoint, options = {}) {
         );
     }
 
-    // Algumas respostas não possuem conteúdo.
     if (response.status === 204) {
         if (!response.ok) {
             throw new ApiError(
@@ -70,8 +89,6 @@ export async function apiRequest(endpoint, options = {}) {
     }
 
     if (!response.ok) {
-        // Não exponha mensagens internas do backend
-        // diretamente ao usuário.
         throw new ApiError(
             "A requisição não pôde ser concluída.",
             response.status,

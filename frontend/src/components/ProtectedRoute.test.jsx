@@ -36,7 +36,7 @@ function TestLogin() {
     const navigate = useNavigate();
 
     const handleLogin = () => {
-        login({ email: "teste@example.com" });
+        login("token-simulado-para-teste");
         navigate("/profile");
     };
 

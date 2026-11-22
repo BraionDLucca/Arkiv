@@ -10,24 +10,40 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
 
+    // Token mantido somente na memória do React.
+    const [token, setToken] = useState(null);
+
+    // Dados completos do usuário ainda indisponíveis.
     const [user, setUser] = useState(null);
-    const [isLoading] = useState(false);
 
-    // Registra uma sessão confirmada pela API.
-    const login = useCallback((authenticatedUser) => {
-        setUser(authenticatedUser);
-    }, []);
+    const isLoading = false;
 
-    // Limpa o estado de autenticação local.
-    const logout = useCallback(() => {
+    // Registra o token recebido após login confirmado pela API.
+    const login = useCallback((receivedToken) => {
+        if (
+            typeof receivedToken !== "string" ||
+            !receivedToken.trim()
+        ) {
+            throw new Error("Token de autenticação inválido.");
+        }
+
+        setToken(receivedToken);
         setUser(null);
     }, []);
 
-    const isAuthenticated = user !== null;
+    // Encerra a sessão local.
+    const logout = useCallback(() => {
+        setToken(null);
+        setUser(null);
+    }, []);
+
+    // Indica que existe um token recebido no fluxo de login.
+    const isAuthenticated = token !== null;
 
     return (
         <AuthContext.Provider
             value={{
+                token,
                 user,
                 isAuthenticated,
                 isLoading,
@@ -40,7 +56,6 @@ export function AuthProvider({ children }) {
     );
 }
 
-// Hook para acessar os dados de autenticação.
 export function useAuth() {
     const context = useContext(AuthContext);
 
