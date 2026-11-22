@@ -2,7 +2,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
 import "./ModulesPage.css";
 import { useParams } from "react-router-dom";
-import Modules from "../components/Module";
+import Module from "../components/Module";
 import Banner from "../components/Banner";
 
 function ModulesPage() {
@@ -54,7 +54,7 @@ function ModulesPage() {
                 {
                     orderedModules.map((module, index) => {
 
-                        return <Modules
+                        return <Module
                             studyPlanId={studyPlanId}
                             moduleId={module.id}
                             title={module.titulo}

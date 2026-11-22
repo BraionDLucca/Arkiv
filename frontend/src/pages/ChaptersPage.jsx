@@ -1,6 +1,8 @@
+const apiUrl = import.meta.env.VITE_API_URL;
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import "./ChaptersPage.css";
+import Banner from "../components/Banner";
 import Chapter from "../components/Chapter";
 import Dropdown from "../components/Dropdowns/Dropdown";
 import ModulesDropdownButton from "../components/Dropdowns/ModulesDropdown/ModulesDropdownButton";
@@ -12,6 +14,39 @@ function ChaptersPage() {
 
     const studyPlanId = Number(params.studyPlanId)
     const moduleId = Number(params.moduleId)
+
+    const [studyPlan, setStudyPlan] = useState([])
+    const [currentModule, setCurrentModule] = useState([])
+
+    useEffect(() => {
+
+        const getCurrentModule = async () => {
+
+            const res = await fetch(`${apiUrl}/planos/${studyPlanId}`)
+
+            if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`)
+
+            const currentStudyPlan = await res.json()
+
+            setStudyPlan(currentStudyPlan)
+
+            const currentModule = currentStudyPlan.modulos.find(
+                (module) => module.id === moduleId
+            )
+
+            setCurrentModule(currentModule.ordem)
+        }
+
+        try {
+            getCurrentModule()
+
+        } catch (error) {
+            console.error("Erro ao buscar módulos do planos de estudos:", error);
+        }
+
+    }, [moduleId, studyPlanId])
+
+    // ==================== MOCK ====================
 
     const [chaptersList, setChaptersList] = useState([])
 
@@ -73,22 +108,29 @@ function ChaptersPage() {
     // Ordena array de capítulos em ordem crescente (baseado no atributo ordem de cada capítulo)
     const orderedChapters = [...chaptersList].sort((a, b) => a.ordem - b.ordem)
 
+    // ==================== MOCK ====================
+
     return (
         <main id="chapters-page-container">
 
+            <Banner
+                imageUrl={studyPlan.imagem_url}
+                studyPlanTitle={studyPlan.titulo}
+            />
+
             <div className="chapters-page-header">
 
-                <h1>Capítulos</h1>
+                <h1>{studyPlan.titulo} - Capítulos</h1>
 
                 <nav className="chapters-page-modules-dropdown">
                     <Dropdown
                         ButtonComponent={
-                            <ModulesDropdownButton currentModuleOrder={moduleId} />
+                            <ModulesDropdownButton currentModuleOrder={currentModule} />
                         }
                         variant={"right"}
                     >
                         <ModulesDropdownContent
-                            currentModuleOrder={moduleId}
+                            currentModuleOrder={currentModule}
                             studyPlanId={studyPlanId}
                         />
                     </Dropdown>

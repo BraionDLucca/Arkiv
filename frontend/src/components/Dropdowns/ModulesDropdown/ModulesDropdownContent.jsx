@@ -35,7 +35,7 @@ function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
             console.error("Erro ao buscar planos de estudos:", error);
         }
 
-    }, [studyPlanId])
+    }, [studyPlanId, currentModuleOrder])
 
 
     // Ordena array de modulos em ordem crescente (baseado no atributo ordem de cada modulo)
