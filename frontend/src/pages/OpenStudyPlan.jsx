@@ -55,7 +55,10 @@ const OpenStudyPlan = () => {
         <div className="open-study-plan-container">
 
             <div
-                style={{ backgroundImage: `url(/${plano.imagem_url})` }} /* Começar com "/" pois as imagens estão em "public". */
+                style={{
+                    backgroundImage:
+                        `url(/${plano.imagem_url})`
+                }} /* Começa com "/" pois as imagens de exemplo estão em "public/". */
                 alt="Banner do Plano"
                 className="open-study-banner"
             />
@@ -71,7 +74,7 @@ const OpenStudyPlan = () => {
                         <div className="author-image-name">
 
                             <img src="/autorPlaceholder.png" alt="Perfil do autor" />
-                            <span>{plano.autor}</span>
+                            <span>{plano.autor_nome}</span>
                             <span className="dot-text">•</span>
 
                         </div>
@@ -98,10 +101,10 @@ const OpenStudyPlan = () => {
                     </div>
 
                     <div className="open-study-plan-tags-container">
-                        {plano.tags.map((tagText, index) => (
+                        {plano.tags.map((tag, index) => (
 
                             <Tag key={index}>
-                                {tagText}
+                                {tag.nome}
                             </Tag>
                         ))}
                     </div>

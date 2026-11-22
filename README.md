@@ -61,58 +61,41 @@ Os principais componentes do ecossistema são:
         npm install
         ```
 
-    - **Backend** (na pasta `backend/`):
+    - Backend (`backend/`):
+        ```bash
+        cd backend
+        python -m venv venv
+        # No Windows:
+        venv\Scripts\activate
+        # No Linux/Mac:
+        source venv/bin/activate
 
-        ```
         pip install -r requirements.txt
         ```
 
 ## Execução (Ambiente de Desenvolvimento)
 
-Para executar o projeto, é necessário ter um banco de dados MySQL configurado com a estrutura e os dados necessários.
+1. **Backend (Django):**
 
-1. Na raiz do projeto, acesse a pasta `seeders/`, que contém duas subpastas:
+    Navegue até a pasta do backend, ative o ambiente virtual e execute as migrações do banco de dados antes de iniciar o servidor:
 
-   - `schema/`: arquivos `.sql` responsáveis pela criação dos schemas `planos` e `USER` e suas respectivas tabelas.
-   - `seed/`: arquivos `.sql` responsáveis pela inserção de dados de teste no banco de dados.
+    ```bash
+    cd backend
 
-2. Execute os arquivos da pasta `seeders/schema/` para criar a estrutura do banco de dados.
+    # Executar as migrações das tabelas do Django
+    python manage.py migrate
 
-3. Execute o arquivo `planos_seed.sql`, localizado em `seeders/seed/`, para popular o banco com dados de teste. Caso prefira utilizar seus próprios dados, esta etapa pode ser ignorada.
+    # Iniciar o servidor de desenvolvimento
+    python manage.py runserver
+    ```
+    O backend estará rodando em `http://127.0.0.1:8000/`.
 
-4. Configure as variáveis de ambiente a partir dos arquivos `.env.example`, preenchendo os valores de acordo com o seu ambiente:
+2. **Frontend (React + Vite):**
 
-   - `frontend/.env.example`:
-     - `VITE_API_URL`: URL base do backend (API). Por padrão, utilize `http://127.0.0.1:5000`.
-     - `VITE_FRONTEND_URL`: URL em que o frontend será executado. Por padrão, utilize `http://localhost:5173`.
+    Em outro terminal, navegue até a pasta do frontend e inicie a aplicação:
 
-   - `backend/config.env.example`:
-     - `MYSQL_HOST`: endereço do servidor MySQL. Utilize `localhost` se estiver executando localmente.
-     - `MYSQL_USER`: usuário de acesso ao MySQL (ex.: `root`).
-     - `MYSQL_PASSWORD`: senha do usuário informado.
-     - `MYSQL_DB`: nome do schema utilizado pelo backend. Neste arquivo, utilize `planos`.
-
-   - `backend/config_user.env.example`:
-     - `MYSQL_HOST`: endereço do servidor MySQL.
-     - `MYSQL_USER`: usuário de acesso ao MySQL.
-     - `MYSQL_PASSWORD`: senha do usuário informado.
-     - `MYSQL_DB`: nome do schema utilizado pelo backend. Neste arquivo, utilize `USER`.
-     - `SECRET_KEY`: chave secreta utilizada para operações de segurança e assinatura de tokens. Defina uma chave aleatória e segura, mantendo-a privada.
-
-   Caso tenha alterado os nomes dos schemas, atualize também os valores de `MYSQL_DB` nos respectivos arquivos.
-
-5. Renomeie os arquivos terminados em `.env.example`, removendo o sufixo `.example`.
-
-6. Inicie o projeto em ambiente de desenvolvimento:
-
-   - **Frontend** (na pasta `frontend/`):
-
-     ```bash
-     npm run dev
-     ```
-
-   - **Backend** (na pasta `backend/`):
-
-     ```bash
-     python app.py
-     ```
+    ```bash
+    cd frontend
+    npm run dev
+    ```
+    O frontend estará acessível no endereço indicado pelo Vite (geralmente `http://localhost:5173/`).

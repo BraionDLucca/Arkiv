@@ -100,10 +100,10 @@ function StudyPlan({
                     {/* Tags */}
                     <div className="study-plan-tags-container">
 
-                        {visibleTags.map((tagText, index) => (
+                        {visibleTags.map((tag, index) => (
 
                             <Tag key={index}>
-                                {tagText}
+                                {tag.nome}
                             </Tag>
                         ))}
 
