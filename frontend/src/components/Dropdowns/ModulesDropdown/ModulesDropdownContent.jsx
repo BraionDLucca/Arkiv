@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../DropdownContent.css"
+import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 // JSDoc
@@ -11,6 +12,8 @@ const apiUrl = import.meta.env.VITE_API_URL;
  */
 
 function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
+
+    const navigate = useNavigate()
 
     const [modules, setModules] = useState([])
 
@@ -48,6 +51,9 @@ function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
                         "dropdown-content-option-selected" : ""}`
                 }
                 value={module.titulo}
+                onClick={() => navigate(
+                    `/planos/${studyPlanId}/modulos/${module.id}/capitulos`
+                )}
                 key={index}
             >
                 Módulo {module.ordem}: {module.titulo}
