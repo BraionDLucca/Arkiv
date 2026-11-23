@@ -85,6 +85,9 @@ Os principais componentes do ecossistema são:
     # Executar as migrações das tabelas do Django
     python manage.py migrate
 
+    # (Opcional) inserir dados demonstrativos compatíveis com o DER
+    python manage.py popular_dados
+
     # Iniciar o servidor de desenvolvimento
     python manage.py runserver
     ```
@@ -99,3 +102,17 @@ Os principais componentes do ecossistema são:
     npm run dev
     ```
     O frontend estará acessível no endereço indicado pelo Vite (geralmente `http://localhost:5173/`).
+
+
+## Banco de dados — DER oficial
+
+O backend Django 5.2+ cria as tabelas com os nomes do DER: `usuarios`, `planos`,
+`modulos`, `avaliacoes`, `comentarios`, `planos_andamento`, `planos_criados`,
+`planos_salvos`, `tags` e `plano_tags`.
+
+A coluna `password_hash` em `usuarios` é necessária para autenticação segura
+e não aparece no recorte do DER. O Django armazena nela somente o hash da senha.
+
+**Atenção:** esta versão substitui a estrutura anterior do banco. Faça backup
+antes de recriar o schema; em ambiente de desenvolvimento sem dados importantes,
+crie um schema vazio e rode `python manage.py migrate`.

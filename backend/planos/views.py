@@ -1,5 +1,7 @@
+from django.db.models import Count
 from rest_framework import filters, permissions, status, viewsets
 from rest_framework.decorators import action
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.response import Response
 from .models import (
     Avaliacao,
@@ -8,6 +10,9 @@ from .models import (
     Conteudo,
     Modulo,
     Plano,
+    PlanoAndamento,
+    PlanoCriado,
+    PlanoSalvo,
     ProgressoConteudo,
     Tag,
 )
@@ -18,169 +23,260 @@ from .serializers import (
     ComentarioSerializer,
     ConteudoSerializer,
     ModuloSerializer,
+    PlanoAndamentoSerializer,
+    PlanoCriadoSerializer,
+    PlanoSalvoSerializer,
     PlanoSerializer,
     TagSerializer,
 )
 
 
 class PlanoViewSet(viewsets.ModelViewSet):
-    queryset = Plano.objects.all().order_by('-data_publicacao')
+    queryset = (
+        Plano.objects.select_related("autor")
+        .prefetch_related(
+            "tags",
+            "modulos__capitulos__conteudos",
+            "comentarios",
+            "avaliacoes",
+        )
+        .annotate(total_comentarios=Count("comentarios", distinct=True))
+    )
     serializer_class = PlanoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['titulo', 'descricao', 'tags__nome', 'autor__username']
-    ordering_fields = ['data_publicacao', 'titulo']
+    search_fields = ["titulo", "descricao", "tags__nome", "autor__nome"]
+    ordering_fields = ["data_publicacao", "titulo"]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-
-        tag = self.request.query_params.get('tag')
+        qs = super().get_queryset()
+        tag = self.request.query_params.get("tag")
         if tag:
-            queryset = queryset.filter(tags__nome__iexact=tag)
-
-        if self.request.query_params.get('meus') == 'true':
+            qs = qs.filter(tags__nome__iexact=tag)
+        if self.request.query_params.get("meus") == "true":
             if self.request.user.is_authenticated:
-                queryset = queryset.filter(autor=self.request.user)
+                qs = qs.filter(autor=self.request.user)
             else:
-                queryset = queryset.none()
-
-        if self.request.query_params.get('em_andamento') == 'true':
+                qs = qs.none()
+        if self.request.query_params.get("em_andamento") == "true":
             if self.request.user.is_authenticated:
-                queryset = queryset.filter(
+                qs = qs.filter(
                     modulos__capitulos__conteudos__progressos__usuario=self.request.user
-                ).distinct()
+                )
             else:
-                queryset = queryset.none()
-
-        return queryset
+                qs = qs.none()
+        return qs.distinct()
 
     def perform_create(self, serializer):
         serializer.save(autor=self.request.user)
 
-    @action(detail=False, methods=['get'])
+    @action(detail=False, methods=["get"])
     def recomendados(self, request):
-        tags_param = request.query_params.get('tags')
+        qs = self.get_queryset()
         exclude_id = request.query_params.get(
-            'exclude_id'
-        ) or request.query_params.get('plano_id')
-
-        queryset = self.get_queryset()
-
+            "exclude_id"
+        ) or request.query_params.get("plano_id")
         if exclude_id and exclude_id.isdigit():
-            queryset = queryset.exclude(id=int(exclude_id))
-
-        if tags_param:
-            tags_list = [t.strip() for t in tags_param.split(',') if t.strip()]
-            if tags_list:
-                filtrados = queryset.filter(tags__nome__in=tags_list).distinct()
-                if filtrados.exists():
-                    queryset = filtrados
-
-        recomendados = queryset[:5]
-        serializer = self.get_serializer(recomendados, many=True)
-        return Response(serializer.data)
+            qs = qs.exclude(pk=int(exclude_id))
+        tags = [
+            v.strip()
+            for v in request.query_params.get("tags", "").split(",")
+            if v.strip()
+        ]
+        if tags:
+            filtered = qs.filter(tags__nome__in=tags).distinct()
+            if filtered.exists():
+                qs = filtered
+        return Response(self.get_serializer(qs[:5], many=True).data)
 
 
 class ModuloViewSet(viewsets.ModelViewSet):
-    queryset = Modulo.objects.all().order_by('ordem')
+    queryset = (
+        Modulo.objects.select_related("plano", "plano__autor")
+        .prefetch_related("capitulos__conteudos")
+        .order_by("ordem")
+    )
     serializer_class = ModuloSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        plano_id = self.request.query_params.get('plano')
-        if plano_id and plano_id.isdigit():
-            queryset = queryset.filter(plano_id=int(plano_id))
-        return queryset
+        qs = super().get_queryset()
+        plano = self.request.query_params.get("plano")
+        if plano and plano.isdigit():
+            return qs.filter(plano_id=plano)
+        return qs
+
+    def perform_create(self, serializer):
+        plano = serializer.validated_data["plano"]
+        if plano.autor_id != self.request.user.id:
+            raise PermissionDenied("Você só pode criar módulos em planos seus.")
+        serializer.save()
 
 
 class CapituloViewSet(viewsets.ModelViewSet):
-    queryset = Capitulo.objects.all().order_by('ordem')
+    queryset = (
+        Capitulo.objects.select_related("modulo__plano__autor")
+        .prefetch_related("conteudos")
+        .order_by("ordem")
+    )
     serializer_class = CapituloSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        modulo_id = self.request.query_params.get('modulo')
-        if modulo_id and modulo_id.isdigit():
-            queryset = queryset.filter(modulo_id=int(modulo_id))
-        return queryset
+        qs = super().get_queryset()
+        modulo = self.request.query_params.get("modulo")
+        if modulo and modulo.isdigit():
+            return qs.filter(modulo_id=modulo)
+        return qs
+
+    def perform_create(self, serializer):
+        modulo = serializer.validated_data["modulo"]
+        if modulo.plano.autor_id != self.request.user.id:
+            raise PermissionDenied(
+                "Você só pode criar capítulos em módulos de planos seus."
+            )
+        serializer.save()
 
 
 class ConteudoViewSet(viewsets.ModelViewSet):
-    queryset = Conteudo.objects.all().order_by('ordem')
+    queryset = Conteudo.objects.select_related(
+        "capitulo__modulo__plano__autor"
+    ).order_by("ordem")
     serializer_class = ConteudoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        capitulo_id = self.request.query_params.get('capitulo')
-        if capitulo_id and capitulo_id.isdigit():
-            queryset = queryset.filter(capitulo_id=int(capitulo_id))
-        return queryset
+        qs = super().get_queryset()
+        capitulo = self.request.query_params.get("capitulo")
+        if capitulo and capitulo.isdigit():
+            return qs.filter(capitulo_id=capitulo)
+        return qs
+
+    def perform_create(self, serializer):
+        capitulo = serializer.validated_data["capitulo"]
+        if capitulo.modulo.plano.autor_id != self.request.user.id:
+            raise PermissionDenied(
+                "Você só pode criar conteúdos em capítulos de planos seus."
+            )
+        serializer.save()
 
     @action(
         detail=True,
-        methods=['post'],
-        permission_classes=[permissions.IsAuthenticated]
+        methods=["post"],
+        permission_classes=[permissions.IsAuthenticated],
     )
     def marcar_acessado(self, request, pk=None):
         conteudo = self.get_object()
         progresso, created = ProgressoConteudo.objects.update_or_create(
-            usuario=request.user,
-            conteudo=conteudo
+            usuario=request.user, conteudo=conteudo
         )
         return Response(
             {
-                'status': 'acessado',
-                'conteudo_id': conteudo.id,
-                'data_acesso': progresso.data_acesso,
-                'criado': created,
+                "status": "acessado",
+                "conteudo_id": conteudo.pk,
+                "data_acesso": progresso.data_acesso,
+                "criado": created,
             },
-            status=status.HTTP_200_OK if not created else status.HTTP_201_CREATED
+            status=status.HTTP_201_CREATED if created else status.HTTP_200_OK,
         )
 
 
 class ComentarioViewSet(viewsets.ModelViewSet):
-    queryset = Comentario.objects.all().order_by('-data')
+    queryset = Comentario.objects.select_related(
+        "usuario", "plano", "plano__autor"
+    )
     serializer_class = ComentarioSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        plano_id = self.request.query_params.get('plano')
-        if plano_id and plano_id.isdigit():
-            queryset = queryset.filter(plano_id=int(plano_id))
-        return queryset
+        qs = super().get_queryset()
+        plano = self.request.query_params.get("plano")
+        if plano and plano.isdigit():
+            return qs.filter(plano_id=plano)
+        return qs
 
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)
 
 
 class AvaliacaoViewSet(viewsets.ModelViewSet):
-    queryset = Avaliacao.objects.all()
+    queryset = Avaliacao.objects.select_related(
+        "usuario", "plano", "plano__autor"
+    )
     serializer_class = AvaliacaoSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        plano_id = self.request.query_params.get('plano')
-        if plano_id and plano_id.isdigit():
-            queryset = queryset.filter(plano_id=int(plano_id))
-        return queryset
+        qs = super().get_queryset()
+        plano = self.request.query_params.get("plano")
+        if plano and plano.isdigit():
+            return qs.filter(plano_id=plano)
+        return qs
 
     def perform_create(self, serializer):
-        plano = serializer.validated_data['plano']
-        nota = serializer.validated_data['nota']
-        avaliacao, _ = Avaliacao.objects.update_or_create(
-            plano=plano,
+        obj, _ = Avaliacao.objects.update_or_create(
+            plano=serializer.validated_data["plano"],
             usuario=self.request.user,
-            defaults={'nota': nota}
+            defaults={"nota": serializer.validated_data["nota"]},
         )
-        serializer.instance = avaliacao
+        serializer.instance = obj
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class TagViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [permissions.AllowAny]
+
+
+class PlanoAndamentoViewSet(viewsets.ModelViewSet):
+    serializer_class = PlanoAndamentoSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        return PlanoAndamento.objects.filter(
+            usuario=self.request.user
+        ).select_related("plano")
+
+    def perform_create(self, serializer):
+        obj, _ = PlanoAndamento.objects.update_or_create(
+            usuario=self.request.user,
+            plano=serializer.validated_data["plano"],
+            defaults={
+                "progresso": serializer.validated_data.get("progresso", 0)
+            },
+        )
+        serializer.instance = obj
+
+
+class PlanoSalvoViewSet(viewsets.ModelViewSet):
+    serializer_class = PlanoSalvoSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        return PlanoSalvo.objects.filter(
+            usuario=self.request.user
+        ).select_related("plano")
+
+    def perform_create(self, serializer):
+        obj, _ = PlanoSalvo.objects.get_or_create(
+            usuario=self.request.user,
+            plano=serializer.validated_data["plano"],
+        )
+        serializer.instance = obj
+
+
+class PlanoCriadoViewSet(viewsets.ModelViewSet):
+    serializer_class = PlanoCriadoSerializer
+    permission_classes = [permissions.IsAuthenticated, IsOwnerOrReadOnly]
+
+    def get_queryset(self):
+        return PlanoCriado.objects.filter(usuario=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)

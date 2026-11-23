@@ -14,7 +14,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 SECRET_KEY = config(
     'SECRET_KEY',
-    default='django-insecure-2rk2l=isi&4_erjq!m21(u6mqi8@3$1yh9=l-=w#eoa97z5#t@'
+    default='configure-SECRET_KEY-in-environment-before-running'
 )
 
 DEBUG = config('DEBUG', default=False, cast=bool)
@@ -142,7 +142,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = config(
