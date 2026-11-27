@@ -17,7 +17,7 @@ export default function Login() {
 
     const [formData, setFormData] = useState({
         email: "",
-        senha: "",
+        password: "",
     });
 
     const [error, setError] = useState(""); // mensagens de erro
@@ -35,7 +35,8 @@ export default function Login() {
         setError("");
         setSuccess("");
 
-        if (!formData.email.trim() || !formData.senha) {
+        // Validação campos obrigatórios
+        if (!formData.email.trim() || !formData.password) {
             setError("Preencha todos os campos obrigatórios.");
             return;
         }
@@ -43,11 +44,11 @@ export default function Login() {
         setIsSubmitting(true);
 
         try {
-            const data = await apiRequest("/auth/login", {
+            const data = await apiRequest("/auth/login/", {
                 method: "POST",
                 body: JSON.stringify({
                     email: formData.email.trim(),
-                    senha: formData.senha,
+                    senha: formData.password,
                 }),
             });
 
@@ -137,13 +138,13 @@ export default function Login() {
 
                     </div>
 
-                    <div className="reg-form-item senha-input">
+                    <div className="reg-form-item password-input">
 
-                        <label htmlFor="senha">Senha</label> <br />
+                        <label htmlFor="password">Senha</label> <br />
 
                         {/* Campo de senha */}
-                        <input id="senha" name="senha" type={mostrarSenha ? "text" : "password"}
-                            className="senha-input" onChange={handleChange}
+                        <input id="password" name="password" type={mostrarSenha ? "text" : "password"}
+                            className="password-input" onChange={handleChange}
                             required autoComplete="current-password" />
 
                         {/* Botão mostrar/esconder senha */}

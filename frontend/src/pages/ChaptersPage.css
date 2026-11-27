@@ -1,5 +1,5 @@
 #chapters-page-container {
-    margin: 3.75rem 0rem;
+    margin-bottom: 3.75rem;
 }
 
 .chapters-container {
@@ -11,6 +11,7 @@
 }
 
 .chapters-page-header {
+    margin-top: 3.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;

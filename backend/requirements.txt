@@ -1,9 +1,11 @@
-flask
-flask-cors
-mysql-connector-python
-bcrypt
-PyJWT
-python-dotenv
+django>=5.2,<6.0
+djangorestframework
+django-cors-headers
+PyMySQL
+cryptography
 flake8
 pytest
+pytest-django
 pytest-cov
+djangorestframework-simplejwt
+python-decouple

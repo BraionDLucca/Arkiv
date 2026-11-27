@@ -57,7 +57,7 @@ export default function RecommendedList({ tags, plano_id }) {
                         tags={plano.tags}
                         description={plano.descricao}
                         authorImg="/autorPlaceholder.png"
-                        authorName={plano.autor}
+                        authorName={plano.autor_nome}
                         rating={plano.media_avaliacao || 0}
                         comments={plano.total_comentarios?.toString() || "0"}
                         onClick={() => window.scrollTo(0, 0)}

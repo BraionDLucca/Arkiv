@@ -48,10 +48,9 @@ function App() {
                                             element={<ChaptersPage />}
                                         />
 
-                                        <Route
-                                            path="/planos/:id/modulos"
-                                            element={<ModulesPage />}
-                                        />
+                                        <Route path="/planos/:studyPlanId/modulos" element={<ModulesPage />} />
+
+                                        <Route path="/criar-plano" element={<CreateStudyPlan />} />
 
                                         <Route
                                             path="/planos/:studyPlanId/modulos/:moduleId/capitulos/:chapterId/conteudo"

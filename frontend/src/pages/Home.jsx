@@ -10,12 +10,12 @@ function Home() {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    
+
     const loadPlans = async () => {
 
       try {
 
-        const res = await fetch(`${apiUrl}/planos/todos`)
+        const res = await fetch(`${apiUrl}/planos/`)
 
         if (!res.ok) throw new Error(`Erro na requisição: ${res.status}`)
 
@@ -61,7 +61,7 @@ function Home() {
               tags={plano.tags}
               description={plano.descricao}
               authorImg="/autorPlaceholder.png"
-              authorName={plano.autor}
+              authorName={plano.autor_nome}
               rating={plano.media_avaliacao || "–"}
               comments={plano.total_comentarios?.toString() || "0"}
             />

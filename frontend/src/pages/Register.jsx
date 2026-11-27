@@ -11,15 +11,15 @@ export default function Register() {
     const [mostrarSenha, setMostrarSenha] = useState(false)
     const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false)
 
-
     const [formData, setFormData] = useState({
+        username: "",
         email: "",
-        senha: "",
+        password: "",
     });
 
-    const [confirmSenha, setConfirmSenha] = useState("") // para validar a confirmação
-    const [error, setError] = useState("") // para mostrar mensagens de erro
-    const [success, setSuccess] = useState("") // mensagem de sucesso
+    const [confirmSenha, setConfirmSenha] = useState("")
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState("")
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -31,7 +31,6 @@ export default function Register() {
         setConfirmSenha(e.target.value)
     };
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -41,19 +40,19 @@ export default function Register() {
         setSuccess("");
 
         // Validação dos campos obrigatórios
-        if (!formData.email.trim() || !formData.senha || !confirmSenha) {
+        if (!formData.username.trim() || !formData.email.trim() || !formData.password || !confirmSenha) {
             setError("Preencha todos os campos obrigatórios.");
             return;
         }
 
         // Validação de confirmação de senha
-        if (formData.senha !== confirmSenha) {
+        if (formData.password !== confirmSenha) {
             setError("As senhas não coincidem!");
             return;
         }
 
         // Validação do tamanho mínimo da senha
-        if (formData.senha.length < 8) {
+        if (formData.password.length < 8) {
             setError("A senha precisa ter no mínimo 8 caracteres.");
             return;
         }
@@ -61,11 +60,12 @@ export default function Register() {
         setIsSubmitting(true);
 
         try {
-            await apiRequest("/auth/register", {
+            await apiRequest("/auth/register/", {
                 method: "POST",
                 body: JSON.stringify({
+                    username: formData.username.trim(),
                     email: formData.email.trim(),
-                    senha: formData.senha,
+                    senha: formData.password,
                 }),
             });
 
@@ -95,7 +95,6 @@ export default function Register() {
             setIsSubmitting(false);
         }
     };
-
 
     /* Mostrar/Esconder senha */
     function handleMostrarSenha() {
@@ -142,6 +141,19 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
+                        <label htmlFor="username">Nome de usuário</label> <br />
+                        <input
+                            id="username"
+                            name="username"
+                            type="text"
+                            onChange={handleChange}
+                            required
+                        /> <br /> <br />
+
+                    </div>
+
+                    <div className="reg-form-item">
+
                         <label htmlFor="email">Email</label> <br />
                         <input id="email" name="email" type="email" onChange={handleChange}
                             required autoComplete="email" /> <br /> <br />
@@ -150,11 +162,11 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
-                        <label htmlFor="senha">Senha</label> <br />
+                        <label htmlFor="password">Senha</label> <br />
 
                         {/* Campo de senha */}
-                        <input id="senha" name="senha" type={mostrarSenha ? "text" : "password"}
-                            className="senha-input" onChange={handleChange}
+                        <input id="password" name="password" type={mostrarSenha ? "text" : "password"}
+                            className="password-input" onChange={handleChange}
                             required autoComplete="current-password" />
 
                         {/* Botão mostrar/esconder senha */}
@@ -182,7 +194,7 @@ export default function Register() {
                         {/* Campo de confirmar senha */}
                         <input id="confirmar-senha" name="confirmar-senha"
                             type={mostrarConfirmarSenha ? "text" : "password"}
-                            className="senha-input" value={confirmSenha}
+                            className="password-input" value={confirmSenha}
                             onChange={handleConfirmChange} required />
 
                         {/* Botão mostrar/esconder senha */}
