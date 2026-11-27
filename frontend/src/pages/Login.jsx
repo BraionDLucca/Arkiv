@@ -1,10 +1,15 @@
-const apiUrl = import.meta.env.VITE_API_URL;
+import { apiRequest } from "../services/api.js";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./RegisterLogin.css";
 import Button from "../components/Button";
+import { useAuth } from "../contexts/AuthContext.jsx";
 
 export default function Login() {
+
+    const { login } = useAuth();
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
 
@@ -24,41 +29,69 @@ export default function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (isSubmitting) return;
+
         setError("");
         setSuccess("");
 
         // Validação campos obrigatórios
-        if (!formData.email || !formData.password) {
+        if (!formData.email.trim() || !formData.password) {
             setError("Preencha todos os campos obrigatórios.");
             return;
         }
 
-        /* Envio do formulário */
-        try {
+        setIsSubmitting(true);
 
-            const res = await fetch(`${apiUrl}/auth/login/`, {
+        try {
+            const data = await apiRequest("/auth/login/", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    email: formData.email.trim(),
+                    senha: formData.password,
+                }),
             });
 
-            const data = await res.json();
-
-            if (!res.ok) {
-
-                setError("Email ou senha incorretos.")
-                console.error("Erro: ", data.erro)
+            // Confirma se a resposta possui o token esperado.
+            if (
+                !data ||
+                typeof data.token !== "string" ||
+                !data.token.trim()
+            ) {
+                setError(
+                    "O servidor não retornou uma autenticação válida."
+                );
+                return;
             }
 
-            setSuccess("Login realizado com sucesso! Redirecionando...")
+            // Registra o JWT no contexto global.
+            login(data.token);
 
-            // redireciona para a página inicial após 1,5s
-            setTimeout(() => navigate("/"), 1500);
+            setSuccess("Login realizado com sucesso!");
+
+            // Recupera a página solicitada anteriormente,
+            // caso o usuário tenha sido redirecionado ao login.
+            navigate("/", { replace: true });
 
         } catch (err) {
+            console.error(
+                "Falha na autenticação:",
+                err.message
+            );
 
-            console.error(err)
-            setError("Erro ao conectar com o servidor.")
+            if (err.status === 400 || err.status === 401) {
+                setError("Email ou senha incorretos.");
+            } else if (err.status === 403) {
+                setError("Acesso não autorizado.");
+            } else if (err.status >= 500) {
+                setError(
+                    "Erro interno do servidor. Tente novamente mais tarde."
+                );
+            } else {
+                setError("Não foi possível conectar ao servidor.");
+            }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -132,7 +165,9 @@ export default function Login() {
 
                     </div>
 
-                    <Button size="large" type="submit">Continuar</Button>
+                    <Button size="large" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Entrando..." : "Continuar"}
+                    </Button>
 
                     <div className="divide">
 
