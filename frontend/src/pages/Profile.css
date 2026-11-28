@@ -1,11 +1,8 @@
 /* Perfil */
-.profile-container {
-    background-color: white;
-}
-
 .cover {
     width: 100%;
     height: 250px;
+    border-radius: 20px;
 
     background-size: cover;
     background-position: center;
@@ -16,43 +13,26 @@
     position: absolute;
     right: 20px;
     bottom: 20px;
-
-    border: none;
-    border-radius: 8px;
-
-    padding: 8px 14px;
-
-    background: rgba(255, 255, 255, 0.9);
-    color: var(--primary-color);
-
-    font-weight: 600;
-    cursor: pointer;
-
-    transition: var(--transition);
 }
-
-.change-cover-image:hover {
-    background: white;
-}
-
 
 .profile-wrapper {
-    padding: 28px 40px 24px;
+    margin: 2.5rem 0rem;
     box-sizing: border-box;
 }
 
 .profile-section {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
     gap: 30px;
+    position: relative;
+    margin-bottom: 3.75rem;
 }
 
 .profile-img-and-info {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 18px;
-
+    width: 100%;
     min-width: 0;
 }
 
@@ -78,12 +58,12 @@
     gap: 10px;
 
     min-width: 0;
-    max-width: 600%;
+    width: 80%;
 }
 
 .profile-name {
-    font-size: 24px;
-    font-weight: 600;
+    font-size: 1.5rem;
+    font-weight: 400;
     margin: 0;
 }
 
@@ -110,38 +90,9 @@
 /* Botão Editar */
 
 .profile-edit-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-
-    min-width: 105px;
-    height: 40px;
-
-    margin-top: 10px;
-
-    flex-shrink: 0;
-}
-
-.profile-edit-icon {
-    width: 18px;
-    height: 18px;
-    object-fit: contain;
-}
-
-/* Alterar foto */
-
-.change-profile-image {
-    border: none;
-    background: transparent;
-
-    padding: 4px 8px;
-
-    color: var(--primary-color);
-    font-size: 0.85rem;
-    font-weight: 600;
-
-    cursor: pointer;
+    position: relative;
+    right: 0;
+    top: 25px;
 }
 
 /* Edição da biografia */
@@ -154,39 +105,16 @@
 }
 
 .profile-bio-input {
-    width: 450px;
+    width: 100%;
     min-height: 100px;
     resize: vertical;
 }
 
-/* Abas */
-.tabs-nav {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    border-bottom: 1px solid #ccc;
-    margin-top: 16px;
-}
-
-.tab-btn {
-    background: none;
-    border: none;
-    padding: 10px;
-    font-size: 18px;
-    font-weight: 600;
-    cursor: pointer;
-}
-
-.tab-btn:hover {
-    color: var(--secondary-color);
-}
-
-.tab-btn.active {
-    color: var(--secondary-color);
-    border-bottom: 2px solid var(--secondary-color);
-}
-
 /* Conteúdo das Abas */
+
+.profile-tabs-content {
+    margin-top: 3.75rem;
+}
 
 .hidden {
     display: none;
@@ -194,22 +122,31 @@
 
 .message-empty-page {
     text-align: center;
-    font-size: 2rem;
-    font-weight: 500;
+    font-size: 1.5rem;
+    font-weight: 400;
+    color: var(--gray-darker);
     margin: 0;
 }
 
 .empty-plans {
     width: 100%;
-    min-height: 320px;
+    margin: 14rem 0rem;
 
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 
-    gap: 20px;
+    gap: 1.25rem;
     text-align: center;
+}
+
+.empty-plans-icon {
+    width: var(--icon-larger);
+}
+
+.create-plan-btn {
+    margin-top: 1.25rem;
 }
 
 .profile-edit-fields {
@@ -234,10 +171,13 @@
     border-radius: 50%;
 }
 
-.change-profile-image {
-    border: none;
-    background: transparent;
-    color: var(--primary-color);
-    cursor: pointer;
-    font-weight: 600;
+@media (max-width: 710px) {
+    .profile-img-and-info {
+        flex-direction: column;
+        align-items: baseline;
+    }
+
+    .profile-edit-btn {
+        position: absolute;
+    }
 }

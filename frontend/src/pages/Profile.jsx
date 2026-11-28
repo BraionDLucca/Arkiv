@@ -2,9 +2,12 @@ import { useState } from "react"
 import "./Profile.css"
 import { useNavigate } from "react-router-dom";
 import Button from "../components/Button";
+import Tabs from "../components/Tabs";
+import ghostIcon from "../assets/ghostIcon.svg"
+import plusIcon from "../assets/plusIcon.svg"
 
 export default function Profile() {
-  const [activeTab, setActiveTab] = useState("salvos");
+  const [activeTab, setActiveTab] = useState("Salvos");
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -41,15 +44,15 @@ export default function Profile() {
               }}
             />
 
-            <button
-              type="button"
+            <Button
+              variant="secondary"
               className="change-cover-image"
               onClick={() =>
                 document.getElementById("cover-image-input").click()
               }
             >
-              Trocar capa
-            </button>
+              Alterar capa
+            </Button>
           </>
         )}
       </div>
@@ -84,15 +87,14 @@ export default function Profile() {
                     }}
                   />
 
-                  <button
-                    type="button"
-                    className="change-profile-image"
+                  <Button
+                    variant="secondary"
                     onClick={() =>
                       document.getElementById("profile-image-input").click()
                     }
                   >
                     Alterar foto
-                  </button>
+                  </Button>
                 </>
               )}
             </div>
@@ -104,6 +106,7 @@ export default function Profile() {
                   type="text"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
+                  placeholder="Seu nome de usuário"
                 />
               ) : (
                 <h2 className="profile-name">{name}</h2>
@@ -146,48 +149,55 @@ export default function Profile() {
 
       </section>
 
-      {/* Abas */}
-      <nav className="tabs-nav">
+      <hr />
 
-        <button className={`tab-btn ${activeTab === "salvos" ? "active" : ""}`}
-          onClick={() => setActiveTab("salvos")}>Salvos</button>
+      <section className="profile-tabs-content">
 
-        <button className={`tab-btn ${activeTab === "andamento" ? "active" : ""}`}
-          onClick={() => setActiveTab("andamento")}>Em andamento</button>
+        {/* Abas */}
+        <Tabs
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          tabsNames={
+            ["Salvos", "Em andamento", "Meus planos"]
+          }
+        />
 
-        <button className={`tab-btn ${activeTab === "meusPlanos" ? "active" : ""}`}
-          onClick={() => setActiveTab("meusPlanos")}>Meus planos</button>
-
-      </nav>
-
-      <section className="tabs-content">
-
-        {activeTab === "salvos" && (
-          <div className="tab-content">
+        {activeTab === "Salvos" && (
+          <div className="profile-tab-content">
             <div className="empty-plans">
+
+              <img src={ghostIcon} alt="Sem planos para exibir." className="empty-plans-icon" />
+
               <p className="message-empty-page">
-                Você ainda não salvou nenhum plano...
+                Você ainda não salvou nenhum plano.
               </p>
+
             </div>
           </div>
         )}
 
-        {activeTab === "andamento" && (
-          <div className="tab-content">
+        {activeTab === "Em andamento" && (
+          <div className="profile-tab-content">
             <div className="empty-plans">
+
+              <img src={ghostIcon} alt="Sem planos para exibir." className="empty-plans-icon" />
+
               <p className="message-empty-page">
-                Você não possui planos em andamento...
+                Você não possui planos em andamento.
               </p>
+
             </div>
           </div>
         )}
 
-        {activeTab === "meusPlanos" && (
-          <div className="tab-content">
+        {activeTab === "Meus planos" && (
+          <div className="profile-tab-content">
             <div className="empty-plans">
 
+              <img src={ghostIcon} alt="Sem planos para exibir." className="empty-plans-icon" />
+
               <p className="message-empty-page">
-                Você ainda não criou nenhum plano...
+                Você ainda não criou nenhum plano.
               </p>
 
               <Button
@@ -195,15 +205,16 @@ export default function Profile() {
                 variant="primary"
                 size="medium"
                 onClick={() => navigate("/criar-plano")}
+                className="create-plan-btn"
               >
-                Criar Plano
+                <img src={plusIcon} alt="Criar Plano de Estudos" />
+                Criar Plano de Estudos
               </Button>
 
             </div>
           </div>
         )}
-
-      </section>
-    </div>
+      </section >
+    </div >
   );
 }
