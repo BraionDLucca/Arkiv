@@ -116,9 +116,26 @@ const OpenStudyPlan = () => {
 
                     <ul className="stats-list">
 
-                        <li><img src="/salvosIcon.svg" alt="Salvos" /> 867 Salvos</li>
-                        <li><img src="/curtidasIcon.svg" alt="Curtidas" /> 755 Curtidas</li>
-                        <li><img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" /> 984 Iniciaram</li>
+                        <li>
+                            <img src="/curtidasIcon.svg" alt="Curtidas" />
+                            <span>
+                                <b>755</b> Curtidas
+                            </span>
+                        </li>
+
+                        <li>
+                            <img src="/salvosIcon.svg" alt="Salvos" />
+                            <span>
+                                <b>867</b> Salvos
+                            </span>
+                        </li>
+
+                        <li>
+                            <img src="/iniciaramIcon.svg" alt="Iniciaram o Plano" />
+                            <span>
+                                <b>984</b> Iniciaram
+                            </span>
+                        </li>
 
                     </ul>
 
@@ -136,10 +153,30 @@ const OpenStudyPlan = () => {
 
                 <ul className="details-card-container">
 
-                    <li><img src="/documentosIcon.svg" alt="Documentos" /> 80 Documentos</li>
-                    <li><img src="/aulasIcon.svg" alt="Aulas" /> 104 Aulas</li>
-                    <li><img src="/atividadesIcon.svg" alt="Atividades" /> 87 Atividades</li>
-                    <li><img src="/testesIcon.svg" alt="Testes" /> 14 Testes</li>
+                    <li>
+                        <img src="/documentosIcon.svg" alt="Documentos" />
+                        <span>
+                            <b>80</b> Documentos
+                        </span>
+                    </li>
+                    <li>
+                        <img src="/aulasIcon.svg" alt="Aulas" />
+                        <span>
+                            <b>104</b> Aulas
+                        </span>
+                    </li>
+                    <li>
+                        <img src="/atividadesIcon.svg" alt="Atividades" />
+                        <span>
+                            <b>87</b> Atividades
+                        </span>
+                    </li>
+                    <li>
+                        <img src="/testesIcon.svg" alt="Testes" />
+                        <span>
+                            <b>14</b> Testes
+                        </span>
+                    </li>
 
                 </ul>
 
