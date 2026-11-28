@@ -79,4 +79,15 @@ label {
 hr {
   border: 1px solid var(--gray);
   border-radius: 100px;
+  
+h1 {
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+@media (max-width: 780px) {
+
+  h1 {
+    font-size: 1.313rem;
+  }
 }

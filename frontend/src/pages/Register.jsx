@@ -1,4 +1,4 @@
-const apiUrl = import.meta.env.VITE_API_URL;
+import { apiRequest } from "../services/api.js";
 import { useState } from "react";
 import "./RegisterLogin.css";
 import { useNavigate } from "react-router-dom";
@@ -11,15 +11,17 @@ export default function Register() {
     const [mostrarSenha, setMostrarSenha] = useState(false)
     const [mostrarConfirmarSenha, setMostrarConfirmarSenha] = useState(false)
 
-
     const [formData, setFormData] = useState({
+        username: "",
         email: "",
-        senha: "",
+        password: "",
     });
 
-    const [confirmSenha, setConfirmSenha] = useState("") // para validar a confirmação
-    const [error, setError] = useState("") // para mostrar mensagens de erro
-    const [success, setSuccess] = useState("") // mensagem de sucesso
+    const [confirmSenha, setConfirmSenha] = useState("")
+    const [error, setError] = useState("")
+    const [success, setSuccess] = useState("")
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value })
@@ -30,50 +32,69 @@ export default function Register() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        setError(""); // limpa erro anterior
-        setSuccess("") // limpa sucesso anterior
+        e.preventDefault();
 
-        // Validação de "confirmar senha"
-        if (formData.senha !== confirmSenha) {
-            setError("As senhas não coincidem!")
-            return
+        if (isSubmitting) return;
+
+        setError("");
+        setSuccess("");
+
+        // Validação dos campos obrigatórios
+        if (!formData.username.trim() || !formData.email.trim() || !formData.password || !confirmSenha) {
+            setError("Preencha todos os campos obrigatórios.");
+            return;
         }
 
-        // Validação de senha (8 caracteres)
-        if (formData.senha.length < 8) {
-            setError("A senha precisa ter no mínimo 8 caracteres.")
-            return
+        // Validação de confirmação de senha
+        if (formData.password !== confirmSenha) {
+            setError("As senhas não coincidem!");
+            return;
         }
 
-        /* Envio do formulário */
+        // Validação do tamanho mínimo da senha
+        if (formData.password.length < 8) {
+            setError("A senha precisa ter no mínimo 8 caracteres.");
+            return;
+        }
+
+        setIsSubmitting(true);
+
         try {
-
-            const res = await fetch(`${apiUrl}/auth/register`, {
+            await apiRequest("auth/register/", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData),
-            })
+                body: JSON.stringify({
+                    username: formData.username.trim(),
+                    email: formData.email.trim(),
+                    password: formData.password,
+                }),
+            });
 
-            const data = await res.json();
+            // Só executa quando a API retorna sucesso.
+            setSuccess(
+                "Cadastro realizado com sucesso! Redirecionando para login..."
+            );
 
-            if (!res.ok) {
-
-                setError("Ocorreu um erro ao cadastrar.")
-                console.error("Erro: ", data.erro)
-            }
-
-            setSuccess("Cadastro realizado com sucesso! Redirecionando para login...")
-
-            // redireciona após 1,5s
             setTimeout(() => navigate("/login"), 1500);
 
         } catch (err) {
+            console.error(
+                "Falha no cadastro:",
+                err.message
+            );
 
-            console.error(err);
-            setError("Erro ao conectar com o servidor.")
+            if (err.status === 409) {
+                setError("Este e-mail já está cadastrado.");
+            } else if (err.status === 400 || err.status === 422) {
+                setError("Não foi possível cadastrar. Verifique os dados informados.");
+            } else if (err.status >= 500) {
+                setError("Erro interno do servidor. Tente novamente mais tarde.");
+            } else {
+                setError("Não foi possível conectar ao servidor.");
+            }
+        } finally {
+            setIsSubmitting(false);
         }
-    }
+    };
 
     /* Mostrar/Esconder senha */
     function handleMostrarSenha() {
@@ -120,6 +141,19 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
+                        <label htmlFor="username">Nome de usuário</label> <br />
+                        <input
+                            id="username"
+                            name="username"
+                            type="text"
+                            onChange={handleChange}
+                            required
+                        /> <br /> <br />
+
+                    </div>
+
+                    <div className="reg-form-item">
+
                         <label htmlFor="email">Email</label> <br />
                         <input id="email" name="email" type="email" onChange={handleChange}
                             required autoComplete="email" /> <br /> <br />
@@ -128,11 +162,11 @@ export default function Register() {
 
                     <div className="reg-form-item">
 
-                        <label htmlFor="senha">Senha</label> <br />
+                        <label htmlFor="password">Senha</label> <br />
 
                         {/* Campo de senha */}
-                        <input id="senha" name="senha" type={mostrarSenha ? "text" : "password"}
-                            className="senha-input" onChange={handleChange}
+                        <input id="password" name="password" type={mostrarSenha ? "text" : "password"}
+                            className="password-input" onChange={handleChange}
                             required autoComplete="current-password" />
 
                         {/* Botão mostrar/esconder senha */}
@@ -160,7 +194,7 @@ export default function Register() {
                         {/* Campo de confirmar senha */}
                         <input id="confirmar-senha" name="confirmar-senha"
                             type={mostrarConfirmarSenha ? "text" : "password"}
-                            className="senha-input" value={confirmSenha}
+                            className="password-input" value={confirmSenha}
                             onChange={handleConfirmChange} required />
 
                         {/* Botão mostrar/esconder senha */}
@@ -182,7 +216,9 @@ export default function Register() {
 
                     </div>
 
-                    <Button size="large" type="submit">Continuar</Button>
+                    <Button size="large" type="submit" disabled={isSubmitting}>
+                        {isSubmitting ? "Cadastrando..." : "Continuar"}
+                    </Button>
 
                     <div className="divide">
 

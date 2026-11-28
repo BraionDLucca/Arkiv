@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../DropdownContent.css"
+import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 // JSDoc
@@ -11,6 +12,8 @@ const apiUrl = import.meta.env.VITE_API_URL;
  */
 
 function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
+
+    const navigate = useNavigate()
 
     const [modules, setModules] = useState([])
 
@@ -32,7 +35,7 @@ function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
             console.error("Erro ao buscar planos de estudos:", error);
         }
 
-    }, [studyPlanId])
+    }, [studyPlanId, currentModuleOrder])
 
 
     // Ordena array de modulos em ordem crescente (baseado no atributo ordem de cada modulo)
@@ -44,10 +47,13 @@ function ModulesDropdownContent({ studyPlanId, currentModuleOrder }) {
 
             return <li
                 className={
-                    `content-option ${currentModuleOrder === module.ordem ?
-                        "content-option-selected" : ""}`
+                    `dropdown-content-option ${currentModuleOrder === module.ordem ?
+                        "dropdown-content-option-selected" : ""}`
                 }
                 value={module.titulo}
+                onClick={() => navigate(
+                    `/planos/${studyPlanId}/modulos/${module.id}/capitulos`
+                )}
                 key={index}
             >
                 Módulo {module.ordem}: {module.titulo}

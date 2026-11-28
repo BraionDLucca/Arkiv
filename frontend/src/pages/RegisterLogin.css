@@ -66,7 +66,7 @@
     height: 65px;
 }
 
-input.senha-input {
+input.password-input {
     background-color: var(--bg-light);
     width: 90%;
     float: left;
@@ -137,6 +137,7 @@ input.senha-input {
         overflow: hidden;
         flex-direction: column;
         height: 100vh;
+        overflow-y: scroll;
     }
 
     .circle-wrapper{
@@ -144,13 +145,13 @@ input.senha-input {
     }
 
     .circle {
-        height: 150px;
-        width: 150px;
+        height: 100px;
+        width: 100px;
         border-radius: 100%;
     }
 
     .arkiv-animated {
-        height: 100px;
+        height: 65px;
     }
     
     .form-container {
@@ -161,35 +162,13 @@ input.senha-input {
         width: 100%;
         box-shadow: none;
         max-width: 600px;
-        padding: 0rem 3.125rem;
-    }
-}
-
-@media (max-width: 530px) {
-
-    .circle {
-        height: 100px;
-        width: 100px;
-    }
-
-    .arkiv-animated {
-        height: 65px;
-    }
-
-    .reg-form {
-        gap: 12px;
         padding: 0rem 1.875rem;
         justify-content: space-between;
         margin-bottom: 5rem;
-        gap: 0.5rem;
     }
 
     .reg-form h1 {
         font-size: 1.2rem;
-    }
-
-    .form-container {
-        width: 100%;
     }
 
     .divide {
@@ -198,5 +177,12 @@ input.senha-input {
 
     .google-icon {
         height: 40px;
+    }
+}
+
+@media (max-width: 530px) {
+
+    .form-container {
+        width: 100%;
     }
 }

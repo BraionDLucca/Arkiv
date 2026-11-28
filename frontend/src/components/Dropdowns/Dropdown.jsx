@@ -1,5 +1,6 @@
 import { useState, cloneElement, useRef, useEffect } from "react";
 import "./Dropdown.css"
+import "./DropdownContent.css"
 
 /* Uso:
     <Dropdown
@@ -19,7 +20,7 @@ import "./Dropdown.css"
 
 /* 'ButtonComponent' é o gatilho para abrir o conteúdo do Dropdown.
 'children' é o conteúdo (onde ficam as opções). */
-function Dropdown({ ButtonComponent, variant, children }) {
+function Dropdown({ ButtonComponent, variant, setHeight, children }) {
 
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
@@ -34,6 +35,7 @@ function Dropdown({ ButtonComponent, variant, children }) {
     const dropdownContentClassNames = [
         "dropdown-content-container",
         `${dropdownOpen ? "dropdown-content-container-open" : ""}`,
+        `${setHeight ? "dropdown-content-container-set-height" : ""}`,
         variants[variant]
     ]
 
@@ -70,9 +72,9 @@ function Dropdown({ ButtonComponent, variant, children }) {
             }
 
             {/*Conteúdo do Dropdown */}
-            <ul className={dropdownContentClassNames.join(" ")}>
+            <ol className={dropdownContentClassNames.join(" ")}>
                 {children}
-            </ul>
+            </ol>
         </div>
     )
 }
