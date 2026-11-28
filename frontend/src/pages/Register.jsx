@@ -60,12 +60,12 @@ export default function Register() {
         setIsSubmitting(true);
 
         try {
-            await apiRequest("/auth/register/", {
+            await apiRequest("auth/register/", {
                 method: "POST",
                 body: JSON.stringify({
                     username: formData.username.trim(),
                     email: formData.email.trim(),
-                    senha: formData.password,
+                    password: formData.password,
                 }),
             });
 

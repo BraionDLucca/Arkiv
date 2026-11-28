@@ -44,11 +44,11 @@ export default function Login() {
         setIsSubmitting(true);
 
         try {
-            const data = await apiRequest("/auth/login/", {
+            const data = await apiRequest("auth/login/", {
                 method: "POST",
                 body: JSON.stringify({
                     email: formData.email.trim(),
-                    senha: formData.password,
+                    password: formData.password,
                 }),
             });
 
